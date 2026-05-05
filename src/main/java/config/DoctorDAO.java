@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javax.print.Doc;
+import java.util.regex.Pattern;
 
 
 public class DoctorDAO implements DAO <Doctor> {
@@ -68,9 +69,12 @@ public class DoctorDAO implements DAO <Doctor> {
 
     @Override
     public void create(Doctor d) {
-        if (validateEmail(d.getEmail()) && validatePassword(d.getPassword())) {
-            ref.child(d.getEmail()).setValueAsync(d);
+        if ( !(validateEmail(d.getEmail()) && validatePassword(d.getPassword())) ) {
+            System.out.println("Email o contraseña incorrectos. No se creo la cuenta de medico" + d.getEmail());
         }
+
+        ref.child(d.getEmail()).setValueAsync(d);
+        System.out.println("Cuenta de medico creada: " + d.getEmail());
     }
 
     @Override
@@ -85,13 +89,25 @@ public class DoctorDAO implements DAO <Doctor> {
     }
 
 
-    //TODO implementar validaciones con regex
+    private boolean validateEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-    private boolean validatePassword(String password) {
-        return true;
+        Pattern p = Pattern.compile(emailRegex);
+        return email != null && p.matcher(email).matches();
     }
 
-    private boolean validateEmail(String email) {
-        return true;
+    private boolean validatePassword(String password) {
+        String letters = "[a-zA-Z]+";
+        String numbers = "[0-9]+";
+
+        Pattern p1 = Pattern.compile(letters);
+        Pattern p2 = Pattern.compile(numbers);
+
+        return password != null &&
+                p1.matcher(password).find() &&
+                p2.matcher(password).find() &&
+                password.length() >= 6 &&
+                password.length() <= 24;
     }
 }

@@ -7,11 +7,14 @@ public class Patient {
     private String name;
     private String doctorEmail;
 
-    public Patient(String email, String password, String doctorEmail, String name) {
+    /*Al crear un paciente este no se vinculará automáticamente al médico que realizará el seguimiento, sino que se debe de enviar una solicitud
+    * que el médico tendrá que aceptar, y hasta que sea aceptada el paciente se vinculará al médico dentro de la base de datos*/
+
+    public Patient(String email, String password, String name) {
         this.email = email;
         this.password = password;
-        this.doctorEmail = doctorEmail;
         this.name = name;
+        doctorEmail = "";
     }
 
     public Patient() {}

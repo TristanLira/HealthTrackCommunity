@@ -18,7 +18,7 @@ public class FirebaseConnection {
         try {
 
             FileInputStream serviceAccount =
-                    new FileInputStream("src/main/resources/com/example/todolist/firebase_connection.json");
+                    new FileInputStream("src/main/resources/com/example/healthtrackcommunity/firebase_credentials.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
