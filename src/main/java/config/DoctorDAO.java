@@ -71,6 +71,12 @@ public class DoctorDAO implements DAO <Doctor> {
     public void create(Doctor d) {
         if ( !(validateEmail(d.getEmail()) && validatePassword(d.getPassword())) ) {
             System.out.println("Email o contraseña incorrectos. No se creo la cuenta de medico" + d.getEmail());
+            return;
+        }
+
+        if (doctors.contains(d)) {
+            System.out.println("Medico existente, no se pudo crear la cuenta.");
+            return;
         }
 
         ref.child(d.getEmail()).setValueAsync(d);
@@ -88,6 +94,39 @@ public class DoctorDAO implements DAO <Doctor> {
         ref.child(d.getEmail()).removeValueAsync();
     }
 
+
+
+    /* FUNCIONES CON CALLBACKS */
+
+    public void create(Doctor d, Runnable success, Runnable fail, Runnable emailUsed) {
+        if ( !(validateEmail(d.getEmail()) && validatePassword(d.getPassword())) ) {
+            System.out.println("Email o contraseña incorrectos. No se creo la cuenta de medico" + d.getEmail());
+            fail.run();
+            return;
+        }
+
+        if (doctors.contains(d)) {
+            System.out.println("Medico existente, no se pudo crear la cuenta.");
+            emailUsed.run();
+            return;
+        }
+
+        ref.child(d.getEmail()).setValue(d, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference databaseReference) {
+                if (error == null) {
+                    System.out.println("Cuenta de medico creada: " + d.getEmail());
+                    success.run();
+                } else {
+                    System.out.println("No se pudo crear la cuenta de paciente: " + d.getEmail());
+                    fail.run();
+                }
+            }
+        });
+    }
+
+
+    /*VALIDACIONES*/
 
     private boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
