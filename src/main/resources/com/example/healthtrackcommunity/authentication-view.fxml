@@ -5,12 +5,109 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.healthtrackcommunity.AuthenticationController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.TextField?>
+<GridPane alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.healthtrackcommunity.AuthenticationController">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="40"/>
+        <ColumnConstraints percentWidth="60"/>
+    </columnConstraints>
+
+    <VBox alignment="CENTER" spacing="20" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="authentication">
+        <Label text="HealthTrack Community" styleClass="text-title"/>
+
+        <Label text="Acerca de nosotros" styleClass="text-subtitle1"/>
+
+        <Label text="información bla bla bla" wrapText="true" styleClass="text-subtitle2"/>
+
+        <Label text="¿Qué quiere hacer?" styleClass="text_subtitle3"/>
+
+        <Button text="Registrarte como médico"
+                fx:id="showDoctorRegisterBtn"
+                onAction="#showDoctorRegister"
+                styleClass="section-button">
+        </Button>
+
+        <Button text="Registrarte como paciente"
+                fx:id="showPatientRegisterBtn"
+                onAction="#showPatientRegister"
+                styleClass="section-button">
+        </Button>
+
+        <Button text="Iniciar sesión"
+                fx:id="showLoginBtn"
+                onAction="#showLogin"
+                styleClass="section-button">
+        </Button>
+
+    </VBox>
+
+    <StackPane fx:id="formsSection" GridPane.rowIndex="0" GridPane.columnIndex="1">
+
+        <!--registro de doctor-->
+        <VBox alignment="CENTER" fx:id="doctorRegisterForm" spacing="10" styleClass="authentication-form">
+            <Label text="Registrar un nuevo médico" styleClass="text-subtitle1"/>
+
+            <GridPane alignment="CENTER">
+                <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label text="Nombre completo" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label text="Especialidad" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label text="Contraseña" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+                <TextField fx:id="doctorEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="doctorNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField fx:id="doctorSpecialityField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField fx:id="doctorPasswordField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <Button fx:id="registerDoctorBtn" text = " Registrar">
+            </Button>
+        </VBox>
+
+        <!--registro de paciente-->
+        <VBox alignment="CENTER" fx:id="patientRegisterForm" spacing = "10" styleClass="authentication-form">
+            <Label text="Registrar un nuevo paciente" styleClass="text-subtitle1"/>
+
+            <GridPane alignment="CENTER">
+                <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label text="Nombre completo" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label text="Contraseña" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+                <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="patientNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <Button fx:id="registerPatientBtn" text = " Registrar">
+            </Button>
+        </VBox>
+
+        <!--inicio de sesión-->
+        <VBox alignment="CENTER" fx:id="userLoginForm" spacing = "10" styleClass="authentication-form">
+            <Label text="Inicie sesión" styleClass="text-subtitle1"/>
+
+            <GridPane alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label text="Contraseña" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                <TextField fx:id="loginEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="loginPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <Button fx:id="loginBtn" text=" Iniciar sesión">
+            </Button>
+        </VBox>
+
+    </StackPane>
+
+
+</GridPane>
