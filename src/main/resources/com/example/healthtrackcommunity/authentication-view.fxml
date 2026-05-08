@@ -37,21 +37,21 @@
         <VBox alignment="TOP_CENTER" spacing="20" GridPane.rowIndex="1" GridPane.columnIndex="0">
             <Label text="¿Qué quiere hacer?" styleClass="text_subtitle3"/>
 
-            <Button text="Registrarte como médico"
+            <Button text="Iniciar sesión"
+                    fx:id="showLoginBtn"
+                    onAction="#showLogin"
+                    styleClass="section-button">
+            </Button>
+
+            <Button text="Registrarse como médico"
                     fx:id="showDoctorRegisterBtn"
                     onAction="#showDoctorRegister"
                     styleClass="section-button">
             </Button>
 
-            <Button text="Registrarte como paciente"
+            <Button text="Registrarse como paciente"
                     fx:id="showPatientRegisterBtn"
                     onAction="#showPatientRegister"
-                    styleClass="section-button">
-            </Button>
-
-            <Button text="Iniciar sesión"
-                    fx:id="showLoginBtn"
-                    onAction="#showLogin"
                     styleClass="section-button">
             </Button>
 
@@ -60,6 +60,26 @@
     </GridPane>
 
     <StackPane fx:id="formsSection" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="auth-section2">
+
+        <!--inicio de sesión-->
+        <VBox alignment="CENTER" fx:id="userLoginForm" spacing = "10" styleClass="authentication-form">
+            <Label text="Inicie sesión" styleClass="text-subtitle1"/>
+
+            <GridPane alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label text="Contraseña" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                <TextField fx:id="loginEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="loginPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <Button fx:id="loginBtn" text=" Iniciar sesión" onAction="#login">
+            </Button>
+        </VBox>
 
         <!--registro de doctor-->
         <VBox alignment="CENTER" fx:id="doctorRegisterForm" spacing="10" styleClass="authentication-form">
@@ -96,26 +116,6 @@
             </GridPane>
 
             <Button fx:id="registerPatientBtn" text = " Registrar" onAction="#registerPatient">
-            </Button>
-        </VBox>
-
-        <!--inicio de sesión-->
-        <VBox alignment="CENTER" fx:id="userLoginForm" spacing = "10" styleClass="authentication-form">
-            <Label text="Inicie sesión" styleClass="text-subtitle1"/>
-
-            <GridPane alignment="CENTER">
-                <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
-                </padding>
-
-                <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label text="Contraseña" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-
-                <TextField fx:id="loginEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                <TextField fx:id="loginPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-            </GridPane>
-
-            <Button fx:id="loginBtn" text=" Iniciar sesión">
             </Button>
         </VBox>
 
