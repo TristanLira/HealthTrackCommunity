@@ -5,12 +5,13 @@ import com.google.firebase.database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.regex.Pattern;
 
 public class PatientDAO implements DAO <Patient> {
 
-    private DatabaseReference ref;
-    private ObservableList<Patient> patients;
+    private final DatabaseReference ref;
+    private final ObservableList<Patient> patients;
 
     public PatientDAO() {
         ref = FirebaseConnection.getDB().getReference("patients");
@@ -44,7 +45,10 @@ public class PatientDAO implements DAO <Patient> {
             }
 
             @Override public void onChildMoved(DataSnapshot snapshot, String previousChildName) {}
-            @Override public void onCancelled(DatabaseError error) {}
+
+            @Override public void onCancelled(DatabaseError error) {
+                error.toException().printStackTrace();
+            }
         });
     }
 
@@ -56,7 +60,7 @@ public class PatientDAO implements DAO <Patient> {
     @Override
     public Patient get(String id) {
         for (Patient i: patients) {
-            if (i.getEmail().equals(id)) return i;
+            if (i.getId().equals(id)) return i;
         }
         return null;
     }
@@ -65,23 +69,75 @@ public class PatientDAO implements DAO <Patient> {
     public void create(Patient p) {
         if ( !(validateEmail(p.getEmail()) && validatePassword(p.getPassword())) ) {
             System.out.println("Email o contraseña incorrectos. No se creo la cuenta de paciente: " + p.getEmail());
+            return;
         }
 
-        ref.child(p.getEmail()).setValueAsync(p);
+        if (emailRegistered(p)) {
+            System.out.println("Paciente existente, no se pudo crear la cuenta.");
+            return;
+        }
+
+        DatabaseReference pushed = ref.push();
+        p.setId(pushed.getKey());
+        pushed.setValueAsync(p);
         System.out.println("Cuenta de paciente creada: " + p.getEmail());
+    }
+
+    private boolean emailRegistered(Patient p) {
+        for (Patient i: patients) {
+            if (i.getEmail().equals(p.getEmail())) return true;
+        }
+        return false;
     }
 
     @Override
     public void update(Patient p) {
         if (patients.contains(p)) {
-            ref.child(p.getEmail()).setValueAsync(p);
+            ref.child(p.getId()).setValueAsync(p);
         }
     }
 
     @Override
     public void delete(Patient p) {
-        ref.child(p.getEmail()).removeValueAsync();
+        ref.child(p.getId()).removeValueAsync();
     }
+
+
+
+    /* FUNCIONES CON CALLBACKS */
+
+    public void create(Patient p, Runnable success, Runnable fail, Runnable emailUsed) {
+        if ( !(validateEmail(p.getEmail()) && validatePassword(p.getPassword())) ) {
+            System.out.println("Email o contraseña incorrectos. No se creo la cuenta de paciente: " + p.getEmail());
+            fail.run();
+            return;
+        }
+
+        if (emailRegistered(p)) {
+            System.out.println("Paciente existente, no se pudo crear la cuenta.");
+            emailUsed.run();
+            return;
+        }
+
+        DatabaseReference pushed = ref.push();
+        p.setId(pushed.getKey());
+
+        pushed.setValue(p, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference databaseReference) {
+                if (error == null) {
+                    System.out.println("Cuenta de paciente creada: " + p.getEmail());
+                    success.run();
+                } else {
+                    System.out.println("No se pudo crear la cuenta de paciente: " + p.getEmail());
+                    fail.run();
+                }
+            }
+        });
+    }
+
+
+    /*VALIDACIONES*/
 
     private boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +

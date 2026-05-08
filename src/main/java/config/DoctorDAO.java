@@ -1,6 +1,7 @@
 package config;
 
 import com.example.healthtrackcommunity.models.Doctor;
+import com.example.healthtrackcommunity.models.Patient;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,7 +63,7 @@ public class DoctorDAO implements DAO <Doctor> {
     @Override
     public Doctor get(String id) {
         for (Doctor d: doctors) {
-            if (d.getEmail().equals(id)) return d;
+            if (d.getId().equals(id)) return d;
         }
         return null;
     }
@@ -71,23 +72,73 @@ public class DoctorDAO implements DAO <Doctor> {
     public void create(Doctor d) {
         if ( !(validateEmail(d.getEmail()) && validatePassword(d.getPassword())) ) {
             System.out.println("Email o contraseña incorrectos. No se creo la cuenta de medico" + d.getEmail());
+            return;
         }
 
-        ref.child(d.getEmail()).setValueAsync(d);
+        if (emailRegistered(d)) {
+            System.out.println("Medico existente, no se pudo crear la cuenta.");
+            return;
+        }
+
+        DatabaseReference pushed = ref.push();
+        d.setId(pushed.getKey());
+        pushed.setValueAsync(d);
         System.out.println("Cuenta de medico creada: " + d.getEmail());
+    }
+
+    private boolean emailRegistered(Doctor d) {
+        for (Doctor i: doctors) {
+            if (i.getEmail().equals(d.getEmail())) return true;
+        }
+        return false;
     }
 
     @Override
     public void update(Doctor d) {
         if (!doctors.contains(d)) return;
-        ref.child(d.getEmail()).setValueAsync(d);
+        ref.child(d.getId()).setValueAsync(d);
     }
 
     @Override
     public void delete(Doctor d) {
-        ref.child(d.getEmail()).removeValueAsync();
+        ref.child(d.getId()).removeValueAsync();
     }
 
+
+
+    /* FUNCIONES CON CALLBACKS */
+
+    public void create(Doctor d, Runnable success, Runnable fail, Runnable emailUsed) {
+        if ( !(validateEmail(d.getEmail()) && validatePassword(d.getPassword())) ) {
+            System.out.println("Email o contraseña incorrectos. No se creo la cuenta de medico" + d.getEmail());
+            fail.run();
+            return;
+        }
+
+        if (emailRegistered(d)) {
+            System.out.println("Medico existente, no se pudo crear la cuenta.");
+            emailUsed.run();
+            return;
+        }
+
+        DatabaseReference pushed = ref.push();
+        d.setId(pushed.getKey());
+        pushed.setValue(d, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference databaseReference) {
+                if (error == null) {
+                    System.out.println("Cuenta de medico creada: " + d.getEmail());
+                    success.run();
+                } else {
+                    System.out.println("No se pudo crear la cuenta de paciente: " + d.getEmail());
+                    fail.run();
+                }
+            }
+        });
+    }
+
+
+    /*VALIDACIONES*/
 
     private boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +

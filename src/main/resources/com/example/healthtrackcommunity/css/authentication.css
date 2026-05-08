@@ -1,0 +1,235 @@
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: #eef5f1;
+}
+
+/* =========================
+   PANEL IZQUIERDO
+   ========================= */
+
+.auth-section1 {
+    -fx-background-color: linear-gradient(to bottom right, #8fd3b6, #69c39b);
+
+    -fx-padding: 55;
+
+    -fx-background-radius: 30 0 0 30;
+}
+
+.auth-section1 VBox {
+    -fx-padding: 15;
+}
+
+/* =========================
+   PANEL DERECHO
+   ========================= */
+
+.auth-section2 {
+    -fx-background-color: white;
+
+    -fx-background-radius: 0 30 30 0;
+
+    -fx-padding: 30;
+}
+
+/* =========================
+   FORMULARIOS
+   ========================= */
+
+.authentication-form {
+
+    -fx-background-color: white;
+
+    -fx-padding: 30;
+
+    -fx-spacing: 22;
+
+    -fx-background-radius: 18;
+
+    -fx-max-width: 450;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.08),
+            18,
+            0.2,
+            0,
+            4
+    );
+}
+
+
+/* =========================
+   LABELS
+   ========================= */
+
+.label {
+    -fx-font-family: "Segoe UI";
+    -fx-text-fill: #486255;
+    -fx-font-size: 15px;
+
+    -fx-padding: 4 10 4 0;
+}
+
+/* =========================
+   TITULOS
+   ========================= */
+
+.text-title {
+    -fx-font-family: "Gill Sans MT";
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f4a3d;
+}
+
+.text-subtitle1 {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f4a3d;
+}
+
+.text-subtitle2 {
+    -fx-font-size: 18px;
+    -fx-line-spacing: 4px;
+
+    -fx-text-fill: rgba(255,255,255,0.92);
+
+    -fx-wrap-text: true;
+}
+
+.text_subtitle3 {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* =========================
+   INPUTS
+   ========================= */
+
+.text-field,
+.password-field {
+
+    -fx-background-color: #f5faf7;
+
+    -fx-border-color: #d5e5dc;
+    -fx-border-width: 1.4;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    -fx-padding: 12 16;
+
+    -fx-font-size: 15px;
+
+    -fx-pref-width: 260;
+}
+
+.text-field:focused,
+.password-field:focused {
+
+    -fx-background-color: white;
+
+    -fx-border-color: #7ac7a7;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(122,199,167,0.28),
+            10,
+            0.2,
+            0,
+            0
+    );
+}
+
+/* =========================
+   BOTONES
+   ========================= */
+
+.button {
+
+    -fx-background-color: #73c5a0;
+
+    -fx-text-fill: white;
+
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 12 24;
+
+    -fx-background-radius: 12;
+
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #62b38f;
+}
+
+.button:pressed {
+    -fx-background-color: #529e7d;
+}
+
+/* =========================
+   BOTONES IZQUIERDOS
+   ========================= */
+
+.section-button {
+
+    -fx-background-color: rgba(255,255,255,0.18);
+
+    -fx-border-color: rgba(255,255,255,0.5);
+    -fx-border-width: 1.5;
+
+    -fx-text-fill: white;
+
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+
+    -fx-pref-width: 260;
+
+    -fx-padding: 14 20;
+
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+}
+
+.section-button:hover {
+    -fx-background-color: rgba(255,255,255,0.28);
+}
+
+.section-button:pressed {
+    -fx-background-color: rgba(255,255,255,0.35);
+}
+
+/* =========================
+   GRID INTERNO
+   ========================= */
+
+.grid-pane {
+    -fx-hgap: 14;
+    -fx-vgap: 18;
+}
+
+/* =========================
+   GRIDPANES DE FORMULARIOS
+   ========================= */
+
+.authentication-form .grid-pane {
+    -fx-hgap: 18;
+    -fx-vgap: 16;
+}
+
+/* =========================
+   ICONOS DE BOTONES
+   ========================= */
+
+.button-icon {
+
+    -fx-fill: white;
+
+    -fx-font-size: 18px;
+
+    -fx-opacity: 0.95;
+
+    -fx-padding: 0 8 0 0;
+}

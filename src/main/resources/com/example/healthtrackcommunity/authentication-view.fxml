@@ -5,12 +5,133 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.healthtrackcommunity.AuthenticationController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.RowConstraints?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.healthtrackcommunity.AuthenticationController"
+      stylesheets="@css/authentication.css" maxHeight="Infinity" fillWidth="false">
+
+    <Label text="HealthTrack Community" styleClass="text-title"/>
+
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="40"/>
+            <ColumnConstraints percentWidth="60"/>
+        </columnConstraints>
+
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
+
+        <VBox spacing="50" GridPane.vgrow="NEVER" alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="auth-section1">
+
+
+            <VBox alignment="TOP_CENTER" spacing="20" GridPane.rowIndex="0" GridPane.columnIndex="0" fillWidth="false" VBox.vgrow="NEVER">
+                <Label text="Acerca de nosotros" styleClass="text-subtitle1"/>
+                <Label text="información bla bla bla" wrapText="true" styleClass="text-subtitle2"/>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" spacing="20" GridPane.rowIndex="1" GridPane.columnIndex="0" fillWidth="false" VBox.vgrow="NEVER">
+                <Label text="¿Qué quiere hacer?" styleClass="text_subtitle3"/>
+
+                <Button text="Iniciar sesión"
+                        fx:id="showLoginBtn"
+                        onAction="#showLogin"
+                        styleClass="section-button">
+                </Button>
+
+                <Button text="Registrarse como médico"
+                        fx:id="showDoctorRegisterBtn"
+                        onAction="#showDoctorRegister"
+                        styleClass="section-button">
+                </Button>
+
+                <Button text="Registrarse como paciente"
+                        fx:id="showPatientRegisterBtn"
+                        onAction="#showPatientRegister"
+                        styleClass="section-button">
+                </Button>
+
+            </VBox>
+
+        </VBox>
+
+        <StackPane GridPane.vgrow="NEVER" fx:id="formsSection" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="auth-section2">
+
+            <!--inicio de sesión-->
+            <VBox alignment="CENTER" fx:id="userLoginForm" spacing = "10" styleClass="authentication-form" fillWidth="false" VBox.vgrow="NEVER">
+                <Label text="Inicie sesión" styleClass="text-subtitle1"/>
+
+                <GridPane alignment="CENTER">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label text="Contraseña" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="loginEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <TextField fx:id="loginPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Button fx:id="loginBtn" text=" Iniciar sesión" onAction="#login">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-sign-in-alt" styleClass="button-icon"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <!--registro de doctor-->
+            <VBox  alignment="CENTER" fx:id="doctorRegisterForm" spacing="10" styleClass="authentication-form" fillWidth="false" VBox.vgrow="NEVER">
+                <Label text="Registrar un nuevo médico" styleClass="text-subtitle1"/>
+
+                <GridPane alignment="CENTER">
+                    <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label text="Nombre completo" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label text="Especialidad" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Label text="Contraseña" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="doctorEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <TextField fx:id="doctorNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <TextField fx:id="doctorSpecializationField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <TextField fx:id="doctorPasswordField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Button fx:id="registerDoctorBtn" text = " Registrar" onAction="#registerDoctor">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-user-plus" styleClass="button-icon"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <!--registro de paciente-->
+            <VBox alignment="CENTER" fx:id="patientRegisterForm" spacing = "10" styleClass="authentication-form" fillWidth="false" VBox.vgrow="NEVER">
+                <Label text="Registrar un nuevo paciente" styleClass="text-subtitle1"/>
+
+                <GridPane alignment="CENTER">
+                    <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label text="Nombre completo" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label text="Contraseña" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <TextField fx:id="patientNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <TextField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Button fx:id="registerPatientBtn" text = " Registrar" onAction="#registerPatient">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-user-plus" styleClass="button-icon"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+        </StackPane>
+    </GridPane>
 </VBox>

@@ -11,4 +11,6 @@
             fx:controller="com.example.healthtrackcommunity.DoctorController"
             prefHeight="400.0" prefWidth="600.0">
 
+    <Label text="VISTA DE DOCTOR"/>
+
 </GridPane>
