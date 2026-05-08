@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.print.Doc;
@@ -56,6 +57,7 @@ public class AuthenticationController {
     ObservableList<Patient> patients;
 
     public void initialize() {
+        Font.getFamilies().forEach(System.out::println);
         showForm(userLoginForm);
         patientDAO = new PatientDAO();
         doctorDAO = new DoctorDAO();
