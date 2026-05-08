@@ -2,19 +2,29 @@ package com.example.healthtrackcommunity.models;
 
 public class Patient {
 
+    private String id;
     private String email;
     private String password;
     private String name;
-    private String doctorEmail;
+    private String doctorId;
 
     /*Al crear un paciente este no se vinculará automáticamente al médico que realizará el seguimiento, sino que se debe de enviar una solicitud
     * que el médico tendrá que aceptar, y hasta que sea aceptada el paciente se vinculará al médico dentro de la base de datos*/
 
     public Patient(String email, String password, String name) {
+        this.id = "";
         this.email = email;
         this.password = password;
         this.name = name;
-        doctorEmail = "";
+        doctorId = "";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Patient() {}
@@ -43,12 +53,12 @@ public class Patient {
         this.name = name;
     }
 
-    public String getDoctorEmail() {
-        return doctorEmail;
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctorEmail(String doctorEmail) {
-        this.doctorEmail = doctorEmail;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     @Override
@@ -58,7 +68,9 @@ public class Patient {
 
         Patient p = (Patient) o;
 
+        if (p.getId() == null || p.getId().isEmpty()) return false;
+
         //si la clave es la misma es el mismo objeto, sin importar otros atributos
-        return p.getEmail().equals(email);
+        return p.getId().equals(id);
     }
 }

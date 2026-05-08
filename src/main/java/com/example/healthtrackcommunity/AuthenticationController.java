@@ -1,9 +1,15 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.models.Doctor;
+import com.example.healthtrackcommunity.models.Patient;
 import config.DoctorDAO;
+import config.PatientDAO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,11 +45,23 @@ public class AuthenticationController {
     public TextField loginPasswordField;
     public Button loginBtn;
 
+    //DAOS
+    DoctorDAO doctorDAO;
+    PatientDAO patientDAO;
+
+    ObservableList<Doctor> doctors;
+    ObservableList<Patient> patients;
+
     public void initialize() {
         showForm(userLoginForm);
+        patientDAO = new PatientDAO();
+        doctorDAO = new DoctorDAO();
+        doctors = doctorDAO.getAll();
+        patients = patientDAO.getAll();
     }
 
-    /*MOSTRAR FORMULARIOS DE REGISTRO/INICIO DE SESION*/
+    /*********************MOSTRAR FORMULARIOS DE REGISTRO/INICIO DE SESION*******************************/
+
     public void showDoctorRegister(ActionEvent actionEvent) {
         showForm(doctorRegisterForm);
     }
@@ -64,5 +82,56 @@ public class AuthenticationController {
 
         showed.setVisible(true);
         showed.setManaged(true);
+    }
+
+    /**********************************registro e inicio de sesión******************************************/
+
+    boolean emptyStr(String str) {
+        return str == null || str.isEmpty();
+    }
+
+    public void registerPatient(ActionEvent actionEvent) {
+        String email = patientEmailField.getText();
+        String password = patientPasswordField.getText();
+        String name = patientNameField.getText();
+
+        if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
+            cleanPatientForm();
+            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            return;
+        }
+
+        Patient p = new Patient(email, password, name);
+        cleanPatientForm();
+        System.out.println("objeto modelo patient creado");
+
+        /*patientDAO.create(p,
+                () -> infoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar."),
+                () -> errorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
+                () -> errorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));*/
+        patientDAO.create(p);
+    }
+
+    private void cleanPatientForm() {
+        patientEmailField.clear();
+        patientNameField.clear();
+        patientPasswordField.clear();
+    }
+
+
+    /********************************** ALERTAS ******************************************/
+
+    private void errorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.show();
+    }
+
+    private void infoAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.show();
     }
 }

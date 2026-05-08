@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 public class PatientDAO implements DAO <Patient> {
 
-    private DatabaseReference ref;
-    private ObservableList<Patient> patients;
+    private final DatabaseReference ref;
+    private final ObservableList<Patient> patients;
 
     public PatientDAO() {
         ref = FirebaseConnection.getDB().getReference("patients");
@@ -57,7 +57,7 @@ public class PatientDAO implements DAO <Patient> {
     @Override
     public Patient get(String id) {
         for (Patient i: patients) {
-            if (i.getEmail().equals(id)) return i;
+            if (i.getId().equals(id)) return i;
         }
         return null;
     }
@@ -69,25 +69,34 @@ public class PatientDAO implements DAO <Patient> {
             return;
         }
 
-        if (patients.contains(p)) {
+        if (emailRegistered(p)) {
             System.out.println("Paciente existente, no se pudo crear la cuenta.");
             return;
         }
 
-        ref.child(p.getEmail()).setValueAsync(p);
+        DatabaseReference pushed = ref.push();
+        p.setId(pushed.getKey());
+        pushed.setValueAsync(p);
         System.out.println("Cuenta de paciente creada: " + p.getEmail());
+    }
+
+    private boolean emailRegistered(Patient p) {
+        for (Patient i: patients) {
+            if (i.getEmail().equals(p.getEmail())) return true;
+        }
+        return false;
     }
 
     @Override
     public void update(Patient p) {
         if (patients.contains(p)) {
-            ref.child(p.getEmail()).setValueAsync(p);
+            ref.child(p.getId()).setValueAsync(p);
         }
     }
 
     @Override
     public void delete(Patient p) {
-        ref.child(p.getEmail()).removeValueAsync();
+        ref.child(p.getId()).removeValueAsync();
     }
 
 
@@ -101,13 +110,16 @@ public class PatientDAO implements DAO <Patient> {
             return;
         }
 
-        if (patients.contains(p)) {
+        if (emailRegistered(p)) {
             System.out.println("Paciente existente, no se pudo crear la cuenta.");
             emailUsed.run();
             return;
         }
 
-        ref.child(p.getEmail()).setValue(p, new DatabaseReference.CompletionListener() {
+        DatabaseReference pushed = ref.push();
+        p.setId(pushed.getKey());
+
+        pushed.setValue(p, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError error, DatabaseReference databaseReference) {
                 if (error == null) {

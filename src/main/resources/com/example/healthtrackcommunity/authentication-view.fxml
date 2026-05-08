@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.RowConstraints?>
 <GridPane alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.healthtrackcommunity.AuthenticationController">
 
@@ -18,36 +19,47 @@
         <ColumnConstraints percentWidth="60"/>
     </columnConstraints>
 
-    <VBox alignment="CENTER" spacing="20" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="authentication">
-        <Label text="HealthTrack Community" styleClass="text-title"/>
+    <GridPane alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="auth-section1">
 
-        <Label text="Acerca de nosotros" styleClass="text-subtitle1"/>
+        <rowConstraints>
+            <RowConstraints percentHeight="70"/>
+            <RowConstraints percentHeight="30"/>
+        </rowConstraints>
 
-        <Label text="información bla bla bla" wrapText="true" styleClass="text-subtitle2"/>
+        <VBox alignment="TOP_CENTER" spacing="20" GridPane.rowIndex="0" GridPane.columnIndex="0">
+            <Label text="HealthTrack Community" styleClass="text-title"/>
 
-        <Label text="¿Qué quiere hacer?" styleClass="text_subtitle3"/>
+            <Label text="Acerca de nosotros" styleClass="text-subtitle1"/>
 
-        <Button text="Registrarte como médico"
-                fx:id="showDoctorRegisterBtn"
-                onAction="#showDoctorRegister"
-                styleClass="section-button">
-        </Button>
+            <Label text="información bla bla bla" wrapText="true" styleClass="text-subtitle2"/>
+        </VBox>
 
-        <Button text="Registrarte como paciente"
-                fx:id="showPatientRegisterBtn"
-                onAction="#showPatientRegister"
-                styleClass="section-button">
-        </Button>
+        <VBox alignment="TOP_CENTER" spacing="20" GridPane.rowIndex="1" GridPane.columnIndex="0">
+            <Label text="¿Qué quiere hacer?" styleClass="text_subtitle3"/>
 
-        <Button text="Iniciar sesión"
-                fx:id="showLoginBtn"
-                onAction="#showLogin"
-                styleClass="section-button">
-        </Button>
+            <Button text="Registrarte como médico"
+                    fx:id="showDoctorRegisterBtn"
+                    onAction="#showDoctorRegister"
+                    styleClass="section-button">
+            </Button>
 
-    </VBox>
+            <Button text="Registrarte como paciente"
+                    fx:id="showPatientRegisterBtn"
+                    onAction="#showPatientRegister"
+                    styleClass="section-button">
+            </Button>
 
-    <StackPane fx:id="formsSection" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <Button text="Iniciar sesión"
+                    fx:id="showLoginBtn"
+                    onAction="#showLogin"
+                    styleClass="section-button">
+            </Button>
+
+        </VBox>
+
+    </GridPane>
+
+    <StackPane fx:id="formsSection" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="auth-section2">
 
         <!--registro de doctor-->
         <VBox alignment="CENTER" fx:id="doctorRegisterForm" spacing="10" styleClass="authentication-form">
@@ -83,7 +95,7 @@
                 <TextField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
             </GridPane>
 
-            <Button fx:id="registerPatientBtn" text = " Registrar">
+            <Button fx:id="registerPatientBtn" text = " Registrar" onAction="#registerPatient">
             </Button>
         </VBox>
 
