@@ -19,6 +19,9 @@ public class Patient {
         doctorId = "";
     }
 
+    //para firebase
+    public Patient() {}
+
     public String getId() {
         return id;
     }
@@ -26,8 +29,6 @@ public class Patient {
     public void setId(String id) {
         this.id = id;
     }
-
-    public Patient() {}
 
     public String getEmail() {
         return email;
@@ -59,6 +60,11 @@ public class Patient {
 
     public void setDoctorId(String doctorId) {
         this.doctorId = doctorId;
+    }
+
+    @Override
+    public String toString() {
+        return "Paciente: " + name + "\n" + email + "\n" + password;
     }
 
     @Override

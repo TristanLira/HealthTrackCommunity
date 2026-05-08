@@ -73,11 +73,11 @@
 
                 <TextField fx:id="doctorEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                 <TextField fx:id="doctorNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                <TextField fx:id="doctorSpecialityField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField fx:id="doctorSpecializationField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 <TextField fx:id="doctorPasswordField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
             </GridPane>
 
-            <Button fx:id="registerDoctorBtn" text = " Registrar">
+            <Button fx:id="registerDoctorBtn" text = " Registrar" onAction="#registerDoctor">
             </Button>
         </VBox>
 

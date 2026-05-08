@@ -45,7 +45,10 @@ public class PatientDAO implements DAO <Patient> {
             }
 
             @Override public void onChildMoved(DataSnapshot snapshot, String previousChildName) {}
-            @Override public void onCancelled(DatabaseError error) {}
+
+            @Override public void onCancelled(DatabaseError error) {
+                error.toException().printStackTrace();
+            }
         });
     }
 

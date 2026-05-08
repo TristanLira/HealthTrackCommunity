@@ -2,12 +2,14 @@ package com.example.healthtrackcommunity.models;
 
 public class Doctor {
 
+    private String id;
     private String email;
     private String password;
     private String name;
     private String specialization;
 
     public Doctor(String email, String password, String name, String specialization) {
+        this.id = "";
         this.email = email;
         this.password = password;
         this.name = name;
@@ -15,6 +17,14 @@ public class Doctor {
     }
 
     public Doctor() {}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -55,7 +65,7 @@ public class Doctor {
 
         Doctor d = (Doctor) o;
 
-        //usa el email como id, si se tiene el mismo id son iguales, sin importar ningún otro atributo.
-        return d.getEmail().equals(email);
+        //si se tiene el mismo id son iguales, sin importar ningún otro atributo
+        return d.getId().equals(id);
     }
 }

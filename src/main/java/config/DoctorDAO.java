@@ -1,6 +1,7 @@
 package config;
 
 import com.example.healthtrackcommunity.models.Doctor;
+import com.example.healthtrackcommunity.models.Patient;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,7 +63,7 @@ public class DoctorDAO implements DAO <Doctor> {
     @Override
     public Doctor get(String id) {
         for (Doctor d: doctors) {
-            if (d.getEmail().equals(id)) return d;
+            if (d.getId().equals(id)) return d;
         }
         return null;
     }
@@ -74,24 +75,33 @@ public class DoctorDAO implements DAO <Doctor> {
             return;
         }
 
-        if (doctors.contains(d)) {
+        if (emailRegistered(d)) {
             System.out.println("Medico existente, no se pudo crear la cuenta.");
             return;
         }
 
-        ref.child(d.getEmail()).setValueAsync(d);
+        DatabaseReference pushed = ref.push();
+        d.setId(pushed.getKey());
+        pushed.setValueAsync(d);
         System.out.println("Cuenta de medico creada: " + d.getEmail());
+    }
+
+    private boolean emailRegistered(Doctor d) {
+        for (Doctor i: doctors) {
+            if (i.getEmail().equals(d.getEmail())) return true;
+        }
+        return false;
     }
 
     @Override
     public void update(Doctor d) {
         if (!doctors.contains(d)) return;
-        ref.child(d.getEmail()).setValueAsync(d);
+        ref.child(d.getId()).setValueAsync(d);
     }
 
     @Override
     public void delete(Doctor d) {
-        ref.child(d.getEmail()).removeValueAsync();
+        ref.child(d.getId()).removeValueAsync();
     }
 
 
@@ -105,13 +115,15 @@ public class DoctorDAO implements DAO <Doctor> {
             return;
         }
 
-        if (doctors.contains(d)) {
+        if (emailRegistered(d)) {
             System.out.println("Medico existente, no se pudo crear la cuenta.");
             emailUsed.run();
             return;
         }
 
-        ref.child(d.getEmail()).setValue(d, new DatabaseReference.CompletionListener() {
+        DatabaseReference pushed = ref.push();
+        d.setId(pushed.getKey());
+        pushed.setValue(d, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError error, DatabaseReference databaseReference) {
                 if (error == null) {

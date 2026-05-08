@@ -22,7 +22,7 @@ public class FirebaseConnection {
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://todolist-40a4f-default-rtdb.firebaseio.com")
+                    .setDatabaseUrl("https://healthtrack-community-55894-default-rtdb.firebaseio.com")
                     .build();
 
             FirebaseApp.initializeApp(options);
