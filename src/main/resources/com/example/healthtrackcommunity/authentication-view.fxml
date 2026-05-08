@@ -14,6 +14,7 @@
 
 
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.PasswordField?>
 <VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.healthtrackcommunity.AuthenticationController"
       stylesheets="@css/authentication.css" maxHeight="Infinity" fillWidth="false">
@@ -78,7 +79,7 @@
                     <Label text="Contraseña" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
                     <TextField fx:id="loginEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                    <TextField fx:id="loginPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <PasswordField fx:id="loginPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 </GridPane>
 
                 <Button fx:id="loginBtn" text=" Iniciar sesión" onAction="#login">
@@ -101,7 +102,7 @@
                     <TextField fx:id="doctorEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                     <TextField fx:id="doctorNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                     <TextField fx:id="doctorSpecializationField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                    <TextField fx:id="doctorPasswordField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <PasswordField fx:id="doctorPasswordField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                 </GridPane>
 
                 <Button fx:id="registerDoctorBtn" text = " Registrar" onAction="#registerDoctor">
@@ -122,7 +123,7 @@
 
                     <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                     <TextField fx:id="patientNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    <TextField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <PasswordField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 </GridPane>
 
                 <Button fx:id="registerPatientBtn" text = " Registrar" onAction="#registerPatient">

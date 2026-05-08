@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -33,20 +34,20 @@ public class AuthenticationController {
     public TextField doctorEmailField;
     public TextField doctorNameField;
     public TextField doctorSpecializationField;
-    public TextField doctorPasswordField;
+    public PasswordField doctorPasswordField;
     public Button registerDoctorBtn;
 
     //formulario de registro para paciente
     public VBox patientRegisterForm;
     public TextField patientEmailField;
     public TextField patientNameField;
-    public TextField patientPasswordField;
+    public PasswordField patientPasswordField;
     public Button registerPatientBtn;
 
     //formulario de login
     public VBox userLoginForm;
     public TextField loginEmailField;
-    public TextField loginPasswordField;
+    public PasswordField loginPasswordField;
     public Button loginBtn;
 
     //DAOS
