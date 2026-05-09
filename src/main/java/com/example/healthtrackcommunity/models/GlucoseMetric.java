@@ -9,8 +9,9 @@ public class GlucoseMetric extends Metric {
 
     private int glucose;
 
-    public GlucoseMetric(int glucose) {
+    public GlucoseMetric(String userId, int glucose) {
         super();
+        this.userId = userId;
         this.glucose = glucose;
     }
 

@@ -6,8 +6,9 @@ public class WeightMetric extends Metric {
     private int weight;
     private int height;
 
-    public WeightMetric(int height, int weight) {
+    public WeightMetric(String userId, int height, int weight) {
         super();
+        this.userId = userId;
         this.weight = weight;
         this.height = height;
     }

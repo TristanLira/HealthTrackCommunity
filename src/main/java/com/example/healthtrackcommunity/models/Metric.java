@@ -8,6 +8,7 @@ import java.time.LocalTime;
 public abstract class Metric {
 
     protected String id;
+    protected String userId;
     protected String date;
     protected String time;
     protected LocalDate dateObj;
@@ -15,6 +16,7 @@ public abstract class Metric {
 
     public Metric() {
         id = "";
+        userId = "";
         dateObj = LocalDate.now();
         timeObj = LocalTime.now();
         date = dateObj.toString();
@@ -27,6 +29,14 @@ public abstract class Metric {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getDate() {

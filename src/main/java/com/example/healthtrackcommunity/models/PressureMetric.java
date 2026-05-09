@@ -9,8 +9,9 @@ public class PressureMetric extends Metric {
     private int systolic;
     private int diastolic;
 
-    public PressureMetric(int systolic, int diastolic) {
+    public PressureMetric(String userId, int systolic, int diastolic) {
         super();
+        this.userId = userId;
         this.systolic = systolic;
         this.diastolic = diastolic;
     }

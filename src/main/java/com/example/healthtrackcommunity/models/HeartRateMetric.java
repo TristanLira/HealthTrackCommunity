@@ -8,8 +8,9 @@ public class HeartRateMetric extends Metric {
 
     private int heartRate;
 
-    public HeartRateMetric(int heartRate) {
+    public HeartRateMetric(String userId, int heartRate) {
         super();
+        this.userId = userId;
         this.heartRate = heartRate;
     }
 
