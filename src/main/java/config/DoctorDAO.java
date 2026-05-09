@@ -21,12 +21,11 @@ public class DoctorDAO implements DAO <Doctor> {
 
     public DoctorDAO() {
         ref = FirebaseConnection.getDB().getReference("doctors");
+        doctors = FXCollections.observableArrayList();
         subscribe();
     }
 
     private void subscribe() {
-        doctors = FXCollections.observableArrayList();
-
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
@@ -101,6 +100,7 @@ public class DoctorDAO implements DAO <Doctor> {
 
     @Override
     public void delete(Doctor d) {
+        if (!doctors.contains(d)) return;
         ref.child(d.getId()).removeValueAsync();
     }
 
