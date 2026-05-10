@@ -7,13 +7,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MetricDAO implements DAO<Metric> {
 
-    static final int HEART_RATE = 0;
-    static final int PRESSURE = 1;
-    static final int GLUCOSE = 2;
-    static final int WEIGHT = 3;
+    public static final int HEART_RATE = 0;
+    public static final int PRESSURE = 1;
+    public static final int GLUCOSE = 2;
+    public static final int WEIGHT = 3;
+    private static final Logger log = LoggerFactory.getLogger(MetricDAO.class);
 
     private DatabaseReference ref;
     private ObservableList<Metric> metrics;
@@ -22,6 +25,7 @@ public class MetricDAO implements DAO<Metric> {
 
     public MetricDAO(Patient logged, int type) {
         metrics = FXCollections.observableArrayList();
+        this.logged = logged;
 
         switch (type) {
             case MetricDAO.HEART_RATE:
@@ -89,6 +93,11 @@ public class MetricDAO implements DAO<Metric> {
 
     @Override
     public void create(Metric m) {
+        if (!childClass.isInstance(m)) {
+            System.out.println("La medición no se pudo registrar ya que no es del tipo correcto.");
+            return;
+        }
+
         DatabaseReference pushed = ref.push();
         m.setId(pushed.getKey());
         pushed.setValueAsync(m);
