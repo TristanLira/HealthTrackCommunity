@@ -3,7 +3,9 @@ package com.example.healthtrackcommunity;
 import com.example.healthtrackcommunity.models.*;
 import config.DoctorDAO;
 import config.MetricDAO;
+import config.MonitoringRequestDAO;
 import config.PatientDAO;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -58,6 +60,7 @@ public class PatientController {
     private MetricDAO pressureDAO;
     private MetricDAO glucoseDAO;
     private MetricDAO weightDAO;
+    private MonitoringRequestDAO requestDAO;
 
     //listas
     ObservableList<Patient> patients;
@@ -75,6 +78,7 @@ public class PatientController {
         pressureDAO = new MetricDAO(logged, MetricDAO.PRESSURE);
         glucoseDAO = new MetricDAO(logged, MetricDAO.GLUCOSE);
         weightDAO = new MetricDAO(logged, MetricDAO.WEIGHT);
+        requestDAO = new MonitoringRequestDAO(logged);
 
         heartRate = heartRateDAO.getAll();
         pressure = pressureDAO.getAll();
@@ -259,6 +263,23 @@ public class PatientController {
     }
 
     public void sendMonitoringRequest(ActionEvent actionEvent) {
+        Doctor d = doctorsComboBox.getValue();
+        doctorsComboBox.setValue(null);
+
+        if (d == null) {
+            errorAlert("Seleccione médico", "No fue posible mandar la solicitud, por favor seleccione un médico.");
+            return;
+        }
+
+        MonitoringRequest m = new MonitoringRequest(logged.getId(), d.getId());
+
+        //corre las alertas con runLater porque los callbacks son llamados por firebase en un hilo diferente
+        requestDAO.create(m,
+                () -> Platform.runLater(
+                        () -> infoAlert("Solicitud enviada", "Un solicitud de seguimiento médico fue enviada a " + d + ".")),
+                () -> Platform.runLater(
+                        () -> errorAlert("Solicitud no enviada", "La solicitud no fue enviada. Por favor inténtelo de nuevo."))
+        );
     }
 
     /********************************** ALERTAS ******************************************/
