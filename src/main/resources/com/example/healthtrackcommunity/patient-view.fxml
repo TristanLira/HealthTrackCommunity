@@ -6,10 +6,125 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.healthtrackcommunity.PatientController">
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.healthtrackcommunity.PatientController">
 
     <Label text="VISTA DE PACIENTE"/>
 
-</GridPane>
+    <!--Este VBox es el formulario de registro de métricas, cuando vayan a trabajar en la gui agréguenlo
+    completo a la zona donde necesiten que esté, pero no lo modifiquen-->
+
+    <VBox spacing="25" styleClass="metric-form-container" alignment="CENTER" fillWidth="false">
+
+        <Label text="Registrar nueva métrica" styleClass="text-subtitle1"/>
+
+        <GridPane>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="60"/>
+            </columnConstraints>
+
+            <Label text="Tipo de métrica" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="metricTypeComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        </GridPane>
+
+        <StackPane fx:id="metricFormsStackPane">
+
+            <!--formulario de frecuencia cardiaca-->
+            <VBox fx:id="heartRateMetricForm" alignment="CENTER" spacing="10" styleClass="metric-form">
+                <Label text="Frecuencia cardiaca" styleClass="text-subtitle2"/>
+
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="40"/>
+                        <ColumnConstraints percentWidth="60"/>
+                    </columnConstraints>
+
+                    <Label text="Frecuencia" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <TextField fx:id="heartRateField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Button text=" Guardar" fx:id="saveHeartRateBtn" onAction="#saveHeartRate">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-save"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <!--formulario de presión arterial-->
+            <VBox fx:id="pressureMetricForm" alignment="CENTER" spacing="10" styleClass="metric-form">
+                <Label text="Presión arterial" styleClass="text-subtitle2"/>
+
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="40"/>
+                        <ColumnConstraints percentWidth="60"/>
+                    </columnConstraints>
+
+                    <Label text="Presión sistólica" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <TextField fx:id="pressureSystolicField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                    <Label text="Presión diastólica" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <TextField fx:id="pressureDiastolicField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Button text=" Guardar" fx:id="savePressureBtn" onAction="#savePressure">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-save"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <!--formulario de nivel de glucosa-->
+            <VBox fx:id="glucoseMetricForm" alignment="CENTER" spacing="10" styleClass="metric-form">
+                <Label text="Nivel de glucosa" styleClass="text-subtitle2"/>
+
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="40"/>
+                        <ColumnConstraints percentWidth="60"/>
+                    </columnConstraints>
+
+                    <Label text="Glucosa" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <TextField fx:id="glucoseField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Button text=" Guardar" fx:id="saveGlucoseBtn" onAction="#saveGlucose">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-save"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <!--formulario de indice de masa corporal-->
+            <VBox fx:id="weightMetricForm" alignment="CENTER" spacing="10" styleClass="metric-form">
+                <Label text="Indice de masa corporal" styleClass="text-subtitle2"/>
+
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="40"/>
+                        <ColumnConstraints percentWidth="60"/>
+                    </columnConstraints>
+
+                    <Label text="Peso (kg)" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <TextField fx:id="weightField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                    <Label text="Estatura (cm)" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <TextField fx:id="heightField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Button text=" Guardar" fx:id="saveWeightBtn" onAction="#saveWeight">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-save"/>
+                    </graphic>
+                </Button>
+            </VBox>
+        </StackPane>
+
+    </VBox>
+
+</VBox>
