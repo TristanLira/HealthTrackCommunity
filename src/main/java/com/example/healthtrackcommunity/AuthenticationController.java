@@ -58,12 +58,15 @@ public class AuthenticationController {
     ObservableList<Patient> patients;
 
     public void initialize() {
-        Font.getFamilies().forEach(System.out::println);
         showForm(userLoginForm);
         patientDAO = new PatientDAO();
         doctorDAO = new DoctorDAO();
         doctors = doctorDAO.getAll();
         patients = patientDAO.getAll();
+
+        //DEBUG
+        loginEmailField.setText("tristan.lira.1636@gmail.com");
+        loginPasswordField.setText("password1");
     }
 
     /*********************MOSTRAR FORMULARIOS DE REGISTRO/INICIO DE SESION*******************************/
@@ -176,6 +179,9 @@ public class AuthenticationController {
             errorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
             return;
         }
+
+        System.out.println(dLogged);
+        System.out.println(pLogged);
 
         //decide que vista cargar según la cuenta obtenida
         if (dLogged != null) {

@@ -45,10 +45,7 @@ public class PatientDAO implements DAO <Patient> {
             }
 
             @Override public void onChildMoved(DataSnapshot snapshot, String previousChildName) {}
-
-            @Override public void onCancelled(DatabaseError error) {
-                error.toException().printStackTrace();
-            }
+            @Override public void onCancelled(DatabaseError error) {}
         });
     }
 
@@ -92,13 +89,13 @@ public class PatientDAO implements DAO <Patient> {
 
     @Override
     public void update(Patient p) {
-        if (patients.contains(p)) {
-            ref.child(p.getId()).setValueAsync(p);
-        }
+        if (!patients.contains(p)) return;
+        ref.child(p.getId()).setValueAsync(p);
     }
 
     @Override
     public void delete(Patient p) {
+        if (!patients.contains(p)) return;
         ref.child(p.getId()).removeValueAsync();
     }
 
