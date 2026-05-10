@@ -99,6 +99,11 @@ public class MonitoringRequestDAO implements DAO<MonitoringRequest> {
     public void create(MonitoringRequest m) {
         if (type == DOCTOR_TYPE) return; //un doctor no puede crear solicitudes
 
+        //elimina todas las solicitudes antes de mandar la nueva
+        if (!requests.isEmpty()) {
+            for (MonitoringRequest i: requests) delete(i);
+        }
+
         DatabaseReference pushed = ref.push();
         m.setId(pushed.getKey());
         pushed.setValueAsync(m);
@@ -118,6 +123,11 @@ public class MonitoringRequestDAO implements DAO<MonitoringRequest> {
 
     public void create(MonitoringRequest m, Runnable success, Runnable fail) {
         if (type == DOCTOR_TYPE) return; //un doctor no puede crear solicitudes
+
+        //elimina todas las solicitudes antes de mandar la nueva
+        if (!requests.isEmpty()) {
+            for (MonitoringRequest i: requests) delete(i);
+        }
 
         DatabaseReference pushed = ref.push();
         m.setId(pushed.getKey());
