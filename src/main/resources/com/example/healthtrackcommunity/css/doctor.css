@@ -1,0 +1,194 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #f0f4f8;
+}
+
+.menu-lateral {
+    -fx-background-color: #1a2a3a;
+    -fx-border-color: #2c3e50;
+    -fx-border-width: 0 1 0 0;
+}
+
+.icon-perfil {
+    -fx-icon-color: #7ab3c8;
+}
+
+.nombre-doctor {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecf0f1;
+}
+
+.especialidad {
+    -fx-font-size: 13px;
+    -fx-text-fill: #bdc3c7;
+}
+
+.separador-menu {
+    -fx-background-color: #2c3e50;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: #2c3e50;
+}
+
+.menu-button-logout {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button-logout:hover {
+    -fx-background-color: #2c3e50;
+}
+
+.badge-pendiente {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 6 2 6;
+    -fx-background-radius: 12;
+}
+
+.area-principal {
+    -fx-background-color: #f0f4f8;
+}
+
+.titulo-seccion {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.subtitulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.tarjeta-resumen {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.2, 0, 2);
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+    -fx-min-width: 180;
+}
+
+.label-tarjeta {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.numero-tarjeta {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.numero-tarjeta-alerta {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e67e22;
+}
+
+.grafico-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.2, 0, 2);
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.lista-pacientes {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #e0e4e8;
+    -fx-padding: 5;
+}
+
+.lista-pacientes .list-cell {
+    -fx-padding: 12;
+    -fx-font-size: 14px;
+}
+
+.lista-pacientes .list-cell:hover {
+    -fx-background-color: #f0f4f8;
+}
+
+.campo-busqueda {
+    -fx-background-color: white;
+    -fx-border-color: #d0d5da;
+    -fx-border-radius: 24;
+    -fx-background-radius: 24;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+}
+
+.boton-primario {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #2980b9;
+}
+
+.boton-secundario {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-font-size: 13px;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 10 20;
+}
+
+.tab:selected {
+    -fx-background-color: #3498db;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}

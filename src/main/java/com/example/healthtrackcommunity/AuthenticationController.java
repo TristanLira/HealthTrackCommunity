@@ -224,6 +224,7 @@ public class AuthenticationController {
         Scene currentScene = ((Node) event.getSource()).getScene();
         Stage stage = (Stage) currentScene.getWindow();
         Scene newScene = new Scene(root, currentScene.getWidth(), currentScene.getHeight());
+        newScene.getStylesheets().add(getClass().getResource("css/patient.css").toExternalForm());
         stage.setScene(newScene);
         stage.show();
     }
@@ -245,3 +246,4 @@ public class AuthenticationController {
         alert.show();
     }
 }
+
