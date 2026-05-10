@@ -68,4 +68,9 @@ public class Doctor {
         //si se tiene el mismo id son iguales, sin importar ningún otro atributo
         return d.getId().equals(id);
     }
+
+    @Override
+    public String toString() {
+        return name + " (" + specialization + ")";
+    }
 }

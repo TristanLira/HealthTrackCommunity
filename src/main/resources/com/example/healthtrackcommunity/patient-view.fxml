@@ -127,4 +127,27 @@
 
     </VBox>
 
+    <!--formulario para solicitud de seguimiento, igualmente agréguenlo a donde necesiten sin modificarlo-->
+    <VBox fx:id="monitoringRequestForm" spacing="20" alignment="CENTER" fillWidth="false" styleClass="monitoring-form">
+
+        <Label text="Solicitud de seguimiento médico" styleClass="text-subtitle1"/>
+        <Label text="Selecciona el médico que realizará tu seguimiento y envía una solicitud. El médico la revisará y decidirá si aceparla o no. Solo un médico puede realizar tu seguimiento a la vez, intenta no mandar multiples solicitudes." wrapText="true" />
+
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="60"/>
+            </columnConstraints>
+
+            <Label text="Médicos disponibles" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="doctorsComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+        </GridPane>
+
+        <Button text=" Enviar solicitud" fx:id="sendMonitoringRequestBtn" onAction="#sendMonitoringRequest">
+            <graphic>
+                <FontIcon iconLiteral="fas-share"/>
+            </graphic>
+        </Button>
+    </VBox>
+
 </VBox>

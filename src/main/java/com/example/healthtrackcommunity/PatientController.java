@@ -1,9 +1,11 @@
 package com.example.healthtrackcommunity;
 
 import com.example.healthtrackcommunity.models.*;
+import config.DoctorDAO;
 import config.MetricDAO;
 import config.PatientDAO;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -16,7 +18,7 @@ import javafx.scene.layout.VBox;
 
 public class PatientController {
 
-    /*formulario*/
+    /*formularios de registro de métricas*/
 
     public ComboBox<String> metricTypeComboBox;
     public StackPane metricFormsStackPane;
@@ -39,10 +41,17 @@ public class PatientController {
     public TextField heightField;
     public Button saveWeightBtn;
 
+    /*formulario de solicitud de seguimiento*/
+    public VBox monitoringRequestForm;
+    public ComboBox<Doctor> doctorsComboBox;
+    public Button sendMonitoringRequestBtn;
 
-    //paciente loggeado
+
+    //información de pacientes y doctores
     private PatientDAO patientDAO;
+    private DoctorDAO doctorDAO;
     private Patient logged;
+    private Doctor monitoring;
 
     //DAOs
     private MetricDAO heartRateDAO;
@@ -51,16 +60,17 @@ public class PatientController {
     private MetricDAO weightDAO;
 
     //listas
+    ObservableList<Patient> patients;
+    ObservableList<Doctor> doctors;
     ObservableList<Metric> heartRate;
     ObservableList<Metric> pressure;
     ObservableList<Metric> glucose;
     ObservableList<Metric> weight;
 
     public void initialize() {
-        initMetricTypeCombobox();
     }
 
-    private void initDAOs() {
+    private void initMetricDAOs() {
         heartRateDAO = new MetricDAO(logged, MetricDAO.HEART_RATE);
         pressureDAO = new MetricDAO(logged, MetricDAO.PRESSURE);
         glucoseDAO = new MetricDAO(logged, MetricDAO.GLUCOSE);
@@ -72,11 +82,17 @@ public class PatientController {
         weight = weightDAO.getAll();
     }
 
-    public void setLoggedUser(PatientDAO dao, Patient logged) {
+    public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
         this.logged = logged;
-        this.patientDAO = dao;
 
-        initDAOs();
+        this.patientDAO = dao;
+        this.doctorDAO = doctorDAO;
+        patients = patientDAO.getAll();
+        doctors = doctorDAO.getAll();
+
+        initMetricDAOs();
+        initMetricTypeCombobox();
+        initDoctorsComboBox();
     }
 
     /*************************Registro de metricas******************************/
@@ -224,6 +240,25 @@ public class PatientController {
         weightField.clear();
         heightField.clear();
         return new WeightMetric(logged.getId(), height, weight);
+    }
+
+    /********************************** solicitud de seguimiento médico ******************************************/
+
+    private void initDoctorsComboBox() {
+        doctorsComboBox.setItems(doctors);
+
+        if (!logged.getDoctorId().isEmpty()) {
+            monitoring = doctorDAO.get(logged.getDoctorId());
+
+            if (monitoring == null) return;
+
+            //oculta el formulario cuando un usuario ya tiene un doctor asignado
+            monitoringRequestForm.setVisible(false);
+            monitoringRequestForm.setManaged(false);
+        }
+    }
+
+    public void sendMonitoringRequest(ActionEvent actionEvent) {
     }
 
     /********************************** ALERTAS ******************************************/
