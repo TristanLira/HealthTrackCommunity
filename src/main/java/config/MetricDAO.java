@@ -7,8 +7,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MetricDAO implements DAO<Metric> {
 
@@ -16,7 +14,7 @@ public class MetricDAO implements DAO<Metric> {
     public static final int PRESSURE = 1;
     public static final int GLUCOSE = 2;
     public static final int WEIGHT = 3;
-    private static final Logger log = LoggerFactory.getLogger(MetricDAO.class);
+    private final int type;
 
     private DatabaseReference ref;
     private ObservableList<Metric> metrics;
@@ -24,6 +22,7 @@ public class MetricDAO implements DAO<Metric> {
     private Patient logged;
 
     public MetricDAO(Patient logged, int type) {
+        this.type = type;
         metrics = FXCollections.observableArrayList();
         this.logged = logged;
 
@@ -58,6 +57,7 @@ public class MetricDAO implements DAO<Metric> {
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 Metric m = snapshot.getValue(childClass);
                 metrics.add(m);
+                System.out.println("Metrica recuperada, tipo: " + type);
             }
 
             @Override

@@ -1,6 +1,12 @@
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
     -fx-background-color: #F2F8FF;
+    -fx-font-size: 15;
+}
+
+.label {
+    -fx-font-size: 15;
+    -fx-text-fill: #233539;
 }
 
 .menu-lateral {
@@ -254,4 +260,103 @@
 .scroll-pane,
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
+}
+
+.combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D6E5F2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* ===========================
+   TABLE VIEW
+=========================== */
+
+.metrics-table {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #e2e8f0;
+    -fx-padding: 10;
+}
+
+/* Fondo */
+.metrics-table .virtual-flow .clipped-container {
+    -fx-background-color: transparent;
+}
+
+.metrics-table .column-header-background {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 16 16 0 0;
+}
+
+.metrics-table .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 12 10;
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+}
+
+.metrics-table .column-header .label {
+    -fx-text-fill: #334155;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Filas */
+.metrics-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+    -fx-padding: 8;
+}
+
+.metrics-table .table-row-cell:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.metrics-table .table-row-cell:selected {
+    -fx-background-color: #dbeafe;
+}
+
+/* Celdas */
+.metrics-table .table-cell {
+    -fx-text-fill: #475569;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent;
+}
+
+/* Scrollbar limpia */
+.metrics-table .scroll-bar:vertical,
+.metrics-table .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.metrics-table .thumb {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 10;
+}
+
+/* Tabs */
+.metrics-tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.metrics-tab-pane .tab {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 8 18;
+}
+
+.metrics-tab-pane .tab:selected {
+    -fx-background-color: #2563eb;
+}
+
+.metrics-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.metrics-table .table-cell {
+    -fx-alignment: CENTER;
 }
