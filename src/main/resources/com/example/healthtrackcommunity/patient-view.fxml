@@ -1,15 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.healthtrackcommunity.PatientController">
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.healthtrackcommunity.PatientController"
+          stylesheets="@css/patient.css" maxHeight="Infinity">
 
-    <Label text="VISTA DE PACIENTE"/>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
 
+    <columnConstraints>
+        <ColumnConstraints percentWidth="25"/>
+        <ColumnConstraints percentWidth="75"/>
+    </columnConstraints>
+
+    <VBox alignment="TOP_CENTER" spacing="20" styleClass="menu-lateral"
+          GridPane.columnIndex="0" maxHeight="Infinity">
+
+        <padding>
+            <Insets top="25" right="15" bottom="25" left="15"/>
+        </padding>
+
+        <VBox alignment="CENTER" spacing="10">
+            <FontIcon iconLiteral="fas-user-circle" iconSize="60" styleClass="icon-perfil"/>
+            <Label fx:id="patientNameLabel" text="Paciente" styleClass="nombre-paciente"/>
+            <Label text="Paciente" styleClass="rol-usuario"/>
+
+            <VBox alignment="CENTER" spacing="8">
+                <HBox alignment="CENTER" spacing="8">
+                    <FontIcon iconLiteral="fas-user-md" iconSize="16" styleClass="icon-doctor"/>
+                    <Label text="Doctor asignado:" styleClass="label-doctor"/>
+                    <Label fx:id="assignedDoctorLabel" text="Ninguno" styleClass="nombre-doctor-asignado"/>
+                </HBox>
+            </VBox>
+        </VBox>
+
+        <Separator styleClass="separador-menu"/>
+
+        <VBox spacing="10">
+            <Button onAction="#showDashboard" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-home" styleClass="icono-menu"/></graphic>
+                <text>Mi Dashboard</text>
+            </Button>
+
+            <Button onAction="#showHistory" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-history" styleClass="icono-menu"/></graphic>
+                <text>Historial Clínico</text>
+            </Button>
+
+            <Button onAction="#showCharts" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chart-bar" styleClass="icono-menu"/></graphic>
+                <text>Mis Gráficos</text>
+            </Button>
+
+            <Button onAction="#showDoctorMonitoring" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-stethoscope" styleClass="icono-menu"/></graphic>
+                <text>Seguimiento médico</text>
+            </Button>
+
+        </VBox>
+
+        <Separator styleClass="separador-menu"/>
+
+        <Button onAction="#logout" styleClass="menu-button">
+            <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="icono-menu"/></graphic>
+            <text>Cerrar Sesión</text>
+        </Button>
+    </VBox>
+
+    <ScrollPane fx:id="mainScrollPane" fitToWidth="true" fitToHeight="true"
+                styleClass="area-principal"
+                GridPane.columnIndex="1" >
+
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <StackPane fx:id="mainContent" styleClass="area-principal">
+
+            <VBox fx:id="dashboardSection" spacing="20" maxHeight="Infinity">
+                <Label text="Mi Estado de Salud" styleClass="titulo-seccion"/>
+
+                <VBox fx:id="noDoctorWarning" styleClass="alerta-warning" visible="false" managed="false">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <FontIcon iconLiteral="fas-info-circle" iconSize="28" styleClass="icon-warning"/>
+                        <Label text="Aún no tienes un médico asignado." styleClass="texto-warning"/>
+                    </HBox>
+                </VBox>
+
+                <VBox styleClass="alertas-card">
+                    <Label text="Alertas de Salud" styleClass="subtitulo-alerta"/>
+                    <Label fx:id="healthAlertLabel"
+                           text="Tus métricas están dentro de rangos normales"
+                           wrapText="true" styleClass="texto-alerta"/>
+                </VBox>
+
+                <VBox styleClass="metricas-recientes">
+                    <Label text="Últimas Mediciones" styleClass="subtitulo"/>
+                    <VBox fx:id="recentMetricsContainer" spacing="10"/>
+                </VBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card">
+                    <FontIcon iconLiteral="fas-bell" iconSize="24" styleClass="icon-recordatorio"/>
+                    <Label text="Próximo registro sugerido:" styleClass="label-recordatorio"/>
+                    <Label fx:id="nextReminderLabel" text="Hoy 8:00 PM" styleClass="hora-recordatorio"/>
+                </HBox>
+            </VBox>
+
+            <VBox fx:id="historySection" spacing="20" visible="false">
+                <Label text="Mi Historial Clínico" styleClass="titulo-seccion"/>
+
+                <TabPane>
+                    <Tab text="Presión Arterial">
+                        <VBox fx:id="historyPressureContainer" spacing="10"/>
+                    </Tab>
+                    <Tab text="Glucosa">
+                        <VBox fx:id="historyGlucoseContainer" spacing="10"/>
+                    </Tab>
+                    <Tab text="Frecuencia Cardíaca">
+                        <VBox fx:id="historyHeartRateContainer" spacing="10"/>
+                    </Tab>
+                    <Tab text="Peso / IMC">
+                        <VBox fx:id="historyWeightContainer" spacing="10"/>
+                    </Tab>
+                </TabPane>
+            </VBox>
+
+            <VBox fx:id="chartsSection" spacing="20" visible="false">
+                <Label text="Mis Gráficos de Evolución" styleClass="titulo-seccion"/>
+
+                <TabPane>
+                    <Tab text="Evolución de Glucosa">
+                        <VBox fx:id="patientGlucoseChart" alignment="CENTER" spacing="15"/>
+                    </Tab>
+                    <Tab text="Evolución de Presión Arterial">
+                        <VBox fx:id="patientPressureChart" alignment="CENTER" spacing="15"/>
+                    </Tab>
+                    <Tab text="Evolución de Frecuencia Cardíaca">
+                        <VBox fx:id="patientHeartRateChart" alignment="CENTER" spacing="15"/>
+                    </Tab>
+                    <Tab text="Evolución de Peso / IMC">
+                        <VBox fx:id="patientWeightChart" alignment="CENTER" spacing="15"/>
+                    </Tab>
+                </TabPane>
+            </VBox>
+
+            <VBox fx:id="doctorMonitoringSection" spacing="20" visible="false">
+                <Label text="Seguimiento médico" styleClass="titulo-seccion"/>
+
+                <VBox fx:id="doctorNotesContainer" spacing="10">
+                    <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
+                </VBox>
+
+            </VBox>
+
+        </StackPane>
+    </ScrollPane>
 </GridPane>

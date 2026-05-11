@@ -1,0 +1,257 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #F2F8FF;
+}
+
+.menu-lateral {
+    -fx-background-color: #8bc2d6;
+    -fx-border-color: #a8d3e5;
+    -fx-border-width: 0 1 0 0;
+}
+
+.icon-perfil {
+    -fx-icon-color: #FFFFFF;
+}
+
+.nombre-paciente {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+.rol-usuario {
+    -fx-font-size: 12px;
+    -fx-text-fill: #D6E8F5;
+}
+
+.icon-doctor {
+    -fx-icon-color: #c8f1f5;
+}
+
+.label-doctor {
+    -fx-font-size: 13px;
+    -fx-text-fill: #D6E8F5;
+}
+
+.nombre-doctor-asignado {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c8ebf5;
+}
+
+.boton-solicitar {
+    -fx-background-color: #A8CAE5;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 6 15;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.boton-solicitar:hover {
+    -fx-background-color: #8bc2d6;
+}
+
+.separador-menu {
+    -fx-background-color: #A8CAE5;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: #7bb3c8;
+}
+
+.menu-button-logout {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFE0E0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button-logout:hover {
+    -fx-background-color: #7bb3c8;
+}
+
+.area-principal {
+    -fx-background-color: #F5FAFF;
+}
+
+.titulo-seccion {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6aabc7;
+}
+
+.subtitulo-seccion {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6aabc7;
+}
+
+
+.alerta-warning {
+    -fx-background-color: #FFF7E8;
+    -fx-border-color: #F5E6C8;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+}
+
+.icon-warning {
+    -fx-icon-color: #f46060;
+}
+
+.texto-warning {
+    -fx-font-size: 14px;
+    -fx-text-fill: #e85050;
+    -fx-font-weight: bold;
+}
+
+.boton-warning {
+    -fx-background-color: #f46060;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 5 15;
+    -fx-font-size: 12px;
+}
+
+.boton-warning:hover {
+    -fx-background-color: #e84040;
+}
+
+.alertas-card {
+    -fx-background-color: #FFF7F0;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-border-color: #FFE8D0;
+    -fx-border-radius: 16;
+}
+
+.subtitulo-alerta {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e85050;
+}
+
+.texto-alerta {
+    -fx-font-size: 14px;
+    -fx-text-fill: #a06060;
+}
+
+.metricas-recientes {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(139,181,214,0.1), 8, 0.1, 0, 2);
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.subtitulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7bb9d0;
+}
+
+.recordatorio-card {
+    -fx-background-color: #E8F5F5;
+    -fx-background-radius: 16;
+    -fx-padding: 15;
+    -fx-border-color: #D0EAEA;
+    -fx-border-radius: 16;
+}
+
+.icon-recordatorio {
+    -fx-icon-color: #8bc2d6;
+}
+
+.label-recordatorio {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7bb9d0;
+}
+
+.hora-recordatorio {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6aabc7;
+}
+
+.boton-primario {
+    -fx-background-color: #8bbfd6;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #7bb3c8;
+}
+
+.boton-secundario {
+    -fx-background-color: #C8DFF0;
+    -fx-text-fill: #6ab1c7;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-font-size: 13px;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #B8D4E8;
+}
+
+.text-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #d6edf5;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8 12;
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: #E8F1F8;
+    -fx-padding: 10 20;
+}
+
+.tab:selected {
+    -fx-background-color: #8bc5d6;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.icono-menu {
+    -fx-icon-color: #ffffff;
+    -fx-icon-size: 16px;
+}
+
+.estado-solicitud {
+    -fx-font-size: 12px;
+    -fx-text-fill: #C8E6F5;
+    -fx-font-style: italic;
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
