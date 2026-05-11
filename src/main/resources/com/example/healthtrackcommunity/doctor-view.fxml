@@ -1,16 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.healthtrackcommunity.DoctorController"
-            prefHeight="400.0" prefWidth="600.0">
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.healthtrackcommunity.DoctorController"
+          stylesheets="@css/doctor.css">
 
-    <Label text="VISTA DE DOCTOR"/>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
 
+    <columnConstraints>
+        <ColumnConstraints percentWidth="25"/>
+        <ColumnConstraints percentWidth="75"/>
+    </columnConstraints>
+
+    <VBox alignment="TOP_CENTER" spacing="20" styleClass="menu-lateral"
+          GridPane.columnIndex="0" maxHeight="Infinity">
+
+        <padding>
+            <Insets top="25" right="15" bottom="25" left="15"/>
+        </padding>
+
+        <VBox alignment="CENTER" spacing="10">
+            <FontIcon iconLiteral="fas-user-md" iconSize="60" styleClass="icon-perfil"/>
+            <Label fx:id="doctorNameLabel" text="Dr. Nombre" styleClass="nombre-doctor"/>
+            <Label fx:id="doctorSpecializationLabel" text="Especialidad" styleClass="especialidad"/>
+        </VBox>
+
+        <Separator styleClass="separador-menu"/>
+
+        <VBox spacing="10" fillWidth="true">
+            <Button onAction="#showDashboard" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chalkboard-teacher" styleClass="icono-menu"/></graphic>
+                <text>Dashboard</text>
+            </Button>
+
+            <Button onAction="#showPatientsList" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-users" styleClass="icono-menu"/></graphic>
+                <text>Mis Pacientes</text>
+            </Button>
+
+            <Button onAction="#showPendingRequests" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-user-plus" styleClass="icono-menu"/></graphic>
+                <text>Solicitudes Pendientes</text>
+            </Button>
+
+            <Button onAction="#showPatientMetrics" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
+                <text>Métricas de Pacientes</text>
+            </Button>
+
+            <Button onAction="#showReports" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
+                <text>Generar Reporte Clínico</text>
+            </Button>
+        </VBox>
+
+        <Separator styleClass="separador-menu"/>
+
+        <Button onAction="#logout" styleClass="menu-button">
+            <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="icono-menu"/></graphic>
+            <text>Cerrar Sesión</text>
+        </Button>
+    </VBox>
+
+    <ScrollPane fx:id="mainScrollPane" fitToWidth="true"
+                styleClass="area-principal"
+                GridPane.columnIndex="1" maxHeight="Infinity">
+
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <StackPane fx:id="mainContent" maxHeight="Infinity" styleClass="area-principal">
+
+            <VBox fx:id="dashboardSection" spacing="20" visible="true" maxHeight="Infinity">
+                <Label text="Resumen Clínico" styleClass="titulo-seccion"/>
+
+                <HBox spacing="20">
+                    <VBox styleClass="tarjeta-resumen">
+                        <FontIcon iconLiteral="fas-user" iconSize="40" styleClass="icon-tarjeta"/>
+                        <Label text="Total Pacientes" styleClass="label-tarjeta"/>
+                        <Label fx:id="totalPatientsLabel" text="0" styleClass="numero-tarjeta"/>
+                    </VBox>
+                    <VBox styleClass="tarjeta-resumen">
+                        <FontIcon iconLiteral="fas-exclamation-triangle" iconSize="40" styleClass="icon-tarjeta-alerta"/>
+                        <Label text="Alertas Activas" styleClass="label-tarjeta"/>
+                        <Label fx:id="activeAlertsLabel" text="0" styleClass="numero-tarjeta-alerta"/>
+                    </VBox>
+                    <!--VBox styleClass="tarjeta-resumen">
+                        <FontIcon iconLiteral="fas-clock" iconSize="40" styleClass="icon-tarjeta"/>
+                        <Label text="Consultas Pendientes" styleClass="label-tarjeta"/>
+                        <Label fx:id="pendingConsultationsLabel" text="0" styleClass="numero-tarjeta"/>
+                    </VBox-->
+                </HBox>
+
+                <VBox styleClass="grafico-card">
+                    <Label text="Pacientes con Alertas Recientes" styleClass="subtitulo"/>
+                    <!--ListView fx:id="alertPatientsListView" styleClass="lista-pacientes"/-->
+                    <VBox fx:id="alertPatientsContainer" styleClass="lista-pacientes"/>
+                </VBox>
+            </VBox>
+
+            <VBox fx:id="patientsListSection" spacing="15" visible="false">
+                <Label text="Mis Pacientes" styleClass="titulo-seccion"/>
+
+                <HBox maxWidth="Infinity" alignment="CENTER" spacing="20">
+                    <TextField fx:id="searchPatientField" promptText="Buscar paciente por nombre..."
+                               styleClass="campo-busqueda" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="filterPatientsList" styleClass="boton-primario">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-search" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+            </VBox>
+
+            <VBox fx:id="pendingRequestsSection" spacing="15" visible="false">
+                <Label text="Solicitudes de seguimiento médico" styleClass="titulo-seccion"/>
+
+                <Label text="Pacientes que han solicitado ser atendidos por ti."
+                       styleClass="texto-ayuda" wrapText="true"/>
+            </VBox>
+
+            <VBox fx:id="patientMetricsSection" spacing="20" visible="false">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Métricas del Paciente" styleClass="titulo-seccion"/>
+                </HBox>
+
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="Seleccionar Paciente:" styleClass="label-seleccion"/>
+                    <ComboBox fx:id="patientSelector" styleClass="combo-paciente" prefWidth="300"/>
+                </HBox>
+
+                <TabPane>
+                    <Tab text="Presión Arterial">
+                        <VBox spacing="15">
+                            <VBox fx:id="bloodPressureChartContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Glucosa">
+                        <VBox spacing="15">
+                            <VBox fx:id="glucoseChartContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Frecuencia Cardíaca">
+                        <VBox spacing="15">
+                            <VBox fx:id="heartRateChartContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Peso / IMC">
+                        <VBox spacing="15">
+                            <VBox fx:id="weightChartContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                </TabPane>
+
+                <Button styleClass="boton-primario">
+                    <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
+                    <text> Generar Reporte Clínico (PDF)</text>
+                </Button>
+            </VBox>
+
+        </StackPane>
+    </ScrollPane>
 </GridPane>

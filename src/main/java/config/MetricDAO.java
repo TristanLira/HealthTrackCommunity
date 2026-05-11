@@ -83,6 +83,16 @@ public class MetricDAO implements DAO<Metric> {
         return metrics;
     }
 
+    public ObservableList<Metric> getByPatient(Patient patient) {
+        ObservableList<Metric> patientMetrics = FXCollections.observableArrayList();
+        for (Metric m : metrics) {
+            if (m.getUserId().equals(patient.getId())) {
+                patientMetrics.add(m);
+            }
+        }
+        return patientMetrics;
+    }
+
     @Override
     public Metric get(String id) {
         for (Metric i: metrics) {
