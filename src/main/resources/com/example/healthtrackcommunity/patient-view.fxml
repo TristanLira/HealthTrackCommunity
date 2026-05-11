@@ -93,6 +93,116 @@
                     </HBox>
                 </VBox>
 
+                <VBox fx:id="registerMetricsSection" spacing="20" alignment="CENTER" styleClass="recordatorio-card">
+
+                    <Label text="Registrar nueva métrica" styleClass="titulo-seccion"/>
+
+                    <HBox alignment="CENTER" spacing="20">
+                        <Label text="Tipo de métrica" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <ComboBox fx:id="metricTypeComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    </HBox>
+
+                    <StackPane fx:id="metricFormsStackPane" maxWidth="-Infinity">
+
+                        <!--formulario de frecuencia cardiaca-->
+                        <VBox fx:id="heartRateMetricForm" alignment="CENTER" spacing="10" fillWidth="false" styleClass="metricas-recientes">
+                            <Label text="Frecuencia cardiaca" styleClass="subtitulo"/>
+
+                            <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <Label text="Frecuencia" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="heartRateField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                            </GridPane>
+
+                            <Button text=" Guardar" fx:id="saveHeartRateBtn" onAction="#saveHeartRate" styleClass="boton-primario">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-save" styleClass="icono-menu"/>
+                                </graphic>
+                            </Button>
+                        </VBox>
+
+                        <!--formulario de presión arterial-->
+                        <VBox fx:id="pressureMetricForm" alignment="CENTER" spacing="10" fillWidth="false" styleClass="metricas-recientes">
+                            <Label text="Presión arterial" styleClass="subtitulo"/>
+
+                            <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <Label text="Presión sistólica" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="pressureSystolicField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Presión diastólica" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="pressureDiastolicField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                            </GridPane>
+
+                            <Button text=" Guardar" fx:id="savePressureBtn" onAction="#savePressure" styleClass="boton-primario">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-save"  styleClass="icono-menu"/>
+                                </graphic>
+                            </Button>
+                        </VBox>
+
+                        <!--formulario de nivel de glucosa-->
+                        <VBox fx:id="glucoseMetricForm" alignment="CENTER" spacing="10" fillWidth="false" styleClass="metricas-recientes">
+                            <Label text="Nivel de glucosa" styleClass="subtitulo"/>
+
+                            <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <Label text="Glucosa" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="glucoseField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                            </GridPane>
+
+                            <Button text=" Guardar" fx:id="saveGlucoseBtn" onAction="#saveGlucose" styleClass="boton-primario">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-save"  styleClass="icono-menu"/>
+                                </graphic>
+                            </Button>
+                        </VBox>
+
+                        <!--formulario de indice de masa corporal-->
+                        <VBox fx:id="weightMetricForm" alignment="CENTER" spacing="10" fillWidth="false" styleClass="metricas-recientes">
+                            <Label text="Indice de masa corporal" styleClass="subtitulo"/>
+
+                            <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <Label text="Peso (kg)" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="weightField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Estatura (cm)" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="heightField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                            </GridPane>
+
+                            <Button text=" Guardar" fx:id="saveWeightBtn" onAction="#saveWeight" styleClass="boton-primario">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-save" styleClass="icono-menu"/>
+                                </graphic>
+                            </Button>
+                        </VBox>
+                    </StackPane>
+
+                </VBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card">
+                    <FontIcon iconLiteral="fas-bell" iconSize="24" styleClass="icon-recordatorio"/>
+                    <Label text="Próximo registro sugerido:" styleClass="label-recordatorio"/>
+                    <Label fx:id="nextReminderLabel" text="Hoy 8:00 PM" styleClass="hora-recordatorio"/>
+                </HBox>
+
                 <VBox styleClass="alertas-card">
                     <Label text="Alertas de Salud" styleClass="subtitulo-alerta"/>
                     <Label fx:id="healthAlertLabel"
@@ -104,30 +214,105 @@
                     <Label text="Últimas Mediciones" styleClass="subtitulo"/>
                     <VBox fx:id="recentMetricsContainer" spacing="10"/>
                 </VBox>
-
-                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card">
-                    <FontIcon iconLiteral="fas-bell" iconSize="24" styleClass="icon-recordatorio"/>
-                    <Label text="Próximo registro sugerido:" styleClass="label-recordatorio"/>
-                    <Label fx:id="nextReminderLabel" text="Hoy 8:00 PM" styleClass="hora-recordatorio"/>
-                </HBox>
             </VBox>
 
             <VBox fx:id="historySection" spacing="20" visible="false">
                 <Label text="Mi Historial Clínico" styleClass="titulo-seccion"/>
 
                 <TabPane>
+
                     <Tab text="Presión Arterial">
-                        <VBox fx:id="historyPressureContainer" spacing="10"/>
+                        <!--VBox fx:id="historyPressureContainer" spacing="10"/-->
+                        <TableView fx:id="pressureTableView"
+                                   styleClass="metrics-table">
+
+                            <columns>
+                                <TableColumn fx:id="pressureDateColumn"
+                                             text="Fecha"
+                                             prefWidth="150"/>
+
+                                <TableColumn fx:id="pressureTimeColumn"
+                                             text="Hora"
+                                             prefWidth="120"/>
+
+                                <TableColumn fx:id="pressureSystolicColumn"
+                                             text="Sistólica"
+                                             prefWidth="150"/>
+
+                                <TableColumn fx:id="pressureDiastolicColumn"
+                                             text="Diastólica"
+                                             prefWidth="150"/>
+                            </columns>
+                        </TableView>
                     </Tab>
+
                     <Tab text="Glucosa">
-                        <VBox fx:id="historyGlucoseContainer" spacing="10"/>
+                        <!--VBox fx:id="historyGlucoseContainer" spacing="10"/-->
+                        <TableView fx:id="glucoseTableView"
+                                   styleClass="metrics-table">
+
+                            <columns>
+                                <TableColumn fx:id="glucoseDateColumn"
+                                             text="Fecha"
+                                             prefWidth="150"/>
+
+                                <TableColumn fx:id="glucoseTimeColumn"
+                                             text="Hora"
+                                             prefWidth="120"/>
+
+                                <TableColumn fx:id="glucoseValueColumn"
+                                             text="Glucosa (mg/dL)"
+                                             prefWidth="200"/>
+                            </columns>
+                        </TableView>
                     </Tab>
+
                     <Tab text="Frecuencia Cardíaca">
-                        <VBox fx:id="historyHeartRateContainer" spacing="10"/>
+                        <!--VBox fx:id="historyHeartRateContainer" spacing="10"/-->
+                        <TableView fx:id="heartRateTableView"
+                                   styleClass="metrics-table">
+
+                            <columns>
+                                <TableColumn fx:id="heartRateDateColumn"
+                                             text="Fecha"
+                                             prefWidth="150"/>
+
+                                <TableColumn fx:id="heartRateTimeColumn"
+                                             text="Hora"
+                                             prefWidth="120"/>
+
+                                <TableColumn fx:id="heartRateValueColumn"
+                                             text="BPM"
+                                             prefWidth="200"/>
+                            </columns>
+                        </TableView>
                     </Tab>
+
                     <Tab text="Peso / IMC">
-                        <VBox fx:id="historyWeightContainer" spacing="10"/>
+                        <!--VBox fx:id="historyWeightContainer" spacing="10"/-->
+                        <TableView fx:id="weightTableView"
+                                   styleClass="metrics-table">
+
+                            <columns>
+                                <TableColumn fx:id="weightDateColumn"
+                                             text="Fecha"
+                                             prefWidth="150"/>
+
+                                <TableColumn fx:id="weightTimeColumn"
+                                             text="Hora"
+                                             prefWidth="120"/>
+
+                                <TableColumn fx:id="weightValueColumn"
+                                             text="Peso (kg)"
+                                             prefWidth="150"/>
+
+                                <TableColumn fx:id="imcColumn"
+                                             text="IMC"
+                                             prefWidth="150"/>
+                            </columns>
+                        </TableView>
                     </Tab>
+
                 </TabPane>
             </VBox>
 
@@ -153,6 +338,31 @@
             <VBox fx:id="doctorMonitoringSection" spacing="20" visible="false">
                 <Label text="Seguimiento médico" styleClass="titulo-seccion"/>
 
+                <!--formulario para solicitud de seguimiento, igualmente agréguenlo a donde necesiten sin modificarlo-->
+                <VBox fx:id="monitoringRequestForm" spacing="20" alignment="CENTER" fillWidth="false" styleClass="recordatorio-card">
+
+                    <Label text="Solicitud de seguimiento médico" styleClass="subtitulo-seccion"/>
+                    <Label styleClass="texto-ayuda"
+                            text="Selecciona el médico que realizará tu seguimiento y envía una solicitud. El médico la revisará y decidirá si aceparla o no. Solo un médico puede realizar tu seguimiento a la vez, intenta no mandar multiples solicitudes."
+                           wrapText="true"/>
+
+                    <GridPane >
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="40"/>
+                            <ColumnConstraints percentWidth="60"/>
+                        </columnConstraints>
+
+                        <Label text="Médicos disponibles" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <ComboBox fx:id="doctorsComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    </GridPane>
+
+                    <Button styleClass="boton-primario" text=" Enviar solicitud" fx:id="sendMonitoringRequestBtn" onAction="#sendMonitoringRequest">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-share" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+                </VBox>
+
                 <VBox fx:id="doctorNotesContainer" spacing="10">
                     <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
                 </VBox>
@@ -161,4 +371,12 @@
 
         </StackPane>
     </ScrollPane>
+
+    <!--Este VBox es el formulario de registro de métricas, cuando vayan a trabajar en la gui agréguenlo
+    completo a la zona donde necesiten que esté, pero no lo modifiquen-->
+
+
+
+
+
 </GridPane>

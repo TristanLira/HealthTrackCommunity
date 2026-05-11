@@ -55,10 +55,10 @@
                 <text>Métricas de Pacientes</text>
             </Button>
 
-            <Button onAction="#showReports" styleClass="menu-button" maxWidth="Infinity">
+            <!--Button onAction="#showReports" styleClass="menu-button" maxWidth="Infinity">
                 <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
                 <text>Generar Reporte Clínico</text>
-            </Button>
+            </Button-->
         </VBox>
 
         <Separator styleClass="separador-menu"/>
