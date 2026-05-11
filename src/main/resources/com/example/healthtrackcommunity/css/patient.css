@@ -4,8 +4,8 @@
 }
 
 .menu-lateral {
-    -fx-background-color: #8BB5D6;
-    -fx-border-color: #A8CAE5;
+    -fx-background-color: #8bc2d6;
+    -fx-border-color: #a8d3e5;
     -fx-border-width: 0 1 0 0;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .icon-doctor {
-    -fx-icon-color: #C8E6F5;
+    -fx-icon-color: #c8f1f5;
 }
 
 .label-doctor {
@@ -36,7 +36,7 @@
 .nombre-doctor-asignado {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #C8E6F5;
+    -fx-text-fill: #c8ebf5;
 }
 
 .boton-solicitar {
@@ -49,7 +49,7 @@
 }
 
 .boton-solicitar:hover {
-    -fx-background-color: #8BB5D6;
+    -fx-background-color: #8bc2d6;
 }
 
 .separador-menu {
@@ -68,7 +68,7 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: #7BA8C8;
+    -fx-background-color: #7bb3c8;
 }
 
 .menu-button-logout {
@@ -83,7 +83,7 @@
 }
 
 .menu-button-logout:hover {
-    -fx-background-color: #7BA8C8;
+    -fx-background-color: #7bb3c8;
 }
 
 .area-principal {
@@ -93,7 +93,7 @@
 .titulo-seccion {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #6A9CC7;
+    -fx-text-fill: #6aabc7;
 }
 
 .alerta-warning {
@@ -143,7 +143,7 @@
 
 .texto-alerta {
     -fx-font-size: 14px;
-    -fx-text-fill: #A08060;
+    -fx-text-fill: #a06060;
 }
 
 .metricas-recientes {
@@ -157,7 +157,7 @@
 .subtitulo {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #7BADD0;
+    -fx-text-fill: #7bb9d0;
 }
 
 .recordatorio-card {
@@ -169,22 +169,22 @@
 }
 
 .icon-recordatorio {
-    -fx-icon-color: #8BB5D6;
+    -fx-icon-color: #8bc2d6;
 }
 
 .label-recordatorio {
     -fx-font-size: 14px;
-    -fx-text-fill: #7BADD0;
+    -fx-text-fill: #7bb9d0;
 }
 
 .hora-recordatorio {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #6A9CC7;
+    -fx-text-fill: #6aabc7;
 }
 
 .boton-primario {
-    -fx-background-color: #8BB5D6;
+    -fx-background-color: #8bbfd6;
     -fx-text-fill: white;
     -fx-background-radius: 12;
     -fx-padding: 12 24;
@@ -193,12 +193,12 @@
 }
 
 .boton-primario:hover {
-    -fx-background-color: #7BA8C8;
+    -fx-background-color: #7bb3c8;
 }
 
 .boton-secundario {
     -fx-background-color: #C8DFF0;
-    -fx-text-fill: #6A9CC7;
+    -fx-text-fill: #6ab1c7;
     -fx-background-radius: 12;
     -fx-padding: 10 20;
     -fx-font-size: 13px;
@@ -210,7 +210,7 @@
 
 .text-field {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #D6E8F5;
+    -fx-border-color: #d6edf5;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
     -fx-padding: 8 12;
@@ -226,7 +226,7 @@
 }
 
 .tab:selected {
-    -fx-background-color: #8BB5D6;
+    -fx-background-color: #8bc5d6;
 }
 
 .tab:selected .tab-label {
