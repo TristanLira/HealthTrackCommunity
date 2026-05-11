@@ -24,12 +24,10 @@ import java.util.Map;
 
 public class DoctorController {
 
-    @FXML public Label doctorNameLabel;
+    /* public Label doctorNameLabel;
     @FXML public Label doctorSpecializationLabel;
     @FXML public Label totalPatientsLabel;
     @FXML public Label activeAlertsLabel;
-    @FXML public Label pendingConsultationsLabel;
-    @FXML public ListView<Patient> alertPatientsListView;
     @FXML public TextField searchPatientField;
     @FXML public VBox dashboardSection;
     @FXML public VBox patientsListSection;
@@ -42,7 +40,38 @@ public class DoctorController {
     @FXML public VBox weightChartContainer;
     @FXML public ScrollPane mainScrollPane;
     @FXML public StackPane mainContent;
+    public VBox alertPatientsContainer;
+    public Button filterPatientsList;*/
 
+    @FXML private ScrollPane mainScrollPane;
+    @FXML private StackPane mainContent;
+    @FXML private Label doctorNameLabel;
+    @FXML private Label doctorSpecializationLabel;
+
+    //SECCIÓN DE DASHBOARD
+    @FXML private VBox dashboardSection;
+    @FXML private Label totalPatientsLabel;
+    @FXML private Label activeAlertsLabel;
+    @FXML private VBox alertPatientsContainer;
+
+    //SECCION DE PACIENTES
+    @FXML private VBox patientsListSection;
+    @FXML private TextField searchPatientField;
+    @FXML private Button filterPatientsList;
+
+    //SECCIÓN DE SOLICITUDES
+    @FXML private VBox pendingRequestsSection;
+
+    //SECCIÓN DE MÉTRICAS
+    @FXML private VBox patientMetricsSection;
+    @FXML private ComboBox<Patient> patientSelector;
+    @FXML private VBox bloodPressureChartContainer;
+    @FXML private VBox glucoseChartContainer;
+    @FXML private VBox heartRateChartContainer;
+    @FXML private VBox weightChartContainer;
+
+
+    //DAOs y doctor loggeado
     private DoctorDAO doctorDAO;
     private Doctor logged;
     private PatientDAO patientDAO;

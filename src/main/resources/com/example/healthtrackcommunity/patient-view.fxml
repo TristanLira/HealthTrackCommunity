@@ -37,14 +37,12 @@
                     <Label text="Doctor asignado:" styleClass="label-doctor"/>
                     <Label fx:id="assignedDoctorLabel" text="Ninguno" styleClass="nombre-doctor-asignado"/>
                 </HBox>
-
-                <Label fx:id="requestStatusLabel" text="" styleClass="estado-solicitud" visible="false" managed="false"/>
             </VBox>
         </VBox>
 
         <Separator styleClass="separador-menu"/>
 
-        <VBox spacing="10" fillWidth="true">
+        <VBox spacing="10">
             <Button onAction="#showDashboard" styleClass="menu-button" maxWidth="Infinity">
                 <graphic><FontIcon iconLiteral="fas-home" styleClass="icono-menu"/></graphic>
                 <text>Mi Dashboard</text>
@@ -59,11 +57,17 @@
                 <graphic><FontIcon iconLiteral="fas-chart-bar" styleClass="icono-menu"/></graphic>
                 <text>Mis Gráficos</text>
             </Button>
+
+            <Button onAction="#showDoctorMonitoring" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-stethoscope" styleClass="icono-menu"/></graphic>
+                <text>Seguimiento médico</text>
+            </Button>
+
         </VBox>
 
         <Separator styleClass="separador-menu"/>
 
-        <Button onAction="#logout" styleClass="menu-button-logout">
+        <Button onAction="#logout" styleClass="menu-button">
             <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="icono-menu"/></graphic>
             <text>Cerrar Sesión</text>
         </Button>
@@ -144,6 +148,15 @@
                         <VBox fx:id="patientWeightChart" alignment="CENTER" spacing="15"/>
                     </Tab>
                 </TabPane>
+            </VBox>
+
+            <VBox fx:id="doctorMonitoringSection" spacing="20" visible="false">
+                <Label text="Seguimiento médico" styleClass="titulo-seccion"/>
+
+                <VBox fx:id="doctorNotesContainer" spacing="10">
+                    <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
+                </VBox>
+
             </VBox>
 
         </StackPane>

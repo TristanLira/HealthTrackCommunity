@@ -8,8 +8,7 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.healthtrackcommunity.DoctorController"
-          stylesheets="@css/doctor.css"
-styleClass="area-principal">
+          stylesheets="@css/doctor.css">
 
     <rowConstraints>
         <RowConstraints vgrow="ALWAYS"/>
@@ -64,7 +63,7 @@ styleClass="area-principal">
 
         <Separator styleClass="separador-menu"/>
 
-        <Button onAction="#logout" styleClass="menu-button-logout">
+        <Button onAction="#logout" styleClass="menu-button">
             <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="icono-menu"/></graphic>
             <text>Cerrar Sesión</text>
         </Button>
@@ -94,24 +93,32 @@ styleClass="area-principal">
                         <Label text="Alertas Activas" styleClass="label-tarjeta"/>
                         <Label fx:id="activeAlertsLabel" text="0" styleClass="numero-tarjeta-alerta"/>
                     </VBox>
-                    <VBox styleClass="tarjeta-resumen">
+                    <!--VBox styleClass="tarjeta-resumen">
                         <FontIcon iconLiteral="fas-clock" iconSize="40" styleClass="icon-tarjeta"/>
                         <Label text="Consultas Pendientes" styleClass="label-tarjeta"/>
                         <Label fx:id="pendingConsultationsLabel" text="0" styleClass="numero-tarjeta"/>
-                    </VBox>
+                    </VBox-->
                 </HBox>
 
                 <VBox styleClass="grafico-card">
                     <Label text="Pacientes con Alertas Recientes" styleClass="subtitulo"/>
-                    <ListView fx:id="alertPatientsListView" styleClass="lista-pacientes"/>
+                    <!--ListView fx:id="alertPatientsListView" styleClass="lista-pacientes"/-->
+                    <VBox fx:id="alertPatientsContainer" styleClass="lista-pacientes"/>
                 </VBox>
             </VBox>
 
-            <VBox fx:id="patientsListSection" spacing="15" visible="false" maxHeight="Infinity">
+            <VBox fx:id="patientsListSection" spacing="15" visible="false">
                 <Label text="Mis Pacientes" styleClass="titulo-seccion"/>
 
-                <TextField fx:id="searchPatientField" promptText="Buscar paciente por nombre..."
-                           styleClass="campo-busqueda"/>
+                <HBox maxWidth="Infinity" alignment="CENTER" spacing="20">
+                    <TextField fx:id="searchPatientField" promptText="Buscar paciente por nombre..."
+                               styleClass="campo-busqueda" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="filterPatientsList" styleClass="boton-primario">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-search" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+                </HBox>
 
             </VBox>
 
@@ -157,7 +164,7 @@ styleClass="area-principal">
 
                 <Button styleClass="boton-primario">
                     <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
-                    <text>Generar Reporte Clínico (PDF)</text>
+                    <text> Generar Reporte Clínico (PDF)</text>
                 </Button>
             </VBox>
 

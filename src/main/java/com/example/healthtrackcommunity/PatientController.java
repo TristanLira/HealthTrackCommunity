@@ -4,59 +4,60 @@ import com.example.healthtrackcommunity.models.*;
 import config.MetricDAO;
 import config.PatientDAO;
 import config.DoctorDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class PatientController {
 
-    @FXML public Label patientNameLabel;
-    @FXML public Label assignedDoctorLabel;
-    @FXML public Button requestDoctorBtn;
-    @FXML public Label requestStatusLabel;
-    @FXML public VBox dashboardSection;
-    @FXML public VBox noDoctorWarning;
-    @FXML public Label healthAlertLabel;
-    @FXML public VBox recentMetricsContainer;
-    @FXML public Label nextReminderLabel;
-    @FXML public VBox historySection;
-    @FXML public VBox historyPressureContainer;
-    @FXML public VBox historyGlucoseContainer;
-    @FXML public VBox historyHeartRateContainer;
-    @FXML public VBox historyWeightContainer;
-    @FXML public VBox chartsSection;
-    @FXML public VBox patientGlucoseChart;
-    @FXML public VBox patientPressureChart;
-    @FXML public VBox patientHeartRateChart;
-    @FXML public VBox patientWeightChart;
-    @FXML public ScrollPane mainScrollPane;
-    @FXML public StackPane mainContent;
+    public ScrollPane mainScrollPane;
+    public StackPane mainContent;
+    public Label patientNameLabel;
+    public Label assignedDoctorLabel;
 
-    private PatientDAO patientDAO;
+    //sección de dashboard
+    public VBox dashboardSection;
+    public VBox noDoctorWarning;
+    public Label healthAlertLabel;
+    public VBox recentMetricsContainer;
+    public Label nextReminderLabel;
+
+    //historial de mediciones
+    public VBox historySection;
+    public VBox historyPressureContainer;
+    public VBox historyGlucoseContainer;
+    public VBox historyHeartRateContainer;
+    public VBox historyWeightContainer;
+
+    //sección de gráficos
+    public VBox chartsSection;
+    public VBox patientGlucoseChart;
+    public VBox patientPressureChart;
+    public VBox patientHeartRateChart;
+    public VBox patientWeightChart;
+
+    //seguimiento médico
+    public VBox doctorMonitoringSection;
+    public VBox doctorNotesContainer;
+
+    //pacientes y doctores
     private Patient logged;
+    private PatientDAO patientDAO;
     private DoctorDAO doctorDAO;
+
+    //daos de métricas
     private MetricDAO heartRateDAO;
     private MetricDAO pressureDAO;
     private MetricDAO glucoseDAO;
     private MetricDAO weightDAO;
-    private ObservableList<Metric> heartRateList;
-    private ObservableList<Metric> pressureList;
-    private ObservableList<Metric> glucoseList;
-    private ObservableList<Metric> weightList;
-    private String requestStatus = "";
 
     public void initialize() {
     }
@@ -75,14 +76,9 @@ public class PatientController {
         pressureDAO = new MetricDAO(logged, MetricDAO.PRESSURE);
         glucoseDAO = new MetricDAO(logged, MetricDAO.GLUCOSE);
         weightDAO = new MetricDAO(logged, MetricDAO.WEIGHT);
-
-        heartRateList = heartRateDAO.getAll();
-        pressureList = pressureDAO.getAll();
-        glucoseList = glucoseDAO.getAll();
-        weightList = weightDAO.getAll();
     }
 
-    /*MOSTRAR SECCIONES*/
+    /***************MOSTRAR SECCIONES***********/
 
     @FXML
     public void showDashboard(ActionEvent event) {
@@ -105,6 +101,12 @@ public class PatientController {
         chartsSection.setManaged(true);
     }
 
+    public void showDoctorMonitoring(ActionEvent actionEvent) {
+        hideAllSections();
+        doctorMonitoringSection.setManaged(true);
+        doctorMonitoringSection.setVisible(true);
+    }
+
     @FXML
     public void logout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("authentication-view.fxml"));
@@ -122,17 +124,20 @@ public class PatientController {
         }
     }
 
-    private void showInfoAlert(String title, String message) {
+    /********ALERTAS********/
+
+    private void infoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.show();
     }
 
-    private void showErrorAlert(String title, String message) {
+    private void errorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.show();
     }
+
 }
