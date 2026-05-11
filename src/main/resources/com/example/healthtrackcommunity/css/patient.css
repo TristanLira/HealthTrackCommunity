@@ -1,47 +1,47 @@
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
-    -fx-background-color: #f5f7fa;
+    -fx-background-color: #F2F8FF;
 }
 
 .menu-lateral {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #e8ecef;
+    -fx-background-color: #8BB5D6;
+    -fx-border-color: #A8CAE5;
     -fx-border-width: 0 1 0 0;
 }
 
 .icon-perfil {
-    -fx-icon-color: #5dade2;
+    -fx-icon-color: #FFFFFF;
 }
 
 .nombre-paciente {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #FFFFFF;
 }
 
 .rol-usuario {
     -fx-font-size: 12px;
-    -fx-text-fill: #7f8c8d;
+    -fx-text-fill: #D6E8F5;
 }
 
 .icon-doctor {
-    -fx-icon-color: #2ecc71;
+    -fx-icon-color: #C8E6F5;
 }
 
 .label-doctor {
     -fx-font-size: 13px;
-    -fx-text-fill: #7f8c8d;
+    -fx-text-fill: #D6E8F5;
 }
 
 .nombre-doctor-asignado {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #27ae60;
+    -fx-text-fill: #C8E6F5;
 }
 
 .boton-solicitar {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
+    -fx-background-color: #A8CAE5;
+    -fx-text-fill: #FFFFFF;
     -fx-background-radius: 20;
     -fx-padding: 6 15;
     -fx-font-size: 12px;
@@ -49,16 +49,16 @@
 }
 
 .boton-solicitar:hover {
-    -fx-background-color: #2980b9;
+    -fx-background-color: #8BB5D6;
 }
 
 .separador-menu {
-    -fx-background-color: #e8ecef;
+    -fx-background-color: #A8CAE5;
 }
 
 .menu-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #34495e;
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-alignment: CENTER_LEFT;
@@ -68,13 +68,12 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: #e8f0fe;
-    -fx-text-fill: #2980b9;
+    -fx-background-color: #7BA8C8;
 }
 
 .menu-button-logout {
     -fx-background-color: transparent;
-    -fx-text-fill: #e74c3c;
+    -fx-text-fill: #FFE0E0;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-alignment: CENTER_LEFT;
@@ -84,89 +83,108 @@
 }
 
 .menu-button-logout:hover {
-    -fx-background-color: #fdedec;
+    -fx-background-color: #7BA8C8;
 }
 
 .area-principal {
-    -fx-background-color: #f5f7fa;
+    -fx-background-color: #F5FAFF;
 }
 
 .titulo-seccion {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #6A9CC7;
 }
 
 .alerta-warning {
-    -fx-background-color: #fef5e7;
-    -fx-border-color: #f9e79f;
+    -fx-background-color: #FFF7E8;
+    -fx-border-color: #F5E6C8;
     -fx-border-radius: 12;
     -fx-background-radius: 12;
     -fx-padding: 15;
 }
 
 .icon-warning {
-    -fx-icon-color: #e67e22;
+    -fx-icon-color: #f46060;
 }
 
 .texto-warning {
     -fx-font-size: 14px;
-    -fx-text-fill: #e67e22;
+    -fx-text-fill: #e85050;
     -fx-font-weight: bold;
 }
 
 .boton-warning {
-    -fx-background-color: #e67e22;
+    -fx-background-color: #f46060;
     -fx-text-fill: white;
     -fx-background-radius: 20;
     -fx-padding: 5 15;
     -fx-font-size: 12px;
 }
 
+.boton-warning:hover {
+    -fx-background-color: #e84040;
+}
+
 .alertas-card {
-    -fx-background-color: #fff3e0;
+    -fx-background-color: #FFF7F0;
     -fx-background-radius: 16;
     -fx-padding: 20;
     -fx-spacing: 10;
-    -fx-border-color: #ffe0b2;
+    -fx-border-color: #FFE8D0;
     -fx-border-radius: 16;
 }
 
 .subtitulo-alerta {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #e67e22;
+    -fx-text-fill: #e85050;
 }
 
 .texto-alerta {
     -fx-font-size: 14px;
-    -fx-text-fill: #5d4037;
+    -fx-text-fill: #A08060;
 }
 
 .metricas-recientes {
-    -fx-background-color: white;
+    -fx-background-color: #FFFFFF;
     -fx-background-radius: 16;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0.1, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(139,181,214,0.1), 8, 0.1, 0, 2);
     -fx-padding: 20;
     -fx-spacing: 15;
 }
 
+.subtitulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7BADD0;
+}
+
 .recordatorio-card {
-    -fx-background-color: #e8f8f5;
+    -fx-background-color: #E8F5F5;
     -fx-background-radius: 16;
     -fx-padding: 15;
-    -fx-border-color: #d1f2eb;
+    -fx-border-color: #D0EAEA;
     -fx-border-radius: 16;
 }
 
-.formulario-card {
-    -fx-background-color: white;
-    -fx-background-radius: 16;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0.1, 0, 2);
+.icon-recordatorio {
+    -fx-icon-color: #8BB5D6;
+}
+
+.label-recordatorio {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7BADD0;
+}
+
+.hora-recordatorio {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6A9CC7;
 }
 
 .boton-primario {
-    -fx-background-color: #27ae60;
+    -fx-background-color: #8BB5D6;
     -fx-text-fill: white;
     -fx-background-radius: 12;
     -fx-padding: 12 24;
@@ -175,34 +193,27 @@
 }
 
 .boton-primario:hover {
-    -fx-background-color: #229954;
+    -fx-background-color: #7BA8C8;
 }
 
 .boton-secundario {
-    -fx-background-color: #95a5a6;
-    -fx-text-fill: white;
+    -fx-background-color: #C8DFF0;
+    -fx-text-fill: #6A9CC7;
     -fx-background-radius: 12;
     -fx-padding: 10 20;
     -fx-font-size: 13px;
 }
 
-.text-field, .date-picker {
-    -fx-background-color: white;
-    -fx-border-color: #d5d8dc;
+.boton-secundario:hover {
+    -fx-background-color: #B8D4E8;
+}
+
+.text-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D6E8F5;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
     -fx-padding: 8 12;
-}
-
-.table-view {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-}
-
-.table-view .column-header-background {
-    -fx-background-color: #ecf0f1;
-    -fx-background-radius: 12 12 0 0;
 }
 
 .tab-pane {
@@ -210,14 +221,25 @@
 }
 
 .tab {
-    -fx-background-color: #ecf0f1;
+    -fx-background-color: #E8F1F8;
     -fx-padding: 10 20;
 }
 
 .tab:selected {
-    -fx-background-color: #27ae60;
+    -fx-background-color: #8BB5D6;
 }
 
 .tab:selected .tab-label {
     -fx-text-fill: white;
+}
+
+.icono-menu {
+    -fx-icon-color: inherit;
+    -fx-icon-size: 16px;
+}
+
+.estado-solicitud {
+    -fx-font-size: 12px;
+    -fx-text-fill: #C8E6F5;
+    -fx-font-style: italic;
 }
