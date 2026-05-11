@@ -234,7 +234,7 @@
 }
 
 .icono-menu {
-    -fx-icon-color: inherit;
+    -fx-icon-color: #ffffff;
     -fx-icon-size: 16px;
 }
 
@@ -242,4 +242,9 @@
     -fx-font-size: 12px;
     -fx-text-fill: #C8E6F5;
     -fx-font-style: italic;
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
 }

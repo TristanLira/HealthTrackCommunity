@@ -229,3 +229,8 @@
     -fx-icon-color: #f46060;
     -fx-icon-size: 40px;
 }
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

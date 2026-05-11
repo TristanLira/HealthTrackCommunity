@@ -8,7 +8,12 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.healthtrackcommunity.DoctorController"
-          stylesheets="@css/doctor.css">
+          stylesheets="@css/doctor.css"
+styleClass="area-principal">
+
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
 
     <columnConstraints>
         <ColumnConstraints percentWidth="25"/>
@@ -16,14 +21,14 @@
     </columnConstraints>
 
     <VBox alignment="TOP_CENTER" spacing="20" styleClass="menu-lateral"
-          GridPane.columnIndex="0">
+          GridPane.columnIndex="0" maxHeight="Infinity">
 
         <padding>
             <Insets top="25" right="15" bottom="25" left="15"/>
         </padding>
 
         <VBox alignment="CENTER" spacing="10">
-            <FontIcon iconLiteral="fas5-user-md" iconSize="60" styleClass="icon-perfil"/>
+            <FontIcon iconLiteral="fas-user-md" iconSize="60" styleClass="icon-perfil"/>
             <Label fx:id="doctorNameLabel" text="Dr. Nombre" styleClass="nombre-doctor"/>
             <Label fx:id="doctorSpecializationLabel" text="Especialidad" styleClass="especialidad"/>
         </VBox>
@@ -31,29 +36,28 @@
         <Separator styleClass="separador-menu"/>
 
         <VBox spacing="10" fillWidth="true">
-            <Button onAction="#showDashboard" styleClass="menu-button">
-                <graphic><FontIcon iconLiteral="fas5-chalkboard-user" styleClass="icono-menu"/></graphic>
+            <Button onAction="#showDashboard" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chalkboard-teacher" styleClass="icono-menu"/></graphic>
                 <text>Dashboard</text>
             </Button>
 
-            <Button onAction="#showPatientsList" styleClass="menu-button">
-                <graphic><FontIcon iconLiteral="fas5-users" styleClass="icono-menu"/></graphic>
+            <Button onAction="#showPatientsList" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-users" styleClass="icono-menu"/></graphic>
                 <text>Mis Pacientes</text>
             </Button>
 
-            <Button onAction="#showPendingRequests" styleClass="menu-button">
-                <graphic><FontIcon iconLiteral="fas5-user-plus" styleClass="icono-menu"/></graphic>
+            <Button onAction="#showPendingRequests" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-user-plus" styleClass="icono-menu"/></graphic>
                 <text>Solicitudes Pendientes</text>
-                <Label fx:id="pendingRequestsBadge" text="0" styleClass="badge-pendiente" visible="false"/>
             </Button>
 
-            <Button onAction="#showPatientMetrics" styleClass="menu-button">
-                <graphic><FontIcon iconLiteral="fas5-chart-line" styleClass="icono-menu"/></graphic>
+            <Button onAction="#showPatientMetrics" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
                 <text>Métricas de Pacientes</text>
             </Button>
 
-            <Button onAction="#showReports" styleClass="menu-button">
-                <graphic><FontIcon iconLiteral="fas5-file-pdf" styleClass="icono-menu"/></graphic>
+            <Button onAction="#showReports" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
                 <text>Generar Reporte Clínico</text>
             </Button>
         </VBox>
@@ -61,37 +65,37 @@
         <Separator styleClass="separador-menu"/>
 
         <Button onAction="#logout" styleClass="menu-button-logout">
-            <graphic><FontIcon iconLiteral="fas5-sign-out-alt" styleClass="icono-menu"/></graphic>
+            <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="icono-menu"/></graphic>
             <text>Cerrar Sesión</text>
         </Button>
     </VBox>
 
     <ScrollPane fx:id="mainScrollPane" fitToWidth="true"
                 styleClass="area-principal"
-                GridPane.columnIndex="1">
+                GridPane.columnIndex="1" maxHeight="Infinity">
 
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
 
-        <StackPane fx:id="mainContent">
+        <StackPane fx:id="mainContent" maxHeight="Infinity" styleClass="area-principal">
 
-            <VBox fx:id="dashboardSection" spacing="20" visible="true">
+            <VBox fx:id="dashboardSection" spacing="20" visible="true" maxHeight="Infinity">
                 <Label text="Resumen Clínico" styleClass="titulo-seccion"/>
 
                 <HBox spacing="20">
                     <VBox styleClass="tarjeta-resumen">
-                        <FontIcon iconLiteral="fas5-user" iconSize="40" styleClass="icon-tarjeta"/>
+                        <FontIcon iconLiteral="fas-user" iconSize="40" styleClass="icon-tarjeta"/>
                         <Label text="Total Pacientes" styleClass="label-tarjeta"/>
                         <Label fx:id="totalPatientsLabel" text="0" styleClass="numero-tarjeta"/>
                     </VBox>
                     <VBox styleClass="tarjeta-resumen">
-                        <FontIcon iconLiteral="fas5-exclamation-triangle" iconSize="40" styleClass="icon-tarjeta-alerta"/>
+                        <FontIcon iconLiteral="fas-exclamation-triangle" iconSize="40" styleClass="icon-tarjeta-alerta"/>
                         <Label text="Alertas Activas" styleClass="label-tarjeta"/>
                         <Label fx:id="activeAlertsLabel" text="0" styleClass="numero-tarjeta-alerta"/>
                     </VBox>
                     <VBox styleClass="tarjeta-resumen">
-                        <FontIcon iconLiteral="fas5-clock" iconSize="40" styleClass="icon-tarjeta"/>
+                        <FontIcon iconLiteral="fas-clock" iconSize="40" styleClass="icon-tarjeta"/>
                         <Label text="Consultas Pendientes" styleClass="label-tarjeta"/>
                         <Label fx:id="pendingConsultationsLabel" text="0" styleClass="numero-tarjeta"/>
                     </VBox>
@@ -103,30 +107,23 @@
                 </VBox>
             </VBox>
 
-            <VBox fx:id="patientsListSection" spacing="15" visible="false">
+            <VBox fx:id="patientsListSection" spacing="15" visible="false" maxHeight="Infinity">
                 <Label text="Mis Pacientes" styleClass="titulo-seccion"/>
 
                 <TextField fx:id="searchPatientField" promptText="Buscar paciente por nombre..."
                            styleClass="campo-busqueda"/>
 
-                <ListView fx:id="patientsListView" styleClass="lista-pacientes"/>
             </VBox>
 
             <VBox fx:id="pendingRequestsSection" spacing="15" visible="false">
-                <Label text="Solicitudes de Pacientes" styleClass="titulo-seccion"/>
+                <Label text="Solicitudes de seguimiento médico" styleClass="titulo-seccion"/>
 
                 <Label text="Pacientes que han solicitado ser atendidos por ti."
                        styleClass="texto-ayuda" wrapText="true"/>
-
-                <ListView fx:id="pendingRequestsListView" styleClass="lista-pacientes"/>
             </VBox>
 
             <VBox fx:id="patientMetricsSection" spacing="20" visible="false">
                 <HBox alignment="CENTER_LEFT" spacing="20">
-                    <Button onAction="#backToPatientsList" styleClass="boton-secundario">
-                        <graphic><FontIcon iconLiteral="fas5-arrow-left" styleClass="icono-menu"/></graphic>
-                        <text>Volver</text>
-                    </Button>
                     <Label text="Métricas del Paciente" styleClass="titulo-seccion"/>
                 </HBox>
 
@@ -139,31 +136,27 @@
                     <Tab text="Presión Arterial">
                         <VBox spacing="15">
                             <VBox fx:id="bloodPressureChartContainer" alignment="CENTER"/>
-                            <TableView fx:id="bloodPressureTable"/>
                         </VBox>
                     </Tab>
                     <Tab text="Glucosa">
                         <VBox spacing="15">
                             <VBox fx:id="glucoseChartContainer" alignment="CENTER"/>
-                            <TableView fx:id="glucoseTable"/>
                         </VBox>
                     </Tab>
                     <Tab text="Frecuencia Cardíaca">
                         <VBox spacing="15">
                             <VBox fx:id="heartRateChartContainer" alignment="CENTER"/>
-                            <TableView fx:id="heartRateTable"/>
                         </VBox>
                     </Tab>
                     <Tab text="Peso / IMC">
                         <VBox spacing="15">
                             <VBox fx:id="weightChartContainer" alignment="CENTER"/>
-                            <TableView fx:id="weightTable"/>
                         </VBox>
                     </Tab>
                 </TabPane>
 
-                <Button onAction="#generateClinicalReport" styleClass="boton-primario">
-                    <graphic><FontIcon iconLiteral="fas5-file-pdf" styleClass="icono-menu"/></graphic>
+                <Button styleClass="boton-primario">
+                    <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
                     <text>Generar Reporte Clínico (PDF)</text>
                 </Button>
             </VBox>
