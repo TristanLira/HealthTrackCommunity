@@ -40,7 +40,7 @@ public class MonitoringRequest {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if ((o instanceof MonitoringRequest)) return false;
+        if (!(o instanceof MonitoringRequest)) return false;
 
         MonitoringRequest m = (MonitoringRequest) o;
 
