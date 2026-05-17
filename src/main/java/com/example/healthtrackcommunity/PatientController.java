@@ -203,7 +203,7 @@ public class PatientController {
                     }
                 }
 
-                showDoctorInfo();
+                Platform.runLater(() -> showDoctorInfo());
             }
 
             @Override public void onCancelled(DatabaseError databaseError) {}

@@ -308,15 +308,15 @@
                     </Button>
                 </VBox>
 
-                <HBox fx:id="doctorInfoCard" alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card">
+                <HBox fx:id="doctorInfoCard" alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card" maxWidth="-Infinity">
                     <FontIcon iconLiteral="fas-user-md" iconSize="24" styleClass="icon-recordatorio"/>
                     <Label text="Médico asignado:" styleClass="hora-recordatorio"/>
                     <Label fx:id="doctorNameLabel" styleClass="label-recordatorio"/>
                 </HBox>
 
-                <VBox fx:id="doctorNotesContainer" spacing="10">
-                    <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
-                </VBox>
+                <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
+
+                <VBox fx:id="doctorNotesContainer" spacing="10"/>
 
             </VBox>
 
