@@ -433,9 +433,42 @@ public class PatientController {
                          * antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas en la GUI*/
                     }
 
+                } else if (change.wasRemoved()) {
+
+                    for (Metric i: change.getRemoved()) {
+                        for (Node j: container.getChildren()) {
+                            if (!(j instanceof MetricDisplay)) continue;
+                            if ( ((MetricDisplay) j).isMetric(i) ) {
+                                Platform.runLater(() -> container.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
+
                 }
             }
         });
+    }
+
+    private MetricDisplay getDisplay(Metric m) {
+        MetricDisplay display;
+
+        if (m instanceof PressureMetric) {
+            display = new PressureDisplay((PressureMetric) m);
+        }
+        else if (m instanceof HeartRateMetric) {
+            display = new HeartRateDisplay((HeartRateMetric) m);
+        }
+        else if (m instanceof GlucoseMetric) {
+            display = new GlucoseDisplay((GlucoseMetric) m);
+        }
+        else if (m instanceof WeightMetric) {
+            display = new WeightDisplay((WeightMetric) m);
+        } else {
+            display = new MetricDisplay(m);
+        }
+
+        return display;
     }
 
 
@@ -497,30 +530,21 @@ public class PatientController {
                                 recentMetricsContainer.getChildren().addFirst(getDisplay(i)));
                     }
 
+                } else if (change.wasRemoved()) {
+
+                    for (Metric i: change.getRemoved()) {
+                        for (Node j: recentMetricsContainer.getChildren()) {
+                            if (!(j instanceof MetricDisplay)) continue;
+                            if ( ((MetricDisplay) j).isMetric(i) ) {
+                                Platform.runLater(() ->
+                                        recentMetricsContainer.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         });
-    }
-
-    private MetricDisplay getDisplay(Metric m) {
-        MetricDisplay display;
-
-        if (m instanceof PressureMetric) {
-            display = new PressureDisplay((PressureMetric) m);
-        }
-        else if (m instanceof HeartRateMetric) {
-            display = new HeartRateDisplay((HeartRateMetric) m);
-        }
-        else if (m instanceof GlucoseMetric) {
-            display = new GlucoseDisplay((GlucoseMetric) m);
-        }
-        else if (m instanceof WeightMetric) {
-            display = new WeightDisplay((WeightMetric) m);
-        } else {
-            display = new MetricDisplay(m);
-        }
-
-        return display;
     }
 
 
