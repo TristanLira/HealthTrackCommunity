@@ -222,19 +222,35 @@
                 <TabPane tabClosingPolicy="UNAVAILABLE">
 
                     <Tab text="Presión Arterial">
-                        <VBox fx:id="historyPressureContainer" spacing="10"/>
-                    </Tab>
-
-                    <Tab text="Glucosa">
-                        <VBox fx:id="historyGlucoseContainer" spacing="10"/>
+                        <VBox fx:id="historyPressureContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Frecuencia Cardíaca">
-                        <VBox fx:id="historyHeartRateContainer" spacing="10"/>
+                        <VBox fx:id="historyHeartRateContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Glucosa">
+                        <VBox fx:id="historyGlucoseContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Peso / IMC">
-                        <VBox fx:id="historyWeightContainer" spacing="10"/>
+                        <VBox fx:id="historyWeightContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
                     </Tab>
 
                 </TabPane>
@@ -244,15 +260,19 @@
                 <Label text="Mis Gráficos de Evolución" styleClass="titulo-seccion"/>
 
                 <TabPane tabClosingPolicy="UNAVAILABLE">
-                    <Tab text="Glucosa">
-                        <VBox fx:id="patientGlucoseChart" alignment="CENTER" spacing="15"/>
-                    </Tab>
+
                     <Tab text="Presión Arterial">
                         <VBox fx:id="patientPressureChart" alignment="CENTER" spacing="15"/>
                     </Tab>
+
                     <Tab text="Frecuencia Cardíaca">
                         <VBox fx:id="patientHeartRateChart" alignment="CENTER" spacing="15"/>
                     </Tab>
+
+                    <Tab text="Glucosa">
+                        <VBox fx:id="patientGlucoseChart" alignment="CENTER" spacing="15"/>
+                    </Tab>
+
                     <Tab text="Peso / IMC">
                         <VBox fx:id="patientWeightChart" alignment="CENTER" spacing="15"/>
                     </Tab>

@@ -127,14 +127,6 @@ public class PatientController {
         pressure = pressureDAO.getAll();
         glucose = glucoseDAO.getAll();
         weight = weightDAO.getAll();
-
-
-        PressureDisplay pd = new PressureDisplay(new PressureMetric("", 100, 100));
-        WeightDisplay wd = new WeightDisplay(new WeightMetric("", 160, 50));
-        GlucoseDisplay gd = new GlucoseDisplay(new GlucoseMetric("", 100));
-        HeartRateDisplay hd = new HeartRateDisplay(new HeartRateMetric("", 60));
-
-        recentMetricsContainer.getChildren().addAll(pd, wd, gd, hd);
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -148,6 +140,7 @@ public class PatientController {
         initMetricDAOs();
         initMetricTypeCombobox();
         initDoctorsComboBox();
+        showMetricDisplays();
     }
 
     /***************MOSTRAR SECCIONES***********/
@@ -348,6 +341,93 @@ public class PatientController {
         heightField.clear();
         return new WeightMetric(logged.getId(), height, weight);
     }
+
+    /********************************** agregar displays ******************************************/
+
+    private void showMetricDisplays() {
+        loadPressureDisplays();
+        loadHeartRateDisplay();
+        loadGlucoseDisplay();
+        loadWeightDisplay();
+    }
+
+    private void loadPressureDisplays() {
+        pressure.addListener((ListChangeListener<? super Metric>) change -> {
+
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    for (Metric i: change.getAddedSubList()) {
+                        if (!(i instanceof PressureMetric)) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        PressureDisplay p = new PressureDisplay((PressureMetric) i);
+                        p.hideTitle();
+                        Platform.runLater(() -> historyPressureContainer.getChildren().addFirst(p));
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las
+                        * más antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas*/
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void loadHeartRateDisplay() {
+        heartRate.addListener((ListChangeListener<? super Metric>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    for (Metric i: change.getAddedSubList()) {
+                        if (!(i instanceof HeartRateMetric)) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        HeartRateDisplay h = new HeartRateDisplay((HeartRateMetric) i);
+                        h.hideTitle();
+                        Platform.runLater(() -> historyHeartRateContainer.getChildren().addFirst(h));
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las
+                         * más antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas*/
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void loadGlucoseDisplay() {
+        glucose.addListener((ListChangeListener<? super Metric>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    for (Metric i: change.getAddedSubList()) {
+                        if (!(i instanceof GlucoseMetric)) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        GlucoseDisplay g = new GlucoseDisplay((GlucoseMetric) i);
+                        g.hideTitle();
+                        Platform.runLater(() -> historyGlucoseContainer.getChildren().addFirst(g));
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las
+                         * más antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas*/
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void loadWeightDisplay() {
+        weight.addListener((ListChangeListener<? super Metric>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    for (Metric i: change.getAddedSubList()) {
+                        if (!(i instanceof WeightMetric)) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        WeightDisplay g = new WeightDisplay((WeightMetric) i);
+                        g.hideTitle();
+                        Platform.runLater(() -> historyWeightContainer.getChildren().addFirst(g));
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las
+                         * más antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas*/
+                    }
+                }
+
+            }
+        });
+    }
+
 
     /********************************** solicitud de seguimiento médico ******************************************/
 
