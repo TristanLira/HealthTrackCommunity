@@ -24,4 +24,7 @@ public class HeartRateMetric extends Metric {
         this.heartRate = heartRate;
     }
 
+    public String toString() {
+        return super.toString() + " (Frecuencia cardiaca)";
+    }
 }

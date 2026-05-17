@@ -25,4 +25,7 @@ public class GlucoseMetric extends Metric {
         this.glucose = glucose;
     }
 
+    public String toString() {
+        return super.toString() + " (glucosa)";
+    }
 }

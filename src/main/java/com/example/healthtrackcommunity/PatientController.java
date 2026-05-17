@@ -1,14 +1,11 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
-import config.MetricDAO;
-import config.MonitoringRequestDAO;
-import config.PatientDAO;
-import config.DoctorDAO;
+import com.google.cloud.firestore.pipeline.stages.Database;
+import com.google.firebase.database.*;
+import config.*;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,11 +16,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class PatientController {
 
@@ -85,30 +82,6 @@ public class PatientController {
     public ComboBox<Doctor> doctorsComboBox;
     public Button sendMonitoringRequestBtn;
 
-    //TABLAS PARA MOSTRAR LOS DATOS
-
-    public TableView<PressureMetric> pressureTableView;
-    public TableColumn<PressureMetric, String> pressureDateColumn;
-    public TableColumn<PressureMetric, String> pressureTimeColumn;
-    public TableColumn<PressureMetric, Integer> pressureSystolicColumn;
-    public TableColumn<PressureMetric, Integer> pressureDiastolicColumn;
-
-    public TableView<GlucoseMetric> glucoseTableView;
-    public TableColumn<GlucoseMetric, String> glucoseDateColumn;
-    public TableColumn<GlucoseMetric, String> glucoseTimeColumn;
-    public TableColumn<GlucoseMetric, Integer> glucoseValueColumn;
-
-    public TableView<HeartRateMetric> heartRateTableView;
-    public TableColumn<HeartRateMetric, String> heartRateDateColumn;
-    public TableColumn<HeartRateMetric, String> heartRateTimeColumn;
-    public TableColumn<HeartRateMetric, Integer> heartRateValueColumn;
-
-    public TableView<WeightMetric> weightTableView;
-    public TableColumn<WeightMetric, String> weightDateColumn;
-    public TableColumn<WeightMetric, String> weightTimeColumn;
-    public TableColumn<WeightMetric, Integer> weightValueColumn;
-    public TableColumn<WeightMetric, Double> imcColumn;
-
     //información de pacientes y doctores
     private PatientDAO patientDAO;
     private DoctorDAO doctorDAO;
@@ -130,6 +103,9 @@ public class PatientController {
     ObservableList<Metric> glucose;
     ObservableList<Metric> weight;
 
+    ObservableList<Metric> recent;
+
+
     public void initialize() {
         hideAllSections();
         dashboardSection.setManaged(true);
@@ -147,6 +123,9 @@ public class PatientController {
         pressure = pressureDAO.getAll();
         glucose = glucoseDAO.getAll();
         weight = weightDAO.getAll();
+
+        recent = FXCollections.observableArrayList();
+        getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -160,8 +139,8 @@ public class PatientController {
         initMetricDAOs();
         initMetricTypeCombobox();
         initDoctorsComboBox();
-
-        initHistoryTables();
+        loadMetricDisplays();
+        loadRecentDisplays();
     }
 
     /***************MOSTRAR SECCIONES***********/
@@ -173,17 +152,16 @@ public class PatientController {
         dashboardSection.setManaged(true);
     }
 
-    public void showMetricRegister(ActionEvent actionEvent) {
-        hideAllSections();
-        registerMetricsSection.setVisible(true);
-        registerMetricsSection.setManaged(true);
-    }
-
     @FXML
     public void showHistory(ActionEvent event) {
         hideAllSections();
         historySection.setVisible(true);
         historySection.setManaged(true);
+
+        Platform.runLater(() -> {
+            historySection.requestLayout();
+            historySection.layout();
+        });
     }
 
     @FXML
@@ -363,6 +341,121 @@ public class PatientController {
         return new WeightMetric(logged.getId(), height, weight);
     }
 
+    /********************************** agregar displays a historySection ******************************************/
+
+    private void loadMetricDisplays() {
+        loadDisplay(pressure, historyPressureContainer, PressureMetric.class);
+        loadDisplay(heartRate, historyHeartRateContainer, HeartRateMetric.class);
+        loadDisplay(glucose, historyGlucoseContainer, GlucoseMetric.class);
+        loadDisplay(weight, historyWeightContainer, WeightMetric.class);
+    }
+
+    private void loadDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        list.addListener((ListChangeListener<? super Metric>) change -> {
+
+            while (change.next()) {
+                if (change.wasAdded()) {
+
+                    for (Metric i: change.getAddedSubList()) {
+                        if (i.getClass() != metricClass) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        MetricDisplay display = getDisplay(i);
+                        display.hideTitle();
+                        Platform.runLater(() -> container.getChildren().addFirst(display));
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las más
+                         * antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas en la GUI*/
+                    }
+
+                }
+            }
+        });
+    }
+
+
+    /********************************** mostrar las mediciones recientes ******************************************/
+
+    private void getRecentMetrics() {
+        DatabaseReference ref = FirebaseConnection.getDB().getReference("metrics");
+
+        metricQuery(ref.child("pressure"), PressureMetric.class);
+        metricQuery(ref.child("heartRate"), HeartRateMetric.class);
+        metricQuery(ref.child("glucose"), GlucoseMetric.class);
+        metricQuery(ref.child("weight"), WeightMetric.class);
+    }
+
+    private void metricQuery(DatabaseReference ref, Class <? extends Metric> metricClass) {
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Metric m = dataSnapshot.getValue(metricClass);
+                if (isInLastWeek(m.getDateObj())) {
+                    recent.add(m);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Metric m = dataSnapshot.getValue(metricClass);
+                if (recent.contains(m)) {
+                    recent.remove(m);
+                    recent.add(m);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Metric m = dataSnapshot.getValue(metricClass);
+                recent.remove(m);
+            }
+
+            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+
+    private boolean isInLastWeek(LocalDate date) {
+        LocalDate lastWeek = LocalDate.now().minusWeeks(1);
+        return date.isAfter(lastWeek) || date.isEqual(lastWeek);
+    }
+
+    private void loadRecentDisplays() {
+        recent.addListener((ListChangeListener<? super Metric>) change -> {
+
+            while (change.next()) {
+                if (change.wasAdded()) {
+
+                    for (Metric i: change.getAddedSubList()) {
+                        Platform.runLater(() ->
+                                recentMetricsContainer.getChildren().addFirst(getDisplay(i)));
+                    }
+
+                }
+            }
+        });
+    }
+
+    private MetricDisplay getDisplay(Metric m) {
+        MetricDisplay display;
+
+        if (m instanceof PressureMetric) {
+            display = new PressureDisplay((PressureMetric) m);
+        }
+        else if (m instanceof HeartRateMetric) {
+            display = new HeartRateDisplay((HeartRateMetric) m);
+        }
+        else if (m instanceof GlucoseMetric) {
+            display = new GlucoseDisplay((GlucoseMetric) m);
+        }
+        else if (m instanceof WeightMetric) {
+            display = new WeightDisplay((WeightMetric) m);
+        } else {
+            display = new MetricDisplay(m);
+        }
+
+        return display;
+    }
+
+
     /********************************** solicitud de seguimiento médico ******************************************/
 
     private void initDoctorsComboBox() {
@@ -396,124 +489,6 @@ public class PatientController {
                         () -> infoAlert("Solicitud enviada", "Un solicitud de seguimiento médico fue enviada a " + d + ".")),
                 () -> Platform.runLater(
                         () -> errorAlert("Solicitud no enviada", "La solicitud no fue enviada. Por favor inténtelo de nuevo."))
-        );
-    }
-
-    /********************************** mostrar historial de mediciones ******************************************/
-
-    private void initHistoryTables() {
-
-        //presion
-
-        pressureDateColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getDate()
-                ));
-
-        pressureTimeColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getTime()
-                ));
-
-        pressureSystolicColumn.setCellValueFactory(
-                cell -> new SimpleIntegerProperty(
-                        cell.getValue().getSystolic()
-                ).asObject()
-        );
-
-        pressureDiastolicColumn.setCellValueFactory(
-                cell -> new SimpleIntegerProperty(
-                        cell.getValue().getDiastolic()
-                ).asObject()
-        );
-
-
-        //glucosa
-
-        glucoseDateColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getDate()
-                ));
-
-        glucoseTimeColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getTime()
-                ));
-
-        glucoseValueColumn.setCellValueFactory(
-                cell -> new SimpleIntegerProperty(
-                        cell.getValue().getGlucose()
-                ).asObject()
-        );
-
-
-        //Frecuencia cardiaca
-
-        heartRateDateColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getDate()
-                ));
-
-        heartRateTimeColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getTime()
-                ));
-
-        heartRateValueColumn.setCellValueFactory(
-                cell -> new SimpleIntegerProperty(
-                        cell.getValue().getHeartRate()
-                ).asObject()
-        );
-
-
-        //peso
-
-        weightDateColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getDate()
-                ));
-
-        weightTimeColumn.setCellValueFactory(
-                cell -> new SimpleStringProperty(
-                        cell.getValue().getTime()
-                ));
-
-        weightValueColumn.setCellValueFactory(
-                cell -> new SimpleIntegerProperty(
-                        cell.getValue().getWeight()
-                ).asObject()
-        );
-
-        imcColumn.setCellValueFactory(
-                cell -> new SimpleDoubleProperty(
-                        cell.getValue().getBmi()
-                ).asObject()
-        );
-
-        bindHistoryTables();
-    }
-
-    @SuppressWarnings("unchecked")
-    private void bindHistoryTables() {
-
-        pressureTableView.setItems(
-                (ObservableList<PressureMetric>)
-                        (ObservableList<?>) pressure
-        );
-
-        glucoseTableView.setItems(
-                (ObservableList<GlucoseMetric>)
-                        (ObservableList<?>) glucose
-        );
-
-        heartRateTableView.setItems(
-                (ObservableList<HeartRateMetric>)
-                        (ObservableList<?>) heartRate
-        );
-
-        weightTableView.setItems(
-                (ObservableList<WeightMetric>)
-                        (ObservableList<?>) weight
         );
     }
 

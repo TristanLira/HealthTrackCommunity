@@ -212,105 +212,45 @@
 
                 <VBox styleClass="metricas-recientes">
                     <Label text="Últimas Mediciones" styleClass="subtitulo"/>
-                    <VBox fx:id="recentMetricsContainer" spacing="10"/>
+                    <VBox fx:id="recentMetricsContainer" spacing="15"/>
                 </VBox>
             </VBox>
 
             <VBox fx:id="historySection" spacing="20" visible="false">
                 <Label text="Mi Historial Clínico" styleClass="titulo-seccion"/>
 
-                <TabPane>
+                <TabPane tabClosingPolicy="UNAVAILABLE">
 
                     <Tab text="Presión Arterial">
-                        <!--VBox fx:id="historyPressureContainer" spacing="10"/-->
-                        <TableView fx:id="pressureTableView"
-                                   styleClass="metrics-table">
-
-                            <columns>
-                                <TableColumn fx:id="pressureDateColumn"
-                                             text="Fecha"
-                                             prefWidth="150"/>
-
-                                <TableColumn fx:id="pressureTimeColumn"
-                                             text="Hora"
-                                             prefWidth="120"/>
-
-                                <TableColumn fx:id="pressureSystolicColumn"
-                                             text="Sistólica"
-                                             prefWidth="150"/>
-
-                                <TableColumn fx:id="pressureDiastolicColumn"
-                                             text="Diastólica"
-                                             prefWidth="150"/>
-                            </columns>
-                        </TableView>
-                    </Tab>
-
-                    <Tab text="Glucosa">
-                        <!--VBox fx:id="historyGlucoseContainer" spacing="10"/-->
-                        <TableView fx:id="glucoseTableView"
-                                   styleClass="metrics-table">
-
-                            <columns>
-                                <TableColumn fx:id="glucoseDateColumn"
-                                             text="Fecha"
-                                             prefWidth="150"/>
-
-                                <TableColumn fx:id="glucoseTimeColumn"
-                                             text="Hora"
-                                             prefWidth="120"/>
-
-                                <TableColumn fx:id="glucoseValueColumn"
-                                             text="Glucosa (mg/dL)"
-                                             prefWidth="200"/>
-                            </columns>
-                        </TableView>
+                        <VBox fx:id="historyPressureContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Frecuencia Cardíaca">
-                        <!--VBox fx:id="historyHeartRateContainer" spacing="10"/-->
-                        <TableView fx:id="heartRateTableView"
-                                   styleClass="metrics-table">
+                        <VBox fx:id="historyHeartRateContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
+                    </Tab>
 
-                            <columns>
-                                <TableColumn fx:id="heartRateDateColumn"
-                                             text="Fecha"
-                                             prefWidth="150"/>
-
-                                <TableColumn fx:id="heartRateTimeColumn"
-                                             text="Hora"
-                                             prefWidth="120"/>
-
-                                <TableColumn fx:id="heartRateValueColumn"
-                                             text="BPM"
-                                             prefWidth="200"/>
-                            </columns>
-                        </TableView>
+                    <Tab text="Glucosa">
+                        <VBox fx:id="historyGlucoseContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Peso / IMC">
-                        <!--VBox fx:id="historyWeightContainer" spacing="10"/-->
-                        <TableView fx:id="weightTableView"
-                                   styleClass="metrics-table">
-
-                            <columns>
-                                <TableColumn fx:id="weightDateColumn"
-                                             text="Fecha"
-                                             prefWidth="150"/>
-
-                                <TableColumn fx:id="weightTimeColumn"
-                                             text="Hora"
-                                             prefWidth="120"/>
-
-                                <TableColumn fx:id="weightValueColumn"
-                                             text="Peso (kg)"
-                                             prefWidth="150"/>
-
-                                <TableColumn fx:id="imcColumn"
-                                             text="IMC"
-                                             prefWidth="150"/>
-                            </columns>
-                        </TableView>
+                        <VBox fx:id="historyWeightContainer" spacing="15">
+                            <padding>
+                                <Insets left="20" right="20" top="20" bottom="20"/>
+                            </padding>
+                        </VBox>
                     </Tab>
 
                 </TabPane>
@@ -319,17 +259,21 @@
             <VBox fx:id="chartsSection" spacing="20" visible="false">
                 <Label text="Mis Gráficos de Evolución" styleClass="titulo-seccion"/>
 
-                <TabPane>
-                    <Tab text="Evolución de Glucosa">
-                        <VBox fx:id="patientGlucoseChart" alignment="CENTER" spacing="15"/>
-                    </Tab>
-                    <Tab text="Evolución de Presión Arterial">
+                <TabPane tabClosingPolicy="UNAVAILABLE">
+
+                    <Tab text="Presión Arterial">
                         <VBox fx:id="patientPressureChart" alignment="CENTER" spacing="15"/>
                     </Tab>
-                    <Tab text="Evolución de Frecuencia Cardíaca">
+
+                    <Tab text="Frecuencia Cardíaca">
                         <VBox fx:id="patientHeartRateChart" alignment="CENTER" spacing="15"/>
                     </Tab>
-                    <Tab text="Evolución de Peso / IMC">
+
+                    <Tab text="Glucosa">
+                        <VBox fx:id="patientGlucoseChart" alignment="CENTER" spacing="15"/>
+                    </Tab>
+
+                    <Tab text="Peso / IMC">
                         <VBox fx:id="patientWeightChart" alignment="CENTER" spacing="15"/>
                     </Tab>
                 </TabPane>

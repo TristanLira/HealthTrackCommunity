@@ -1,17 +1,19 @@
 package com.example.healthtrackcommunity.controls;
 
 import com.example.healthtrackcommunity.models.Metric;
-import com.example.healthtrackcommunity.models.PressureMetric;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class MetricDisplay extends GridPane {
+public class MetricDisplay extends VBox {
 
-    private final String metricId;
+    Metric m;
+
+    protected final int spacing = 10;
 
     protected Label metricTitle;
     protected VBox metric;
@@ -23,9 +25,19 @@ public class MetricDisplay extends GridPane {
     private Label time;
 
     public MetricDisplay(Metric m) {
-        super();
+        //super();
 
-        metricId = m.getId();
+        this.m = m;
+
+        metricTitle = new Label();
+        metric = new VBox();
+        dateTitle = new Label();
+        date = new Label();
+        timeTitle = new Label();
+        time = new Label();
+
+
+        //agregar los datos
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
@@ -34,35 +46,71 @@ public class MetricDisplay extends GridPane {
         time.setText(m.getTimeObj().format(timeFormat));
 
         metricTitle.setText("Métrica");
-        dateTitle.setText("Fecha");
-        timeTitle.setText("Hora");
+        dateTitle.setText("Fecha de registro");
+        timeTitle.setText("Hora de registro");
 
-        addCss();
+        build();
     }
 
     private void build() {
+        HBox content = new HBox();
+
+        content.setPadding(new Insets(spacing,spacing,spacing,spacing));
+
+        content.setAlignment(Pos.CENTER);
+        content.maxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(content, Priority.ALWAYS);
+
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.maxWidth(Double.MAX_VALUE);
+
         VBox v1 = new VBox();
-        v1.setSpacing(5);
-        v1.getChildren().addAll(metricTitle, metric);
+        v1.setSpacing(spacing);
+        v1.getChildren().add(metric);
 
         VBox v2 = new VBox();
-        v1.setSpacing(5);
+        v2.setSpacing(spacing);
         v2.getChildren().addAll(dateTitle, date);
 
         VBox v3 = new VBox();
-        v1.setSpacing(5);
-        v2.getChildren().addAll(timeTitle, time);
+        v3.setSpacing(spacing);
+        v3.getChildren().addAll(timeTitle, time);
 
-        this.add(v1, 0, 0);
-        this.add(v2, 0, 1);
-        this.add(v3, 0, 2);
+        Region spacing1 = new Region();
+        Region spacing2 = new Region();
+
+        HBox.setHgrow(spacing1, Priority.ALWAYS);
+        HBox.setHgrow(spacing2, Priority.ALWAYS);
+
+        content.getChildren().addAll(v1, spacing1, v2, spacing2, v3);
+
+        this.getChildren().addAll(metricTitle, content);
     }
 
     protected void addCss() {
+        this.getStyleClass().add("metric-card");
 
+        metricTitle.getStyleClass().add("metric-title");
+
+        dateTitle.getStyleClass().add("metric-field-title");
+        timeTitle.getStyleClass().add("metric-field-title");
+
+        date.getStyleClass().add("metric-field-value");
+        time.getStyleClass().add("metric-field-value");
+
+        //metric.getStyleClass().add("metric-content");
     }
 
-    public String getMetricId() {
-        return metricId;
+    public void hideTitle() {
+        metricTitle.setVisible(false);
+        metricTitle.setManaged(false);
+    }
+
+    public boolean isMetric(Metric m2) {
+        if (m.getClass() != m2.getClass()) return false;
+
+        if (m.getId() == null || m.getId().isEmpty()) return false;
+
+        return m.getId().equals(m2.getId());
     }
 }
