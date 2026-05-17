@@ -139,7 +139,7 @@
                     <ComboBox fx:id="patientSelector" styleClass="combo-paciente" prefWidth="300"/>
                 </HBox>
 
-                <TabPane>
+                <TabPane tabClosingPolicy="UNAVAILABLE">
                     <Tab text="Presión Arterial">
                         <VBox spacing="15">
                             <VBox fx:id="bloodPressureChartContainer" alignment="CENTER"/>
