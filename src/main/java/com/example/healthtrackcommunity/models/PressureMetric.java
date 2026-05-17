@@ -34,4 +34,7 @@ public class PressureMetric extends Metric {
         this.diastolic = diastolic;
     }
 
+    public String toString() {
+        return super.toString() + " (presion arterial)";
+    }
 }

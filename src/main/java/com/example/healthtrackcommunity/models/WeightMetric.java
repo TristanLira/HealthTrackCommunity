@@ -45,4 +45,8 @@ public class WeightMetric extends Metric {
     public void setBmi(double bmi) {
         this.bmi = bmi;
     }
+
+    public String toString() {
+        return super.toString() + " (peso/imc)";
+    }
 }

@@ -83,4 +83,9 @@ public abstract class Metric {
         //si la clave es la misma es el mismo objeto, sin importar otros atributos
         return m.getId().equals(id);
     }
+
+    @Override
+    public String toString() {
+        return userId + ": " + date + ", " + timeObj.getHour() + ":" + timeObj.getMinute();
+    }
 }

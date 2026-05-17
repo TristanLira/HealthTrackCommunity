@@ -1,18 +1,11 @@
 package com.example.healthtrackcommunity;
 
-import com.example.healthtrackcommunity.controls.GlucoseDisplay;
-import com.example.healthtrackcommunity.controls.HeartRateDisplay;
-import com.example.healthtrackcommunity.controls.PressureDisplay;
-import com.example.healthtrackcommunity.controls.WeightDisplay;
+import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
-import config.MetricDAO;
-import config.MonitoringRequestDAO;
-import config.PatientDAO;
-import config.DoctorDAO;
+import com.google.cloud.firestore.pipeline.stages.Database;
+import com.google.firebase.database.*;
+import config.*;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -23,11 +16,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class PatientController {
 
@@ -110,6 +103,9 @@ public class PatientController {
     ObservableList<Metric> glucose;
     ObservableList<Metric> weight;
 
+    ObservableList<Metric> recent;
+
+
     public void initialize() {
         hideAllSections();
         dashboardSection.setManaged(true);
@@ -127,6 +123,9 @@ public class PatientController {
         pressure = pressureDAO.getAll();
         glucose = glucoseDAO.getAll();
         weight = weightDAO.getAll();
+
+        recent = FXCollections.observableArrayList();
+        getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -140,7 +139,8 @@ public class PatientController {
         initMetricDAOs();
         initMetricTypeCombobox();
         initDoctorsComboBox();
-        showMetricDisplays();
+        loadMetricDisplays();
+        loadRecentDisplays();
     }
 
     /***************MOSTRAR SECCIONES***********/
@@ -150,12 +150,6 @@ public class PatientController {
         hideAllSections();
         dashboardSection.setVisible(true);
         dashboardSection.setManaged(true);
-    }
-
-    public void showMetricRegister(ActionEvent actionEvent) {
-        hideAllSections();
-        registerMetricsSection.setVisible(true);
-        registerMetricsSection.setManaged(true);
     }
 
     @FXML
@@ -342,9 +336,9 @@ public class PatientController {
         return new WeightMetric(logged.getId(), height, weight);
     }
 
-    /********************************** agregar displays ******************************************/
+    /********************************** agregar displays a historySection ******************************************/
 
-    private void showMetricDisplays() {
+    private void loadMetricDisplays() {
         loadPressureDisplays();
         loadHeartRateDisplay();
         loadGlucoseDisplay();
@@ -426,6 +420,91 @@ public class PatientController {
 
             }
         });
+    }
+
+
+    /********************************** mostrar las mediciones recientes ******************************************/
+
+    private void getRecentMetrics() {
+        DatabaseReference ref = FirebaseConnection.getDB().getReference("metrics");
+
+        metricQuery(ref.child("pressure"), PressureMetric.class);
+        metricQuery(ref.child("heartRate"), HeartRateMetric.class);
+        metricQuery(ref.child("glucose"), GlucoseMetric.class);
+        metricQuery(ref.child("weight"), WeightMetric.class);
+    }
+
+    private void metricQuery(DatabaseReference ref, Class <? extends Metric> metricClass) {
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Metric m = dataSnapshot.getValue(metricClass);
+                if (isInLastWeek(m.getDateObj())) {
+                    recent.add(m);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Metric m = dataSnapshot.getValue(metricClass);
+                if (recent.contains(m)) {
+                    recent.remove(m);
+                    recent.add(m);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Metric m = dataSnapshot.getValue(metricClass);
+                recent.remove(m);
+            }
+
+            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+
+    private boolean isInLastWeek(LocalDate date) {
+        LocalDate lastWeek = LocalDate.now().minusWeeks(1);
+        return date.isAfter(lastWeek) || date.isEqual(lastWeek);
+    }
+
+    private void loadRecentDisplays() {
+        recent.addListener((ListChangeListener<? super Metric>) change -> {
+
+            while (change.next()) {
+                if (change.wasAdded()) {
+
+                    for (Metric i: change.getAddedSubList()) {
+                        Platform.runLater(() ->
+                                recentMetricsContainer.getChildren().addFirst(getDisplay(i)));
+                    }
+
+                }
+            }
+        });
+    }
+
+    private MetricDisplay getDisplay(Metric m) {
+        MetricDisplay display;
+
+        if (m instanceof PressureMetric) {
+            display = new PressureDisplay((PressureMetric) m);
+        }
+        else if (m instanceof HeartRateMetric) {
+            display = new HeartRateDisplay((HeartRateMetric) m);
+        }
+        else if (m instanceof GlucoseMetric) {
+            display = new GlucoseDisplay((GlucoseMetric) m);
+        }
+        else if (m instanceof WeightMetric) {
+            display = new WeightDisplay((WeightMetric) m);
+        } else {
+            display = new MetricDisplay(m);
+        }
+
+        return display;
     }
 
 
