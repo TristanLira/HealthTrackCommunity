@@ -286,9 +286,10 @@
                 <VBox fx:id="monitoringRequestForm" spacing="20" alignment="CENTER" fillWidth="false" styleClass="recordatorio-card">
 
                     <Label text="Solicitud de seguimiento médico" styleClass="subtitulo-seccion"/>
-                    <Label styleClass="texto-ayuda"
-                            text="Selecciona el médico que realizará tu seguimiento y envía una solicitud. El médico la revisará y decidirá si aceparla o no. Solo un médico puede realizar tu seguimiento a la vez, intenta no mandar multiples solicitudes."
-                           wrapText="true"/>
+
+                    <Label text="Selecciona el médico que realizará tu seguimiento y envía una solicitud. El médico la revisará y decidirá si aceparla o no."/>
+
+                    <Label fx:id="requestInfoLabel"/>
 
                     <GridPane >
                         <columnConstraints>
@@ -307,20 +308,19 @@
                     </Button>
                 </VBox>
 
-                <VBox fx:id="doctorNotesContainer" spacing="10">
-                    <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
-                </VBox>
+                <HBox fx:id="doctorInfoCard" alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card" maxWidth="-Infinity">
+                    <FontIcon iconLiteral="fas-user-md" iconSize="24" styleClass="icon-recordatorio"/>
+                    <Label text="Médico asignado:" styleClass="hora-recordatorio"/>
+                    <Label fx:id="doctorNameLabel" styleClass="label-recordatorio"/>
+                </HBox>
+
+                <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
+
+                <VBox fx:id="doctorNotesContainer" spacing="10"/>
 
             </VBox>
 
         </StackPane>
     </ScrollPane>
-
-    <!--Este VBox es el formulario de registro de métricas, cuando vayan a trabajar en la gui agréguenlo
-    completo a la zona donde necesiten que esté, pero no lo modifiquen-->
-
-
-
-
 
 </GridPane>

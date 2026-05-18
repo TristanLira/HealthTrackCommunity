@@ -216,7 +216,7 @@
 }
 
 .texto-ayuda {
-    -fx-font-size: 13px;
+    -fx-font-size: 15px;
     -fx-text-fill: #8b95c7;
 }
 
@@ -238,4 +238,89 @@
 .icono-menu {
     -fx-icon-color: #ffffff;
     -fx-icon-size: 16px;
+}
+
+
+/**** DISPLAY PARA PACIENTE ****/
+
+/* Contenedor principal del PatientDisplay */
+.patient-display {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #D6E5F2;
+    -fx-border-width: 1;
+    -fx-padding: 14 18;
+    -fx-spacing: 10;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(107,158,199,0.10),
+            8,
+            0.15,
+            0,
+            2
+    );
+}
+
+.patient-display:hover {
+    -fx-background-color: #F7FBFF;
+    -fx-border-color: #B8D4E8;
+}
+
+/* Nombre del paciente */
+.patient-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A5A9C;
+}
+
+/* Correo */
+.patient-email {
+    -fx-font-size: 13px;
+    -fx-text-fill: #8B95C7;
+}
+
+/* Botón eliminar */
+.remove-patient-btn {
+    -fx-background-color: #FDECEC;
+    -fx-text-fill: #D64545;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.remove-patient-btn:hover {
+    -fx-background-color: #F8D6D6;
+}
+
+/* Icono del botón */
+.remove-patient-icon {
+    -fx-icon-color: #D64545;
+    -fx-icon-size: 14px;
+}
+
+/* Botón aceptar solicitud */
+.accept-request-btn {
+    -fx-background-color: #E6F7EC;
+    -fx-text-fill: #2E9E5B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.accept-request-btn:hover {
+    -fx-background-color: #D4F0DE;
+}
+
+/* Icono del botón */
+.accept-request-icon {
+    -fx-icon-color: #2E9E5B;
+    -fx-icon-size: 14px;
 }

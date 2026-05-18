@@ -2,7 +2,6 @@ package com.example.healthtrackcommunity;
 
 import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
-import com.google.cloud.firestore.pipeline.stages.Database;
 import com.google.firebase.database.*;
 import config.*;
 import javafx.application.Platform;
@@ -16,14 +15,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.time.LocalDate;
 
 public class PatientController {
 
+    private static final Logger log = LoggerFactory.getLogger(PatientController.class);
     public ScrollPane mainScrollPane;
     public StackPane mainContent;
     public Label patientNameLabel;
@@ -81,6 +85,9 @@ public class PatientController {
     public VBox monitoringRequestForm;
     public ComboBox<Doctor> doctorsComboBox;
     public Button sendMonitoringRequestBtn;
+    public HBox doctorInfoCard;
+    public Label doctorNameLabel;
+    public Label requestInfoLabel;
 
     //información de pacientes y doctores
     private PatientDAO patientDAO;
@@ -98,11 +105,11 @@ public class PatientController {
     //listas
     ObservableList<Patient> patients;
     ObservableList<Doctor> doctors;
+    ObservableList<MonitoringRequest> requests;
     ObservableList<Metric> heartRate;
     ObservableList<Metric> pressure;
     ObservableList<Metric> glucose;
     ObservableList<Metric> weight;
-
     ObservableList<Metric> recent;
 
 
@@ -123,6 +130,7 @@ public class PatientController {
         pressure = pressureDAO.getAll();
         glucose = glucoseDAO.getAll();
         weight = weightDAO.getAll();
+        requests = requestDAO.getAll();
 
         recent = FXCollections.observableArrayList();
         getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
@@ -130,6 +138,7 @@ public class PatientController {
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
         this.logged = logged;
+        patientNameLabel.setText(logged.getName());
 
         this.patientDAO = dao;
         this.doctorDAO = doctorDAO;
@@ -137,10 +146,68 @@ public class PatientController {
         doctors = doctorDAO.getAll();
 
         initMetricDAOs();
+
+        showDoctorInfo();
+        updateRequestInfo();
+        updatePatientAccount();
+
         initMetricTypeCombobox();
         initDoctorsComboBox();
+
         loadMetricDisplays();
         loadRecentDisplays();
+    }
+
+    private void updateRequestInfo() {
+        requests.addListener((ListChangeListener<MonitoringRequest>) change -> {
+            while(change.next()) {
+                Platform.runLater(() -> showDoctorInfo());
+            }
+        });
+    }
+
+    private void showDoctorInfo() {
+        System.out.println("Tamaño de la lista de request: " + requests.size());
+
+        boolean noDoctor = logged.getDoctorId() == null || logged.getDoctorId().isEmpty();
+
+        String requestInfo = requests.isEmpty() ? "No tienes una solicitud activa" : "Solicitud enviada a " + doctorDAO.get(requests.getFirst().getDoctorId()).getName();
+        requestInfoLabel.setText("(" + requestInfo + ")");
+
+        noDoctorWarning.setVisible(noDoctor);
+        noDoctorWarning.setManaged(noDoctor);
+
+        monitoringRequestForm.setVisible(noDoctor);
+        monitoringRequestForm.setManaged(noDoctor);
+
+        doctorInfoCard.setVisible(!noDoctor);
+        doctorInfoCard.setManaged(!noDoctor);
+
+        if (doctorDAO.get(logged.getDoctorId()) != null) doctorNameLabel.setText(doctorDAO.get(logged.getDoctorId()).toString());
+    }
+
+    private void updatePatientAccount() {
+        FirebaseConnection.getDB().getReference("patients").child(logged.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Patient p = dataSnapshot.getValue(Patient.class);
+
+                //no se si actualizar el paciente completo cause problemas, pero solo actualiza el id del doctor por si acaso
+                logged.setDoctorId(p.getDoctorId());
+
+                //busca y guarda el doctor
+                for (Doctor i: doctors) {
+                    if (i.getId().equals(logged.getDoctorId())) {
+                        monitoring = i;
+                        break;
+                    }
+                }
+
+                Platform.runLater(() -> showDoctorInfo());
+            }
+
+            @Override public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     /***************MOSTRAR SECCIONES***********/
@@ -175,6 +242,7 @@ public class PatientController {
         hideAllSections();
         doctorMonitoringSection.setManaged(true);
         doctorMonitoringSection.setVisible(true);
+        showDoctorInfo();
     }
 
     @FXML
@@ -365,9 +433,42 @@ public class PatientController {
                          * antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas en la GUI*/
                     }
 
+                } else if (change.wasRemoved()) {
+
+                    for (Metric i: change.getRemoved()) {
+                        for (Node j: container.getChildren()) {
+                            if (!(j instanceof MetricDisplay)) continue;
+                            if ( ((MetricDisplay) j).isMetric(i) ) {
+                                Platform.runLater(() -> container.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
+
                 }
             }
         });
+    }
+
+    private MetricDisplay getDisplay(Metric m) {
+        MetricDisplay display;
+
+        if (m instanceof PressureMetric) {
+            display = new PressureDisplay((PressureMetric) m);
+        }
+        else if (m instanceof HeartRateMetric) {
+            display = new HeartRateDisplay((HeartRateMetric) m);
+        }
+        else if (m instanceof GlucoseMetric) {
+            display = new GlucoseDisplay((GlucoseMetric) m);
+        }
+        else if (m instanceof WeightMetric) {
+            display = new WeightDisplay((WeightMetric) m);
+        } else {
+            display = new MetricDisplay(m);
+        }
+
+        return display;
     }
 
 
@@ -429,30 +530,21 @@ public class PatientController {
                                 recentMetricsContainer.getChildren().addFirst(getDisplay(i)));
                     }
 
+                } else if (change.wasRemoved()) {
+
+                    for (Metric i: change.getRemoved()) {
+                        for (Node j: recentMetricsContainer.getChildren()) {
+                            if (!(j instanceof MetricDisplay)) continue;
+                            if ( ((MetricDisplay) j).isMetric(i) ) {
+                                Platform.runLater(() ->
+                                        recentMetricsContainer.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         });
-    }
-
-    private MetricDisplay getDisplay(Metric m) {
-        MetricDisplay display;
-
-        if (m instanceof PressureMetric) {
-            display = new PressureDisplay((PressureMetric) m);
-        }
-        else if (m instanceof HeartRateMetric) {
-            display = new HeartRateDisplay((HeartRateMetric) m);
-        }
-        else if (m instanceof GlucoseMetric) {
-            display = new GlucoseDisplay((GlucoseMetric) m);
-        }
-        else if (m instanceof WeightMetric) {
-            display = new WeightDisplay((WeightMetric) m);
-        } else {
-            display = new MetricDisplay(m);
-        }
-
-        return display;
     }
 
 
@@ -490,6 +582,8 @@ public class PatientController {
                 () -> Platform.runLater(
                         () -> errorAlert("Solicitud no enviada", "La solicitud no fue enviada. Por favor inténtelo de nuevo."))
         );
+
+        showDoctorInfo();
     }
 
 
