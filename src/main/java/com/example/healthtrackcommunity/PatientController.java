@@ -27,7 +27,6 @@ import java.time.LocalDate;
 
 public class PatientController {
 
-    private static final Logger log = LoggerFactory.getLogger(PatientController.class);
     public ScrollPane mainScrollPane;
     public StackPane mainContent;
     public Label patientNameLabel;

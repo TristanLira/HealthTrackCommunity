@@ -65,8 +65,8 @@ public class AuthenticationController {
         patients = patientDAO.getAll();
 
         //DEBUG
-        loginEmailField.setText("tristan.lira.1636@gmail.com");
-        //loginEmailField.setText("24030458@itcelaya.edu.mx");
+        //loginEmailField.setText("tristan.lira.1636@gmail.com");
+        loginEmailField.setText("24030458@itcelaya.edu.mx");
         loginPasswordField.setText("password1");
     }
 
@@ -202,7 +202,7 @@ public class AuthenticationController {
 
         //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
         DoctorController controller = loader.getController();
-        controller.setLoggedUser(doctorDAO, logged);
+        controller.setLoggedUser(doctorDAO, logged, patientDAO);
 
         //obtiene el stage donde está el botón que creó el evento
         Scene currentScene = ((Node) event.getSource()).getScene();

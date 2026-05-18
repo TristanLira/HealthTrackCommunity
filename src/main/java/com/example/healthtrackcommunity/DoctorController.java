@@ -71,6 +71,7 @@ public class DoctorController {
     private ObservableList<Patient> patients;
 
     //lista de todos los pacientes
+    private PatientDAO allPatientsDAO;
     private ObservableList<Patient> unmonitoredPatients;
 
 
@@ -81,9 +82,12 @@ public class DoctorController {
     public void initialize() {
     }
 
-    public void setLoggedUser(DoctorDAO dao, Doctor logged) {
+    public void setLoggedUser(DoctorDAO dao, Doctor logged, PatientDAO allPatientsDAO) {
         this.logged = logged;
         this.doctorDAO = dao;
+
+        this.allPatientsDAO = allPatientsDAO;
+        unmonitoredPatients = allPatientsDAO.getAll();
 
         patientDAO = new PatientDAO(logged);
         patients = patientDAO.getAll();
@@ -94,9 +98,9 @@ public class DoctorController {
         doctorNameLabel.setText("Dr. " + logged.getName());
         doctorSpecializationLabel.setText(logged.getSpecialization());
 
+        //getUnmonitoredPatients();
         showPatients();
         showPendingRequests();
-        getUnmonitoredPatients();
     }
 
     public void getUnmonitoredPatients() {
@@ -181,12 +185,26 @@ public class DoctorController {
     /******************************** SECCIÓN DE PACIENTES *****************************************/
 
     private void showPatients() {
+
+        //agrega las que ya estaban en la gui
+        for (Patient i: patients) {
+            PatientDisplay p = new PatientDisplay(i);
+            addRemoveEvent(p);
+            patientsListContainer.getChildren().add(p);
+        }
+
+        //evento para los futuros pacientes agregados
         patients.addListener((ListChangeListener<Patient>) change -> {
             while(change.next()) {
 
                 if (change.wasAdded()) {
 
                     for (Patient i: change.getAddedSubList()) {
+                        if (i == null) {
+                            System.out.println("Paciente recibido (null)");
+                            continue;
+                        }
+                        System.out.println("Paciente recibido: " + i.getName() + "(" + i.getDoctorId() + ")");
                         PatientDisplay p = new PatientDisplay(i);
                         addRemoveEvent(p);
                         Platform.runLater(() ->
@@ -230,15 +248,31 @@ public class DoctorController {
     /******************************** SECCIÓN DE SOLICITUDES *****************************************/
 
     private void showPendingRequests() {
+        //agregar solicitudes
+        for (MonitoringRequest i: requests) {
+            Patient patient = getUnmonitoredPatient(i.getPatientId());
+            if (patient == null) continue;
+
+            MonitoringRequestDisplay r = new MonitoringRequestDisplay(i, patient);
+            addRequestDisplayEvents(r, patient);
+            requestsContainer.getChildren().add(r);
+        }
+
+        //futuras solicitudes
         requests.addListener((ListChangeListener<MonitoringRequest>) change -> {
             while (change.next()) {
 
                 if (change.wasAdded()) {
-                    System.out.println("NUEVA SOLICITUD RECIBIDA:");
+                    System.out.print("NUEVA SOLICITUD RECIBIDA: ");
 
                     for (MonitoringRequest i: change.getAddedSubList()) {
                         Patient patient = getUnmonitoredPatient(i.getPatientId());
-                        if (patient == null) continue;
+                        if (patient == null) {
+                            System.out.println("SOLICITUD ES NULL");
+                            continue;
+                        }
+
+                        System.out.println(patient.getName() + "(" + patient.getEmail() + ")");
 
                         MonitoringRequestDisplay r = new MonitoringRequestDisplay(i, patient);
                         addRequestDisplayEvents(r, patient);
@@ -271,7 +305,7 @@ public class DoctorController {
 
     private Patient getUnmonitoredPatient(String id) {
         for (Patient i: unmonitoredPatients) {
-            if (i.getId().equals(id)) return i;
+            if (i.getId().equals(id) && i.getDoctorId().isEmpty()) return i;
         }
         return null;
     }

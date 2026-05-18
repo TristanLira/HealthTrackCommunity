@@ -61,7 +61,7 @@ public class MonitoringRequestDAO implements DAO<MonitoringRequest> {
             public void onChildAdded(DataSnapshot snapshot, String s) {
                 MonitoringRequest m = snapshot.getValue(MonitoringRequest.class);
                 requests.add(m);
-                System.out.println("SOLICITUD AGREGADA");
+                //System.out.println("SOLICITUD AGREGADA");
             }
 
             @Override
@@ -94,7 +94,7 @@ public class MonitoringRequestDAO implements DAO<MonitoringRequest> {
         for (MonitoringRequest i: requests) {
             if (i.getId().equals(id)) return i;
         }
-        return null;
+        return null;   
     }
 
     @Override
