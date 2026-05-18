@@ -19,8 +19,8 @@ public class PressureDisplay extends MetricDisplay {
 
         metricTitle.setText("Presión arterial");
 
-        systolic = new Label(p.getSystolic() + " mm Hg");
-        diastolic = new Label(p.getDiastolic() + " mm Hg");
+        systolic = new Label(p.getSystolic() + " mmHg");
+        diastolic = new Label(p.getDiastolic() + " mmHg");
         systolicTitle = new Label("Presión sistólica:");
         diastolicTitle = new Label("Presión diastólica:");
 

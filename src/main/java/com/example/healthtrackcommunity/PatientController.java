@@ -484,7 +484,7 @@ public class PatientController {
     }
 
     private void metricQuery(DatabaseReference ref, Class <? extends Metric> metricClass) {
-        ref.addChildEventListener(new ChildEventListener() {
+        ref.orderByChild("userId").equalTo(logged.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Metric m = dataSnapshot.getValue(metricClass);
