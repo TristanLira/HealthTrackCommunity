@@ -107,15 +107,18 @@ public class PatientDAO implements DAO <Patient> {
 
     @Override
     public void update(Patient p) {
-        if (!patients.contains(p)) return;
+        //if (!patients.contains(p)) return;
         ref.child(p.getId()).setValueAsync(p);
     }
 
     @Override
     public void delete(Patient p) {
-        if (!patients.contains(p)) return;
+        //if (!patients.contains(p)) return;
         ref.child(p.getId()).removeValueAsync();
     }
+
+    /*comenté las validaciones para que un dao de doctor solo recupere la información de sus pacientes, pero aún sea capaz
+    de hacer cambios a pacientes que no son suyos y poder registrarles el doctor al aceptar la solicitud*/
 
 
 

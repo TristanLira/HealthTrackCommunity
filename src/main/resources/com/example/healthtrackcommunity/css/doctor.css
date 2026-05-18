@@ -302,3 +302,25 @@
     -fx-icon-color: #D64545;
     -fx-icon-size: 14px;
 }
+
+/* Botón aceptar solicitud */
+.accept-request-btn {
+    -fx-background-color: #E6F7EC;
+    -fx-text-fill: #2E9E5B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.accept-request-btn:hover {
+    -fx-background-color: #D4F0DE;
+}
+
+/* Icono del botón */
+.accept-request-icon {
+    -fx-icon-color: #2E9E5B;
+    -fx-icon-size: 14px;
+}

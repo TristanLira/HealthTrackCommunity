@@ -46,6 +46,7 @@ public class PatientDisplay extends HBox {
 
         //segunda columna
         HBox h1 = new HBox();
+        h1.setAlignment(Pos.CENTER);
         h1.setSpacing(spacing);
         h1.getChildren().addAll(removeBtn);
 
@@ -70,6 +71,10 @@ public class PatientDisplay extends HBox {
     public boolean displaysPatient(Patient p2) {
         if (p2.getId() == null || p2.getId().isEmpty()) return false;
         return p.getId().equals(p2.getId());
+    }
+
+    public String getPatientId() {
+        return p.getId();
     }
 
     public Button getRemoveBtn() {
