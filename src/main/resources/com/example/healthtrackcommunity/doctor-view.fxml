@@ -120,6 +120,8 @@
                     </Button>
                 </HBox>
 
+                <VBox fx:id="patientsListContainer" spacing="10"/>
+
             </VBox>
 
             <VBox fx:id="pendingRequestsSection" spacing="15" visible="false">
@@ -127,6 +129,8 @@
 
                 <Label text="Pacientes que han solicitado ser atendidos por ti."
                        styleClass="texto-ayuda" wrapText="true"/>
+
+                <VBox fx:id="requestsContainer" fillWidth="false"/>
             </VBox>
 
             <VBox fx:id="patientMetricsSection" spacing="20" visible="false">

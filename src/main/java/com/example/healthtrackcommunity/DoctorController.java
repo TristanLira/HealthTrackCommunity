@@ -1,10 +1,13 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.controls.PatientDisplay;
 import com.example.healthtrackcommunity.models.*;
 import config.DoctorDAO;
 import config.PatientDAO;
 import config.MetricDAO;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,51 +27,34 @@ import java.util.Map;
 
 public class DoctorController {
 
-    /* public Label doctorNameLabel;
-    @FXML public Label doctorSpecializationLabel;
-    @FXML public Label totalPatientsLabel;
-    @FXML public Label activeAlertsLabel;
-    @FXML public TextField searchPatientField;
-    @FXML public VBox dashboardSection;
-    @FXML public VBox patientsListSection;
-    @FXML public VBox pendingRequestsSection;
-    @FXML public VBox patientMetricsSection;
-    @FXML public ComboBox<Patient> patientSelector;
-    @FXML public VBox bloodPressureChartContainer;
-    @FXML public VBox glucoseChartContainer;
-    @FXML public VBox heartRateChartContainer;
-    @FXML public VBox weightChartContainer;
-    @FXML public ScrollPane mainScrollPane;
-    @FXML public StackPane mainContent;
-    public VBox alertPatientsContainer;
-    public Button filterPatientsList;*/
-
-    @FXML private ScrollPane mainScrollPane;
-    @FXML private StackPane mainContent;
-    @FXML private Label doctorNameLabel;
-    @FXML private Label doctorSpecializationLabel;
+    public ScrollPane mainScrollPane;
+    public StackPane mainContent;
+    public Label doctorNameLabel;
+    public Label doctorSpecializationLabel;
 
     //SECCIÓN DE DASHBOARD
-    @FXML private VBox dashboardSection;
-    @FXML private Label totalPatientsLabel;
-    @FXML private Label activeAlertsLabel;
-    @FXML private VBox alertPatientsContainer;
+    public VBox dashboardSection;
+    public Label totalPatientsLabel;
+    public Label activeAlertsLabel;
+    public VBox alertPatientsContainer;
 
     //SECCION DE PACIENTES
-    @FXML private VBox patientsListSection;
-    @FXML private TextField searchPatientField;
-    @FXML private Button filterPatientsList;
+    public VBox patientsListSection;
+    public TextField searchPatientField;
+    public Button filterPatientsList;
+    public VBox patientsListContainer;
 
     //SECCIÓN DE SOLICITUDES
-    @FXML private VBox pendingRequestsSection;
+    public VBox pendingRequestsSection;
+    public VBox requestsContainer;
 
     //SECCIÓN DE MÉTRICAS
-    @FXML private VBox patientMetricsSection;
-    @FXML private ComboBox<Patient> patientSelector;
-    @FXML private VBox bloodPressureChartContainer;
-    @FXML private VBox glucoseChartContainer;
-    @FXML private VBox heartRateChartContainer;
-    @FXML private VBox weightChartContainer;
+    public VBox patientMetricsSection;
+    public ComboBox<Patient> patientSelector;
+    public VBox bloodPressureChartContainer;
+    public VBox glucoseChartContainer;
+    public VBox heartRateChartContainer;
+    public VBox weightChartContainer;
 
 
     //DAOs y doctor loggeado
@@ -76,24 +62,25 @@ public class DoctorController {
     private Doctor logged;
     private PatientDAO patientDAO;
 
+    private ObservableList<Patient> patients;
+
     public void initialize() {
     }
 
     public void setLoggedUser(DoctorDAO dao, Doctor logged) {
         this.logged = logged;
         this.doctorDAO = dao;
-        this.patientDAO = new PatientDAO();
+        this.patientDAO = new PatientDAO(logged);
+
+        patients = patientDAO.getAll();
 
         doctorNameLabel.setText("Dr. " + logged.getName());
         doctorSpecializationLabel.setText(logged.getSpecialization());
+
+        showPatients();
     }
 
-
-    private void showPatientMetrics(Patient patient) {
-        hideAllSections();
-        patientMetricsSection.setVisible(true);
-        patientMetricsSection.setManaged(true);
-    }
+    /******************************** MOSTRAR SECCIONES *****************************************/
 
     public void showDashboard(ActionEvent event) {
         hideAllSections();
@@ -119,11 +106,9 @@ public class DoctorController {
         patientMetricsSection.setManaged(true);
     }
 
-    @FXML
     public void showReports(ActionEvent event) {
     }
 
-    @FXML
     public void logout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("authentication-view.fxml"));
         Parent root = loader.load();
@@ -139,6 +124,41 @@ public class DoctorController {
             i.setVisible(false);
         }
     }
+
+    /******************************** MOSTRAR PACIENTES DEL DOCTOR *****************************************/
+
+    private void showPatients() {
+        patients.addListener((ListChangeListener<Patient>) change -> {
+            while(change.next()) {
+
+                if (change.wasAdded()) {
+
+                    for (Patient i: change.getAddedSubList()) {
+                        PatientDisplay p = new PatientDisplay(i);
+                        Platform.runLater(() ->
+                                patientsListContainer.getChildren().add(p));
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Patient i: change.getRemoved()) {
+                        for (Node j: patientsListContainer.getChildren()) {
+                            if (!(j instanceof PatientDisplay)) continue;
+                            if ( ((PatientDisplay) j).displaysPatient(i) ) {
+                                Platform.runLater(() ->
+                                        patientsListContainer.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+
+    /********************* ALERTAS *******************************/
 
     private void showInfoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

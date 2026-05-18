@@ -1,5 +1,6 @@
 package config;
 
+import com.example.healthtrackcommunity.models.Doctor;
 import com.example.healthtrackcommunity.models.Patient;
 import com.google.firebase.database.*;
 import javafx.collections.FXCollections;
@@ -13,14 +14,31 @@ public class PatientDAO implements DAO <Patient> {
     private final DatabaseReference ref;
     private final ObservableList<Patient> patients;
 
+    private final Doctor d;
+
     public PatientDAO() {
         ref = FirebaseConnection.getDB().getReference("patients");
         patients = FXCollections.observableArrayList();
+        d = null; //no hay doctor, recupera todos los datos
         subscribe();
     }
 
+    //para la vista de doctores, solo recupera los pacientes asignados al doctor
+    public PatientDAO(Doctor d) {
+        ref = FirebaseConnection.getDB().getReference("patients");
+        patients = FXCollections.observableArrayList();
+        this.d = d;
+        subscribe();
+    }
+
+
     private void subscribe() {
-        ref.addChildEventListener(new ChildEventListener() {
+        Query query;
+
+        if (d != null) query = ref.orderByChild("doctorId").equalTo(d.getId());
+        else query = ref;
+
+        query.addChildEventListener(new ChildEventListener() {
             /*el metodo remove usa equals para saber qué objeto eliminar. Ya que en todas las clases modelo un objeto es
             * igual a otro únicamente si su id es mismo, sin importar ningún otro atributo, se puede utilizar remove para
             * manipular la lista independientemente de los cambios realizados al nodo en la base de datos*/
