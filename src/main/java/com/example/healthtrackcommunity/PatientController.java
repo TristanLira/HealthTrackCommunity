@@ -137,8 +137,8 @@ public class PatientController {
         weight = weightDAO.getAll();
         requests = requestDAO.getAll();
 
-        recent = FXCollections.observableArrayList();
-        getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
+        //recent = FXCollections.observableArrayList();
+        //getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -540,52 +540,9 @@ public class PatientController {
 
     /********************************** mostrar las mediciones recientes ******************************************/
 
-    private void getRecentMetrics() {
-        DatabaseReference ref = FirebaseConnection.getDB().getReference("metrics");
-
-        metricQuery(ref.child("pressure"), PressureMetric.class);
-        metricQuery(ref.child("heartRate"), HeartRateMetric.class);
-        metricQuery(ref.child("glucose"), GlucoseMetric.class);
-        metricQuery(ref.child("weight"), WeightMetric.class);
-    }
-
-    private void metricQuery(DatabaseReference ref, Class <? extends Metric> metricClass) {
-        ref.orderByChild("userId").equalTo(logged.getId()).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Metric m = dataSnapshot.getValue(metricClass);
-                if (isInLastWeek(m.getDateObj())) {
-                    recent.add(m);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Metric m = dataSnapshot.getValue(metricClass);
-                if (recent.contains(m)) {
-                    recent.remove(m);
-                    recent.add(m);
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Metric m = dataSnapshot.getValue(metricClass);
-                recent.remove(m);
-            }
-
-            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
-
-
-    private boolean isInLastWeek(LocalDate date) {
-        LocalDate lastWeek = LocalDate.now().minusWeeks(1);
-        return date.isAfter(lastWeek);
-    }
-
     private void loadRecentDisplays() {
+        recent = new RecentMetrics(logged).getRecent(); //obtiene las mediciones recientes
+
         recent.addListener((ListChangeListener<? super Metric>) change -> {
 
             while (change.next()) {
