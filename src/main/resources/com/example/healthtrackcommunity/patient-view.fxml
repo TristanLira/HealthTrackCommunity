@@ -73,7 +73,7 @@
         </Button>
     </VBox>
 
-    <ScrollPane fx:id="mainScrollPane" fitToWidth="true" fitToHeight="true"
+    <ScrollPane fx:id="mainScrollPane" fitToWidth="true" fitToHeight="false"
                 styleClass="area-principal"
                 GridPane.columnIndex="1" >
 

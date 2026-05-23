@@ -290,7 +290,12 @@ public class PatientController {
         hideAllSections();
         chartsSection.setVisible(true);
         chartsSection.setManaged(true);
-        reloadTab(chartsTab);
+
+        /*aunque cada que se detecta una nueva medición en la consulta de mediciones recientes se actualizan los gráficos, a veces no se
+        * cargan todos los datos. Para arreglar eso se vuelven a generar los gráficos entrando a la sección de gráficos. Al generar los
+        * gráficos en ambas situaciones se muestran correctamente siempre, pero se actualizarán en tiempo real si se recibe una nueva métrica*/
+        Thread t = new Thread(() -> generateMetricGraphics());
+        t.start();
     }
 
     public void showDoctorMonitoring(ActionEvent actionEvent) {
@@ -671,6 +676,11 @@ public class PatientController {
         LineChart<String, Number> heartRate = getHeartRateChart(heartRateMetrics);
         LineChart<String, Number> bmi = getBmiChart(bmiMetrics);
 
+        pressure.getStyleClass().add("pressure-chart");
+        glucose.getStyleClass().add("glucose-chart");
+        heartRate.getStyleClass().add("heart-rate-chart");
+        bmi.getStyleClass().add("weight-chart");
+
         Platform.runLater(() -> {
             patientPressureChartContainer.getChildren().clear();
             patientPressureChartContainer.getChildren().add(pressure);
@@ -684,6 +694,7 @@ public class PatientController {
             patientWeightChartContainer.getChildren().clear();
             patientWeightChartContainer.getChildren().add(bmi);
 
+            reloadTab(chartsTab);
         });
     }
 

@@ -48,6 +48,10 @@
 .boton-solicitar {
     -fx-background-color: #9ad3b5;
     -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 6 15;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }
 
 .boton-solicitar:hover {
@@ -73,10 +77,6 @@
     -fx-background-color: #62b38f;
 }
 
-.menu-button:hover {
-    -fx-background-color: #7bb3c8;
-}
-
 .menu-button-logout {
     -fx-background-color: transparent;
     -fx-text-fill: #FFE0E0;
@@ -97,13 +97,16 @@
 }
 
 .titulo-seccion {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
     -fx-text-fill: #4f8d71;
 }
 
 .subtitulo-seccion {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
     -fx-text-fill: #4f8d71;
 }
-
 
 .alerta-warning {
     -fx-background-color: #FFF7E8;
@@ -238,7 +241,6 @@
     -fx-background-color: #73c5a0;
 }
 
-
 .tab:selected .tab-label {
     -fx-text-fill: white;
 }
@@ -266,100 +268,31 @@
     -fx-background-radius: 8;
 }
 
-/* ===========================
-   TABLE VIEW
-=========================== */
-
-.metrics-table {
-    -fx-background-color: white;
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-border-color: #e2e8f0;
-    -fx-padding: 10;
-}
-
-/* Fondo */
-.metrics-table .virtual-flow .clipped-container {
+/* Muy importante para TabPane */
+.tab-pane .tab-content-area {
     -fx-background-color: transparent;
 }
 
-.metrics-table .column-header-background {
-    -fx-background-color: #f8fafc;
-    -fx-background-radius: 16 16 0 0;
+/* Fondo interno del TabPane */
+.tab-pane > .tab-content-area {
+    -fx-background-insets: 0;
 }
 
-.metrics-table .column-header {
-    -fx-background-color: transparent;
-    -fx-padding: 12 10;
-    -fx-border-color: transparent transparent #e5e7eb transparent;
-}
-
-.metrics-table .column-header .label {
-    -fx-text-fill: #334155;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-/* Filas */
-.metrics-table .table-row-cell {
-    -fx-background-color: white;
-    -fx-border-color: transparent transparent #f1f5f9 transparent;
-    -fx-padding: 8;
-}
-
-.metrics-table .table-row-cell:hover {
-    -fx-background-color: #f8fafc;
-}
-
-.metrics-table .table-row-cell:selected {
-    -fx-background-color: #dbeafe;
-}
-
-/* Celdas */
-.metrics-table .table-cell {
-    -fx-text-fill: #475569;
-    -fx-font-size: 13px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-border-color: transparent;
-}
-
-/* Scrollbar limpia */
-.metrics-table .scroll-bar:vertical,
-.metrics-table .scroll-bar:horizontal {
+.area-principal {
     -fx-background-color: transparent;
 }
 
-.metrics-table .thumb {
-    -fx-background-color: #cbd5e1;
-    -fx-background-radius: 10;
+#mainContent {
+    -fx-background-color: #f5faf7;
 }
 
-/* Tabs */
-.metrics-tab-pane .tab-header-area .tab-header-background {
-    -fx-background-color: transparent;
+#mainScrollPane {
+    -fx-background-color: #f5faf7;
 }
 
-.metrics-tab-pane .tab {
-    -fx-background-color: #e2e8f0;
-    -fx-background-radius: 10 10 0 0;
-    -fx-padding: 8 18;
+#mainScrollPane > .viewport {
+    -fx-background-color: #f5faf7;
 }
-
-.metrics-tab-pane .tab:selected {
-    -fx-background-color: #2563eb;
-}
-
-.metrics-tab-pane .tab:selected .tab-label {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
-
-.metrics-table .table-cell {
-    -fx-alignment: CENTER;
-}
-
-
-
 
 /* ===========================
    METRIC DISPLAY CARD
@@ -372,14 +305,7 @@
     -fx-padding: 18;
     -fx-spacing: 12;
 
-    -fx-effect: dropshadow(
-            gaussian,
-            rgba(139,181,214,0.12),
-            12,
-            0.15,
-            0,
-            3
-    );
+    -fx-effect: dropshadow(gaussian, rgba(139,181,214,0.12), 12, 0.15, 0, 3);
 
     -fx-border-width: 0 0 0 6;
 }
@@ -462,6 +388,184 @@
     -fx-scale-y: 1.01;
 }
 
+/* ===========================
+   BASE LINE CHART
+=========================== */
+
+.chart {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-padding: 20;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.06),
+            12,
+            0.15,
+            0,
+            3
+    );
+}
+
+.chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 14;
+}
+
+/* Grid */
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(0,0,0,0.08);
+}
+
+.chart-alternative-row-fill,
+.chart-alternative-column-fill {
+    -fx-fill: transparent;
+}
+
+/* Ejes */
+.axis {
+    -fx-tick-label-fill: #4d555c;
+    -fx-font-size: 13px;
+}
+
+.axis-label {
+    -fx-text-fill: #2F3E46;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.axis-tick-mark,
+.axis-minor-tick-mark {
+    -fx-stroke: #bfc8cc;
+}
+
+.axis-line {
+    -fx-stroke: #d5dfe3;
+}
+
+/* Leyenda */
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #4d555c;
+}
+
+/* Puntos */
+.default-color0.chart-line-symbol {
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+/* Línea */
+.chart-series-line {
+    -fx-stroke-width: 3px;
+}
+
+/* Tooltip opcional */
+.chart-tooltip {
+    -fx-background-radius: 10;
+}
+
+
+/* ===========================
+   HEART RATE
+=========================== */
+
+.heart-rate-chart {
+    -fx-border-color: #fa8989;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.heart-rate-chart .default-color0.chart-series-line {
+    -fx-stroke: #fa8989;
+}
+
+.heart-rate-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #fa8989, white;
+}
+
+.heart-rate-chart .chart-plot-background {
+    -fx-background-color: #fbe0e0;
+}
+
+
+/* ===========================
+   PRESSURE
+=========================== */
+
+.pressure-chart {
+    -fx-border-color: #8BC5D6;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.pressure-chart .default-color0.chart-series-line {
+    -fx-stroke: #8BC5D6;
+}
+.pressure-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #8BC5D6, white;
+}
+
+.pressure-chart .default-color1.chart-series-line {
+    -fx-stroke: #8b95d6;
+}
+.pressure-chart .default-color1.chart-line-symbol {
+    -fx-background-color: #8b95d6, white;
+}
+
+.pressure-chart .chart-plot-background {
+    -fx-background-color: #e5f4f8;
+}
+
+
+/* ===========================
+   GLUCOSE
+=========================== */
+
+.glucose-chart {
+    -fx-border-color: #C9A8E8;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.glucose-chart .default-color0.chart-series-line {
+    -fx-stroke: #C9A8E8;
+}
+
+.glucose-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #C9A8E8, white;
+}
+
+.glucose-chart .chart-plot-background {
+    -fx-background-color: #e8def8;
+}
+
+
+/* ===========================
+   WEIGHT
+=========================== */
+
+.weight-chart {
+    -fx-border-color: #89D1B0;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.weight-chart .default-color0.chart-series-line {
+    -fx-stroke: #89D1B0;
+}
+
+.weight-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #89D1B0, white;
+}
+
+.weight-chart .chart-plot-background {
+    -fx-background-color: #e6f8ef;
+}
 
 
 
