@@ -202,22 +202,30 @@
                 <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="chartsTab">
                     <Tab text="Presión Arterial">
                         <VBox spacing="15">
-                            <VBox fx:id="bloodPressureChartContainer" alignment="CENTER"/>
+                            <ScrollPane fitToWidth="true">
+                                <VBox fx:id="bloodPressureChartContainer" alignment="CENTER"/>
+                            </ScrollPane>
                         </VBox>
                     </Tab>
                     <Tab text="Glucosa">
                         <VBox spacing="15">
-                            <VBox fx:id="glucoseChartContainer" alignment="CENTER"/>
+                            <ScrollPane fitToWidth="true">
+                                <VBox fx:id="glucoseChartContainer" alignment="CENTER"/>
+                            </ScrollPane>
                         </VBox>
                     </Tab>
                     <Tab text="Frecuencia Cardíaca">
                         <VBox spacing="15">
-                            <VBox fx:id="heartRateChartContainer" alignment="CENTER"/>
+                            <ScrollPane fitToWidth="true">
+                                <VBox fx:id="heartRateChartContainer" alignment="CENTER"/>
+                            </ScrollPane>
                         </VBox>
                     </Tab>
                     <Tab text="Peso / IMC">
                         <VBox spacing="15">
-                            <VBox fx:id="weightChartContainer" alignment="CENTER"/>
+                            <ScrollPane fitToWidth="true">
+                                <VBox fx:id="weightChartContainer" alignment="CENTER"/>
+                            </ScrollPane>
                         </VBox>
                     </Tab>
                 </TabPane>

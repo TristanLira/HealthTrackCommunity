@@ -65,7 +65,7 @@ public class AuthenticationController {
         patients = patientDAO.getAll();
 
         //DEBUG
-        //loginEmailField.setText("tristan.lira.1636@gmail.com");
+        loginEmailField.setText("tristan.lira.1636@gmail.com");
         loginEmailField.setText("24030458@itcelaya.edu.mx");
         loginPasswordField.setText("password1");
     }
