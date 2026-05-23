@@ -40,19 +40,24 @@
                 <text>Dashboard</text>
             </Button>
 
-            <Button onAction="#showPatientsList" styleClass="menu-button" maxWidth="Infinity">
-                <graphic><FontIcon iconLiteral="fas-users" styleClass="icono-menu"/></graphic>
-                <text>Mis Pacientes</text>
-            </Button>
-
             <Button onAction="#showPendingRequests" styleClass="menu-button" maxWidth="Infinity">
                 <graphic><FontIcon iconLiteral="fas-user-plus" styleClass="icono-menu"/></graphic>
                 <text>Solicitudes Pendientes</text>
             </Button>
 
+            <Button onAction="#showPatientsList" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-users" styleClass="icono-menu"/></graphic>
+                <text>Mis Pacientes</text>
+            </Button>
+
             <Button onAction="#showPatientMetrics" styleClass="menu-button" maxWidth="Infinity">
-                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
+                <graphic><FontIcon iconLiteral="fas-history" styleClass="icono-menu"/></graphic>
                 <text>Métricas de Pacientes</text>
+            </Button>
+
+            <Button onAction="#showPatientCharts" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
+                <text>Gráficos de Pacientes</text>
             </Button>
 
             <!--Button onAction="#showReports" styleClass="menu-button" maxWidth="Infinity">
@@ -79,6 +84,7 @@
 
         <StackPane fx:id="mainContent" maxHeight="Infinity" styleClass="area-principal">
 
+            <!--SECCIÓN DE DASHBOARD-->
             <VBox fx:id="dashboardSection" spacing="20" visible="true" maxHeight="Infinity">
                 <Label text="Resumen Clínico" styleClass="titulo-seccion"/>
 
@@ -107,15 +113,23 @@
                 </VBox>
             </VBox>
 
+            <!--SECCIÓN DE PACIENTES-->
             <VBox fx:id="patientsListSection" spacing="15" visible="false">
                 <Label text="Mis Pacientes" styleClass="titulo-seccion"/>
 
                 <HBox maxWidth="Infinity" alignment="CENTER" spacing="20">
                     <TextField fx:id="searchPatientField" promptText="Buscar paciente por nombre..."
-                               styleClass="campo-busqueda" HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="filterPatientsList" styleClass="boton-primario">
+                               styleClass="campo-busqueda" HBox.hgrow="ALWAYS" onAction="#filterPatientsList"/>
+
+                    <Button fx:id="filterPatientsListBtn" styleClass="boton-primario" onAction="#filterPatientsList">
                         <graphic>
                             <FontIcon iconLiteral="fas-search" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="removePatientsFilterBtn" styleClass="boton-primario" onAction="#removePatientsFilters">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-trash-alt" styleClass="icono-menu"/>
                         </graphic>
                     </Button>
                 </HBox>
@@ -124,6 +138,7 @@
 
             </VBox>
 
+            <!--SECCIÓN DE SOLICITUDES-->
             <VBox fx:id="pendingRequestsSection" spacing="15" visible="false">
                 <Label text="Solicitudes de seguimiento médico" styleClass="titulo-seccion"/>
 
@@ -133,17 +148,58 @@
                 <VBox fx:id="requestsContainer" spacing="10"/>
             </VBox>
 
+            <!--SECCIÓN DE MÉTRICAS-->
             <VBox fx:id="patientMetricsSection" spacing="20" visible="false">
                 <HBox alignment="CENTER_LEFT" spacing="20">
                     <Label text="Métricas del Paciente" styleClass="titulo-seccion"/>
                 </HBox>
 
-                <HBox spacing="15" alignment="CENTER_LEFT">
-                    <Label text="Seleccionar Paciente:" styleClass="label-seleccion"/>
-                    <ComboBox fx:id="patientSelector" styleClass="combo-paciente" prefWidth="300"/>
+                <HBox spacing="5" alignment="BOTTOM_LEFT">
+                    <Label text="Visualizando al paciente: " styleClass="patient-name"/>
+                    <Label fx:id="currentPatientMetricLabel" styleClass="patient-email" maxWidth="-Infinity"/>
                 </HBox>
 
-                <TabPane tabClosingPolicy="UNAVAILABLE">
+                <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="metricsTab">
+                    <Tab text="Presión Arterial">
+                        <VBox spacing="15">
+                            <VBox fx:id="bloodPressureMetricContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Glucosa">
+                        <VBox spacing="15">
+                            <VBox fx:id="glucoseMetricContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Frecuencia Cardíaca">
+                        <VBox spacing="15">
+                            <VBox fx:id="heartRateMetricContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Peso / IMC">
+                        <VBox spacing="15">
+                            <VBox fx:id="weightMetricContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+                </TabPane>
+
+                <Button styleClass="boton-primario">
+                    <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
+                    <text> Generar Reporte Clínico (PDF)</text>
+                </Button>
+            </VBox>
+
+            <!--SECCIÓN DE GRÁFICOS-->
+            <VBox fx:id="patientChartsSection" spacing="20" visible="false">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Gráficos del Paciente" styleClass="titulo-seccion"/>
+                </HBox>
+
+                <HBox spacing="5" alignment="BOTTOM_LEFT">
+                    <Label text="Visualizando al paciente: " styleClass="patient-name"/>
+                    <Label fx:id="currentPatientChartLabel" styleClass="patient-email" maxWidth="-Infinity"/>
+                </HBox>
+
+                <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="chartsTab">
                     <Tab text="Presión Arterial">
                         <VBox spacing="15">
                             <VBox fx:id="bloodPressureChartContainer" alignment="CENTER"/>
@@ -166,10 +222,10 @@
                     </Tab>
                 </TabPane>
 
-                <Button styleClass="boton-primario">
+                <!--Button styleClass="boton-primario">
                     <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
                     <text> Generar Reporte Clínico (PDF)</text>
-                </Button>
+                </Button-->
             </VBox>
 
         </StackPane>

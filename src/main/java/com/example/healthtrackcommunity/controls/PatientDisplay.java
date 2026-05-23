@@ -21,6 +21,9 @@ public class PatientDisplay extends HBox {
     private Button removeBtn;
     private FontIcon removeBtnIcon;
 
+    private Button visualizeBtn;
+    private FontIcon visualizeBtnIcon;
+
 
     public PatientDisplay(Patient p) {
         super();
@@ -34,10 +37,14 @@ public class PatientDisplay extends HBox {
     private void build() {
         name = new Label(p.getName());
         email = new Label(p.getEmail());
-        removeBtn = new Button(" Eliminar paciente");
 
+        removeBtn = new Button(" Eliminar");
         removeBtnIcon = new FontIcon("fas-user-minus");
         removeBtn.setGraphic(removeBtnIcon);
+
+        visualizeBtn = new Button(" Visualizar");
+        visualizeBtnIcon = new FontIcon("fas-user");
+        visualizeBtn.setGraphic(visualizeBtnIcon);
 
         //primera columna
         VBox v1 = new VBox();
@@ -48,7 +55,7 @@ public class PatientDisplay extends HBox {
         HBox h1 = new HBox();
         h1.setAlignment(Pos.CENTER);
         h1.setSpacing(spacing);
-        h1.getChildren().addAll(removeBtn);
+        h1.getChildren().addAll(visualizeBtn, removeBtn);
 
         //espacios
         Region spacing1 = new Region();
@@ -66,6 +73,10 @@ public class PatientDisplay extends HBox {
 
         removeBtn.getStyleClass().add("remove-patient-btn");
         removeBtnIcon.getStyleClass().add("remove-patient-icon");
+
+        visualizeBtn.getStyleClass().add("accept-request-btn");
+        visualizeBtnIcon.getStyleClass().add("accept-request-icon");
+
     }
 
     public boolean displaysPatient(Patient p2) {
@@ -80,4 +91,17 @@ public class PatientDisplay extends HBox {
     public Button getRemoveBtn() {
         return removeBtn;
     }
+
+    public Button getVisualizeBtn() {
+        return visualizeBtn;
+    }
+
+    public String getPatientName() {
+        return p.getName();
+    }
+
+    public String getPatientEmail() {
+        return p.getEmail();
+    }
+
 }
