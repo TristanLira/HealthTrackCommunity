@@ -80,4 +80,13 @@ public class PatientDisplay extends HBox {
     public Button getRemoveBtn() {
         return removeBtn;
     }
+
+    public String getPatientName() {
+        return p.getName();
+    }
+
+    public String getPatientEmail() {
+        return p.getEmail();
+    }
+
 }

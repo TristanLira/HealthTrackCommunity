@@ -112,10 +112,17 @@
 
                 <HBox maxWidth="Infinity" alignment="CENTER" spacing="20">
                     <TextField fx:id="searchPatientField" promptText="Buscar paciente por nombre..."
-                               styleClass="campo-busqueda" HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="filterPatientsList" styleClass="boton-primario">
+                               styleClass="campo-busqueda" HBox.hgrow="ALWAYS" onAction="#filterPatientsList"/>
+
+                    <Button fx:id="filterPatientsListBtn" styleClass="boton-primario" onAction="#filterPatientsList">
                         <graphic>
                             <FontIcon iconLiteral="fas-search" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="removePatientsFilterBtn" styleClass="boton-primario" onAction="#removePatientsFilters">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-trash-alt" styleClass="icono-menu"/>
                         </graphic>
                     </Button>
                 </HBox>

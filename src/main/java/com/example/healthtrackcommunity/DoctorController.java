@@ -6,28 +6,22 @@ import com.example.healthtrackcommunity.models.*;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.internal.AbstractPlatformErrorHandler;
 import config.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.sql.SQLOutput;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class DoctorController {
@@ -46,7 +40,7 @@ public class DoctorController {
     //SECCION DE PACIENTES
     public VBox patientsListSection;
     public TextField searchPatientField;
-    public Button filterPatientsList;
+    public Button filterPatientsListBtn;
     public VBox patientsListContainer;
 
     //SECCIÓN DE SOLICITUDES
@@ -243,6 +237,46 @@ public class DoctorController {
         if (p == null) return;
         p.setDoctorId("");
         patientDAO.update(p);
+    }
+
+    public void filterPatientsList(ActionEvent event) {
+        String filter = searchPatientField.getText();
+        searchPatientField.clear();
+
+        removeFilters();
+
+        //inicia el filtro en otro hilo para no congelar el de javafx
+        Thread t = new Thread(() -> startFilter(filter));
+        t.start();
+    }
+
+    public void startFilter(String filter) {
+        for (Node i: patientsListContainer.getChildren()) {
+            if (!(i instanceof PatientDisplay)) continue;
+
+            if ( ((PatientDisplay)i).getPatientName().contains(filter) ||
+                    ((PatientDisplay)i).getPatientEmail().contains(filter))
+                continue;
+
+            Platform.runLater(() -> {
+                i.setVisible(false);
+                i.setManaged(false);
+            });
+        }
+    }
+
+    public void removePatientsFilters(ActionEvent event) {
+        Thread t = new Thread(() -> removeFilters());
+        t.start();
+    }
+
+    public void removeFilters() {
+        for (Node i: patientsListContainer.getChildren()) {
+            Platform.runLater(() -> {
+                i.setVisible(true);
+                i.setManaged(true);
+            });
+        }
     }
 
     /******************************** SECCIÓN DE SOLICITUDES *****************************************/
