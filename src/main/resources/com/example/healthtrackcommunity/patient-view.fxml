@@ -219,7 +219,7 @@
             <VBox fx:id="historySection" spacing="20" visible="false">
                 <Label text="Mi Historial Clínico" styleClass="titulo-seccion"/>
 
-                <TabPane tabClosingPolicy="UNAVAILABLE">
+                <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="historyTab">
 
                     <Tab text="Presión Arterial">
                         <VBox fx:id="historyPressureContainer" spacing="15">

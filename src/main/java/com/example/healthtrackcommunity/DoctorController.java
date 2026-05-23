@@ -1,15 +1,9 @@
 package com.example.healthtrackcommunity;
 
-import com.example.healthtrackcommunity.controls.MonitoringRequestDisplay;
-import com.example.healthtrackcommunity.controls.PatientDisplay;
+import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.internal.AbstractPlatformErrorHandler;
 import config.*;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,7 +43,17 @@ public class DoctorController {
 
     //SECCIÓN DE MÉTRICAS
     public VBox patientMetricsSection;
-    public ComboBox<Patient> patientSelector;
+    public TabPane metricsTab;
+    public Label currentPatientMetricLabel;
+    public VBox bloodPressureMetricContainer;
+    public VBox glucoseMetricContainer;
+    public VBox heartRateMetricContainer;
+    public VBox weightMetricContainer;
+
+    //SECCIÓN DE GRAFICOS
+    public VBox patientChartsSection;
+    public TabPane chartsTab;
+    public Label currentPatientChartLabel;
     public VBox bloodPressureChartContainer;
     public VBox glucoseChartContainer;
     public VBox heartRateChartContainer;
@@ -65,13 +69,18 @@ public class DoctorController {
     private ObservableList<Patient> patients;
 
     //lista de todos los pacientes
-    private PatientDAO allPatientsDAO;
     private ObservableList<Patient> unmonitoredPatients;
-
 
     //solicitudes
     private MonitoringRequestDAO requestDAO;
     private ObservableList<MonitoringRequest> requests;
+
+    //paciente visualizado
+    private Patient current;
+    private MetricDAO currentPressureDAO;
+    private MetricDAO currentGlucoseDAO;
+    private MetricDAO currentHeartRateDAO;
+    private MetricDAO currentWeightDAO;
 
     public void initialize() {
     }
@@ -80,7 +89,6 @@ public class DoctorController {
         this.logged = logged;
         this.doctorDAO = dao;
 
-        this.allPatientsDAO = allPatientsDAO;
         unmonitoredPatients = allPatientsDAO.getAll();
 
         patientDAO = new PatientDAO(logged);
@@ -92,43 +100,12 @@ public class DoctorController {
         doctorNameLabel.setText("Dr. " + logged.getName());
         doctorSpecializationLabel.setText(logged.getSpecialization());
 
+        currentPatientMetricLabel.setText("Sin paciente seleccionado.");
+        currentPatientChartLabel.setText("Sin paciente seleccionado.");
+
         //getUnmonitoredPatients();
         showPatients();
         showPendingRequests();
-    }
-
-    public void getUnmonitoredPatients() {
-        unmonitoredPatients = FXCollections.observableArrayList();
-
-        //use una query sencilla en vez de un dao para evitar complejidad
-        FirebaseConnection.getDB()
-                .getReference("patients")
-                .orderByChild("doctorId")
-                .equalTo("")
-                .addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String s) {
-                Patient p = snapshot.getValue(Patient.class);
-                unmonitoredPatients.add(p);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String s) {
-                Patient p = snapshot.getValue(Patient.class);
-                unmonitoredPatients.remove(p);
-                unmonitoredPatients.add(p);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
-                Patient p = snapshot.getValue(Patient.class);
-                unmonitoredPatients.remove(p);
-            }
-
-            @Override public void onChildMoved(DataSnapshot snapshot, String s) {}
-            @Override public void onCancelled(DatabaseError databaseError) {}
-        });
     }
 
     /******************************** MOSTRAR SECCIONES *****************************************/
@@ -157,6 +134,12 @@ public class DoctorController {
         patientMetricsSection.setManaged(true);
     }
 
+    public void showPatientCharts(ActionEvent event) {
+        hideAllSections();
+        patientChartsSection.setVisible(true);
+        patientChartsSection.setManaged(true);
+    }
+
     public void showReports(ActionEvent event) {
     }
 
@@ -176,6 +159,12 @@ public class DoctorController {
         }
     }
 
+    private void reloadTab(TabPane pane) {
+        Tab selected = pane.getSelectionModel().getSelectedItem();
+        pane.getSelectionModel().clearSelection();
+        pane.getSelectionModel().select(selected);
+    }
+
     /******************************** SECCIÓN DE PACIENTES *****************************************/
 
     private void showPatients() {
@@ -184,6 +173,7 @@ public class DoctorController {
         for (Patient i: patients) {
             PatientDisplay p = new PatientDisplay(i);
             addRemoveEvent(p);
+            addVisualizeEvent(p);
             patientsListContainer.getChildren().add(p);
         }
 
@@ -201,6 +191,7 @@ public class DoctorController {
                         System.out.println("Paciente recibido: " + i.getName() + "(" + i.getDoctorId() + ")");
                         PatientDisplay p = new PatientDisplay(i);
                         addRemoveEvent(p);
+                        addVisualizeEvent(p);
                         Platform.runLater(() ->
                                 patientsListContainer.getChildren().add(p));
                     }
@@ -238,6 +229,9 @@ public class DoctorController {
         p.setDoctorId("");
         patientDAO.update(p);
     }
+
+
+    //FILTROS
 
     public void filterPatientsList(ActionEvent event) {
         String filter = searchPatientField.getText();
@@ -277,6 +271,90 @@ public class DoctorController {
                 i.setManaged(true);
             });
         }
+    }
+
+    //VISUALIZAR
+
+    //este evento cargará todas las métricas de los pacientes
+    private void addVisualizeEvent(PatientDisplay p) {
+        p.getVisualizeBtn().setOnAction(event -> {
+            current = patientDAO.get(p.getPatientId());
+            currentPatientMetricLabel.setText(current.getName() + " (" + current.getEmail() + ")");
+
+            //iniciar los daos
+            currentPressureDAO = new MetricDAO(current, MetricDAO.PRESSURE);
+            currentGlucoseDAO = new MetricDAO(current, MetricDAO.GLUCOSE);
+            currentHeartRateDAO = new MetricDAO(current, MetricDAO.HEART_RATE);
+            currentWeightDAO = new MetricDAO(current, MetricDAO.WEIGHT);
+
+            //limpiar los containers
+            bloodPressureMetricContainer.getChildren().clear();
+            glucoseMetricContainer.getChildren().clear();
+            heartRateMetricContainer.getChildren().clear();
+            weightMetricContainer.getChildren().clear();
+
+            //inicializar los eventos para agregar los displays
+            loadMetricDisplay(currentPressureDAO.getAll(), bloodPressureMetricContainer, PressureMetric.class);
+            loadMetricDisplay(currentGlucoseDAO.getAll(), glucoseMetricContainer, GlucoseMetric.class);
+            loadMetricDisplay(currentHeartRateDAO.getAll(), heartRateMetricContainer, HeartRateMetric.class);
+            loadMetricDisplay(currentWeightDAO.getAll(), weightMetricContainer, WeightMetric.class);
+        });
+    }
+
+    private void loadMetricDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        list.addListener((ListChangeListener<? super Metric>) change -> {
+
+            while (change.next()) {
+                if (change.wasAdded()) {
+
+                    for (Metric i: change.getAddedSubList()) {
+                        if (i.getClass() != metricClass) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        MetricDisplay display = getMetricDisplay(i);
+                        display.hideTitle();
+                        Platform.runLater(() -> {
+                            container.getChildren().addFirst(display);
+                            reloadTab(metricsTab);
+                        });
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las más
+                         * antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas en la GUI*/
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Metric i: change.getRemoved()) {
+                        for (Node j: container.getChildren()) {
+                            if (!(j instanceof MetricDisplay)) continue;
+                            if ( ((MetricDisplay) j).isMetric(i) ) {
+                                Platform.runLater(() -> container.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    private MetricDisplay getMetricDisplay(Metric m) {
+        MetricDisplay display;
+
+        if (m instanceof PressureMetric) {
+            display = new PressureDisplay((PressureMetric) m);
+        }
+        else if (m instanceof HeartRateMetric) {
+            display = new HeartRateDisplay((HeartRateMetric) m);
+        }
+        else if (m instanceof GlucoseMetric) {
+            display = new GlucoseDisplay((GlucoseMetric) m);
+        }
+        else if (m instanceof WeightMetric) {
+            display = new WeightDisplay((WeightMetric) m);
+        } else {
+            display = new MetricDisplay(m);
+        }
+
+        return display;
     }
 
     /******************************** SECCIÓN DE SOLICITUDES *****************************************/

@@ -41,6 +41,7 @@ public class PatientController {
 
     //historial de mediciones
     public VBox historySection;
+    public TabPane historyTab;
     public VBox historyPressureContainer;
     public VBox historyGlucoseContainer;
     public VBox historyHeartRateContainer;
@@ -261,6 +262,12 @@ public class PatientController {
         }
     }
 
+    private void reloadTab(TabPane pane) {
+        Tab selected = pane.getSelectionModel().getSelectedItem();
+        pane.getSelectionModel().clearSelection();
+        pane.getSelectionModel().select(selected);
+    }
+
     /*************************Registro de metricas******************************/
 
     private void initMetricTypeCombobox() {
@@ -427,7 +434,10 @@ public class PatientController {
                         if (i.getClass() != metricClass) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
                         MetricDisplay display = getDisplay(i);
                         display.hideTitle();
-                        Platform.runLater(() -> container.getChildren().addFirst(display));
+                        Platform.runLater(() -> {
+                            container.getChildren().addFirst(display);
+                            reloadTab(historyTab);
+                        });
                         /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las más
                          * antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas en la GUI*/
                     }
