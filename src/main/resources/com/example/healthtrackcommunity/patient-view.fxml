@@ -8,7 +8,7 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.healthtrackcommunity.PatientController"
-          stylesheets="@css/patient.css" maxHeight="Infinity">
+          stylesheets="@css/patient2.css" maxHeight="Infinity">
 
     <rowConstraints>
         <RowConstraints vgrow="ALWAYS"/>

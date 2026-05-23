@@ -1,0 +1,468 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #eef5f1;
+    -fx-font-size: 15;
+}
+
+.label {
+    -fx-font-size: 15;
+    -fx-text-fill: #486255;
+}
+
+.menu-lateral {
+    -fx-background-color: #73c5a0;
+    -fx-border-color: #b9dcca;
+    -fx-border-width: 0 1 0 0;
+}
+
+.icon-perfil {
+    -fx-icon-color: #FFFFFF;
+}
+
+.nombre-paciente {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+.rol-usuario {
+    -fx-font-size: 12px;
+    -fx-text-fill: #d9eee3;
+}
+
+.icon-doctor {
+    -fx-icon-color: #d9eee3;
+}
+
+.label-doctor {
+    -fx-font-size: 13px;
+    -fx-text-fill: #d9eee3;
+}
+
+.nombre-doctor-asignado {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecfaf3;
+}
+
+.boton-solicitar {
+    -fx-background-color: #9ad3b5;
+    -fx-text-fill: #FFFFFF;
+}
+
+.boton-solicitar:hover {
+    -fx-background-color: #62b38f;
+}
+
+.separador-menu {
+    -fx-background-color: #b9dcca;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: #62b38f;
+}
+
+.menu-button:hover {
+    -fx-background-color: #7bb3c8;
+}
+
+.menu-button-logout {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFE0E0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button-logout:hover {
+    -fx-background-color: #62b38f;
+}
+
+.area-principal {
+    -fx-background-color: #f5faf7;
+}
+
+.titulo-seccion {
+    -fx-text-fill: #4f8d71;
+}
+
+.subtitulo-seccion {
+    -fx-text-fill: #4f8d71;
+}
+
+
+.alerta-warning {
+    -fx-background-color: #FFF7E8;
+    -fx-border-color: #F5E6C8;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+}
+
+.icon-warning {
+    -fx-icon-color: #f46060;
+}
+
+.texto-warning {
+    -fx-font-size: 14px;
+    -fx-text-fill: #e85050;
+    -fx-font-weight: bold;
+}
+
+.boton-warning {
+    -fx-background-color: #f46060;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 5 15;
+    -fx-font-size: 12px;
+}
+
+.boton-warning:hover {
+    -fx-background-color: #e84040;
+}
+
+.alertas-card {
+    -fx-background-color: #FFF7F0;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-border-color: #FFE8D0;
+    -fx-border-radius: 16;
+}
+
+.subtitulo-alerta {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e85050;
+}
+
+.texto-alerta {
+    -fx-font-size: 14px;
+    -fx-text-fill: #a06060;
+}
+
+.metricas-recientes {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(115,197,160,0.10), 8, 0.1, 0, 2);
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.subtitulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5a9f7d;
+}
+
+.recordatorio-card {
+    -fx-background-color: #edf7f1;
+    -fx-background-radius: 16;
+    -fx-padding: 15;
+    -fx-border-color: #d5e5dc;
+    -fx-border-radius: 16;
+}
+
+.icon-recordatorio {
+    -fx-icon-color: #73c5a0;
+}
+
+.label-recordatorio {
+    -fx-font-size: 14px;
+    -fx-text-fill: #5a9f7d;
+}
+
+.hora-recordatorio {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4f8d71;
+}
+
+.boton-primario {
+    -fx-background-color: #73c5a0;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #62b38f;
+}
+
+.boton-secundario {
+    -fx-background-color: #dcefe5;
+    -fx-text-fill: #4f8d71;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-font-size: 13px;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #cde7d8;
+}
+
+.text-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #d5e5dc;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8 12;
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: #e4f0e8;
+    -fx-padding: 10 20;
+}
+
+.tab:selected {
+    -fx-background-color: #73c5a0;
+}
+
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.icono-menu {
+    -fx-icon-color: #ffffff;
+    -fx-icon-size: 16px;
+}
+
+.estado-solicitud {
+    -fx-font-size: 12px;
+    -fx-text-fill: #d9eee3;
+    -fx-font-style: italic;
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #d5e5dc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* ===========================
+   TABLE VIEW
+=========================== */
+
+.metrics-table {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #e2e8f0;
+    -fx-padding: 10;
+}
+
+/* Fondo */
+.metrics-table .virtual-flow .clipped-container {
+    -fx-background-color: transparent;
+}
+
+.metrics-table .column-header-background {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 16 16 0 0;
+}
+
+.metrics-table .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 12 10;
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+}
+
+.metrics-table .column-header .label {
+    -fx-text-fill: #334155;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Filas */
+.metrics-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+    -fx-padding: 8;
+}
+
+.metrics-table .table-row-cell:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.metrics-table .table-row-cell:selected {
+    -fx-background-color: #dbeafe;
+}
+
+/* Celdas */
+.metrics-table .table-cell {
+    -fx-text-fill: #475569;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent;
+}
+
+/* Scrollbar limpia */
+.metrics-table .scroll-bar:vertical,
+.metrics-table .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.metrics-table .thumb {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 10;
+}
+
+/* Tabs */
+.metrics-tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.metrics-tab-pane .tab {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 8 18;
+}
+
+.metrics-tab-pane .tab:selected {
+    -fx-background-color: #2563eb;
+}
+
+.metrics-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.metrics-table .table-cell {
+    -fx-alignment: CENTER;
+}
+
+
+
+
+/* ===========================
+   METRIC DISPLAY CARD
+=========================== */
+
+.metric-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-padding: 18;
+    -fx-spacing: 12;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(139,181,214,0.12),
+            12,
+            0.15,
+            0,
+            3
+    );
+
+    -fx-border-width: 0 0 0 6;
+}
+
+/* ===========================
+   TIPOS DE MÉTRICAS
+=========================== */
+
+/* Frecuencia cardiaca */
+.metric-card-heart-rate {
+    -fx-border-color: #fa8989;
+    -fx-background-color: #fbe0e0;
+}
+
+/* Presión arterial */
+.metric-card-pressure {
+    -fx-border-color: #8BC5D6;
+    -fx-background-color: #e5f4f8;
+}
+
+/* Glucosa */
+.metric-card-glucose {
+    -fx-border-color: #C9A8E8;
+    -fx-background-color: #e8def8;
+}
+
+/* Peso / IMC */
+.metric-card-weight {
+    -fx-border-color: #89D1B0;
+    -fx-background-color: #e6f8ef;
+}
+
+/* ===========================
+   TEXTOS GENERALES
+=========================== */
+
+/* Título general de la tarjeta */
+.metric-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: #6aabc7;*/
+    -fx-text-fill: #2F3E46;
+}
+
+/* Etiquetas:
+   Fecha de registro, Hora, etc */
+.metric-field-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: #7BAFC5;*/
+    -fx-text-fill: #4d555c;
+}
+
+/* Valores */
+.metric-field-value {
+    -fx-font-size: 15px;
+    /*-fx-font-weight: bold;*/
+    /*-fx-text-fill: #8A98A3;*/
+    -fx-text-fill: #4d555c;
+}
+
+/* Contenedor interno */
+.metric-content {
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 14;
+}
+
+/* Hover suave */
+.metric-card:hover {
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(139,181,214,0.18),
+            16,
+            0.2,
+            0,
+            4
+    );
+
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+
+
+
+
