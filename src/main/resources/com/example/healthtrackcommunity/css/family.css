@@ -3,6 +3,22 @@
     -fx-background-color: #f0f9e8;
 }
 
+.area-principal {
+    -fx-background-color: transparent;
+}
+
+#mainContent {
+    -fx-background-color: #f0f9e8;
+}
+
+#mainScrollPane {
+    -fx-background-color: #f0f9e8;
+}
+
+#mainScrollPane > .viewport {
+    -fx-background-color: #f0f9e8;
+}
+
 .menu-lateral {
     -fx-background-color: #b8d9a6;
     -fx-border-color: #c8e0b6;

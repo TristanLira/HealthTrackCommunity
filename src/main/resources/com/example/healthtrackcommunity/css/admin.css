@@ -64,6 +64,12 @@
     -fx-text-fill: #7b2f35;
 }
 
+.subtitulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7b2f35;
+}
+
 /* ===== TARJETAS ===== */
 
 .tarjeta-resumen {
@@ -140,4 +146,12 @@
 
 .icono-panel {
     -fx-icon-color: #9e3d44;
+}
+
+.boton-primario {
+    -fx-background-color: #9e3d44;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-font-weight: bold;
 }

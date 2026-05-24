@@ -21,7 +21,8 @@ public class FamilyController {
     //dashboard
     public VBox dashboardSection;
     public Label patientCountLabel;
-    public Label healthAlertLabel;
+    public Label lastAlertLabel;
+    public VBox alertsContainer;
     
     //pacientes
     public VBox patientsListSection;

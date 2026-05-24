@@ -115,25 +115,46 @@
                         <Label fx:id="pendingDoctorsLabel" text="0" styleClass="numero-grande"/>
                     </VBox>
                 </HBox>
-            </VBox>
 
-            <!-- sección de doctores pendientes -->
-            <VBox fx:id="pendingDoctorsSection" spacing="20" visible="false">
-                <Label text="Solicitudes de Registro de Doctores" styleClass="titulo-seccion"/>
-                <VBox fx:id="pendingDoctorsContainer" spacing="10"/>
+                <VBox fx:id="pendingDoctorsSection" spacing="20">
+                    <Label text="Solicitudes de Registro de Doctores" styleClass="subtitulo"/>
+                    <VBox fx:id="pendingDoctorsContainer" spacing="10"/>
+                </VBox>
             </VBox>
 
             <!-- sección de doctores -->
             <VBox fx:id="allDoctorsSection" spacing="20" visible="false">
                 <Label text="Directorio de Doctores" styleClass="titulo-seccion"/>
-                <TextField fx:id="searchDoctorField" promptText="Buscar doctor..."/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchDoctorField" promptText="Buscar doctor..." onAction="#filterDoctors" HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#filterDoctors" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-search" styleClass="icono-menu"/></graphic>
+                    </Button>
+                    <Button onAction="#clearDoctorFilters" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-eraser" styleClass="icono-menu"/></graphic>
+                    </Button>
+                </HBox>
+
                 <VBox fx:id="allDoctorsContainer" spacing="5"/>
             </VBox>
 
             <!-- sección de pacientes -->
             <VBox fx:id="allPatientsSection" spacing="20" visible="false">
                 <Label text="Directorio de Pacientes" styleClass="titulo-seccion"/>
-                <TextField fx:id="searchPatientField" promptText="Buscar paciente..."/>
+
+
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchPatientField" promptText="Buscar paciente..." onAction="#filterPatients" HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#filterPatients" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-search" styleClass="icono-menu"/></graphic>
+                    </Button>
+                    <Button onAction="#clearPatientFilters" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-eraser" styleClass="icono-menu"/></graphic>
+                    </Button>
+                </HBox>
+
                 <VBox fx:id="allPatientsContainer" spacing="5"/>
             </VBox>
 

@@ -82,4 +82,19 @@ public class AdminController {
         stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
         stage.show();
     }
+
+    /******************************* SECCIÓN DE DOCTORES *****************************************/
+
+    public void filterDoctors(ActionEvent actionEvent) {
+    }
+
+    public void clearDoctorFilters(ActionEvent actionEvent) {
+    }
+
+    /******************************* SECCIÓN DE DOCTORES *****************************************/
+    public void filterPatients(ActionEvent actionEvent) {
+    }
+
+    public void clearPatientFilters(ActionEvent actionEvent) {
+    }
 }

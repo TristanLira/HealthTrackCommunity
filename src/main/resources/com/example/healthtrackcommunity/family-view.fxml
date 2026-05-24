@@ -42,10 +42,6 @@
                 <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
                 <text>Métricas y Gráficos</text>
             </Button>
-            <Button onAction="#showAddPatient" styleClass="menu-button" maxWidth="Infinity">
-                <graphic><FontIcon iconLiteral="fas-user-plus" styleClass="icono-menu"/></graphic>
-                <text>Agregar Paciente</text>
-            </Button>
         </VBox>
         <Separator styleClass="separador-menu"/>
         <Button onAction="#logout" styleClass="menu-button">
@@ -63,13 +59,31 @@
             <!-- SECCIÓN DE DASHBOARD -->
             <VBox fx:id="dashboardSection" spacing="20">
                 <Label text="Bienvenido, cuidador" styleClass="titulo-seccion"/>
+
+                <VBox alignment="CENTER" fillWidth="false">
+                    <VBox styleClass="info-card" spacing="15" alignment="CENTER">
+                        <Label text="Agregar Paciente" styleClass="subtitulo"/>
+                        <GridPane hgap="15" vgap="15" maxWidth="-Infinity" >
+                            <Label text="Email del paciente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="ejemplo@correo.com"/>
+                            <Label text="Contraseña:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <PasswordField fx:id="patientPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        </GridPane>
+                        <Button onAction="#addPatient" styleClass="boton-primario">
+                            <graphic><FontIcon iconLiteral="fas-save" styleClass="icono-menu"/></graphic> Guardar
+                        </Button>
+                    </VBox>
+                </VBox>
+
                 <VBox styleClass="info-card">
                     <Label text="Pacientes a tu cargo:" styleClass="subtitulo"/>
                     <Label fx:id="patientCountLabel" text="0" styleClass="numero-grande"/>
                 </VBox>
+
                 <VBox styleClass="info-card">
                     <Label text="Últimas alertas" styleClass="subtitulo"/>
                     <Label fx:id="lastAlertLabel" text="Sin alertas recientes" wrapText="true"/>
+                    <VBox fx:id="alertsContainer"/>
                 </VBox>
             </VBox>
 
@@ -79,10 +93,10 @@
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <TextField fx:id="searchPatientField" promptText="Buscar por nombre o email" HBox.hgrow="ALWAYS"/>
                     <Button onAction="#filterPatients" styleClass="boton-primario">
-                        <graphic><FontIcon iconLiteral="fas-search"/></graphic>
+                        <graphic><FontIcon iconLiteral="fas-search" styleClass="icono-menu"/></graphic>
                     </Button>
-                    <Button onAction="#clearFilter" styleClass="boton-secundario">
-                        <graphic><FontIcon iconLiteral="fas-eraser"/></graphic>
+                    <Button onAction="#clearFilter" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-eraser" styleClass="icono-menu"/></graphic>
                     </Button>
                 </HBox>
                 <VBox fx:id="patientsContainer" spacing="10"/>
@@ -124,27 +138,6 @@
                         <VBox fx:id="weightChartContainer" alignment="CENTER"/>
                     </Tab>
                 </TabPane>
-            </VBox>
-
-            <!-- SECCIÓN DE AGREGAR PACIENTE -->
-            <VBox fx:id="addPatientSection" spacing="20" visible="false">
-                <Label text="Agregar Paciente" styleClass="titulo-seccion"/>
-
-                <VBox alignment="CENTER_LEFT" fillWidth="false">
-                    <GridPane hgap="15" vgap="15" maxWidth="-Infinity" styleClass="info-card">
-                        <Label text="Email del paciente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="ejemplo@correo.com"/>
-                        <Label text="Contraseña:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <PasswordField fx:id="patientPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    </GridPane>
-                </VBox>
-
-                <HBox spacing="20">
-                    <Button onAction="#addPatient" styleClass="boton-primario">
-                        <graphic><FontIcon iconLiteral="fas-save"/></graphic> Guardar
-                    </Button>
-                    <Button onAction="#cancelAddPatient" styleClass="boton-secundario">Cancelar</Button>
-                </HBox>
             </VBox>
 
         </StackPane>
