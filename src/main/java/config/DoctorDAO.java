@@ -104,7 +104,13 @@ public class DoctorDAO implements DAO <Doctor> {
         ref.child(d.getId()).removeValueAsync();
     }
 
-
+    public ObservableList<Doctor> getPendingDoctors() {
+        ObservableList<Doctor> pending = FXCollections.observableArrayList();
+        for (Doctor d : doctors) {
+            if (!d.isApproved()) pending.add(d);
+        }
+        return pending;
+    }
 
     /* FUNCIONES CON CALLBACKS */
 
@@ -121,6 +127,7 @@ public class DoctorDAO implements DAO <Doctor> {
             return;
         }
 
+        d.setApproved(false);
         DatabaseReference pushed = ref.push();
         d.setId(pushed.getKey());
         pushed.setValue(d, new DatabaseReference.CompletionListener() {
@@ -161,4 +168,7 @@ public class DoctorDAO implements DAO <Doctor> {
                 password.length() >= 6 &&
                 password.length() <= 24;
     }
+
+
+
 }

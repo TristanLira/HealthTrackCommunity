@@ -58,6 +58,8 @@ public class Doctor {
         this.specialization = specialization;
     }
 
+    private boolean approved;
+
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
@@ -73,4 +75,8 @@ public class Doctor {
     public String toString() {
         return name + " (" + specialization + ")";
     }
+
+    public boolean isApproved() { return approved; }
+
+    public void setApproved(boolean approved) { this.approved = approved; }
 }

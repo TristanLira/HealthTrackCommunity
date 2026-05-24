@@ -1,8 +1,12 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.models.Admin;
 import com.example.healthtrackcommunity.models.Doctor;
+import com.example.healthtrackcommunity.models.FamilyMember;
 import com.example.healthtrackcommunity.models.Patient;
+import config.AdminDAO;
 import config.DoctorDAO;
+import config.FamilyMemberDAO;
 import config.PatientDAO;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,12 +54,19 @@ public class AuthenticationController {
     public PasswordField loginPasswordField;
     public Button loginBtn;
 
+    //para login del admin y el familiar.
+    private FamilyMemberDAO familyMemberDAO;
+    private AdminDAO adminDAO;
+    private ObservableList<FamilyMember> familyMembers;
+    private ObservableList<Admin> admins;
+
     //DAOS
     DoctorDAO doctorDAO;
     PatientDAO patientDAO;
 
     ObservableList<Doctor> doctors;
     ObservableList<Patient> patients;
+    private Object FamilyMember;
 
     public void initialize() {
         showForm(userLoginForm);
@@ -63,6 +74,10 @@ public class AuthenticationController {
         doctorDAO = new DoctorDAO();
         doctors = doctorDAO.getAll();
         patients = patientDAO.getAll();
+        familyMemberDAO = new FamilyMemberDAO();
+        adminDAO = new AdminDAO();
+        familyMembers = familyMemberDAO.getAll();
+        admins = adminDAO.getAll();
 
         //DEBUG
         loginEmailField.setText("tristan.lira.1636@gmail.com");
@@ -176,6 +191,26 @@ public class AuthenticationController {
             if (i.getEmail().equals(email) && i.getPassword().equals(password)) pLogged = i;
         }
 
+        //busca la cuenta del admin.
+        Admin adminLogged = null;
+        for (Admin a : admins) {
+            if (a.getEmail().equals(email) && a.getPassword().equals(password)) adminLogged = a;
+        }
+        if (adminLogged != null) {
+            loadAdminView(event, adminLogged);
+            return;
+        }
+
+        //busca la cuenta del familiar.
+        FamilyMember fmLogged = null;
+        for (FamilyMember fm : familyMembers) {
+            if (fm.getEmail().equals(email) && fm.getPassword().equals(password)) fmLogged = fm;
+        }
+        if (fmLogged != null) {
+            loadFamilyView(event, fmLogged);
+            return;
+        }
+
         if (dLogged == null && pLogged == null) {
             errorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
             return;
@@ -229,6 +264,41 @@ public class AuthenticationController {
         //newScene.getStylesheets().add(getClass().getResource("css/patient.css").toExternalForm());
         stage.setScene(newScene);
         stage.show();
+    }
+
+    private void loadAdminView(ActionEvent event, Admin logged) throws IOException {
+        //cargar el fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
+        Parent root = loader.load();
+
+        //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
+        AdminController controller = loader.getController();
+        controller.setLoggedUser(adminDAO, logged, patientDAO, doctorDAO);
+
+        //obtiene el stage donde está el botón que creó el evento
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        Stage stage = (Stage) currentScene.getWindow();
+        Scene newScene = new Scene(root, currentScene.getWidth(), currentScene.getHeight());
+        //newScene.getStylesheets().add(getClass().getResource("css/admin.css").toExternalForm());
+        stage.setScene(newScene);
+        stage.show();
+
+        private void loadFamilyView(ActionEvent event, FamilyMember logged) throws IOException {
+            //cargar el fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("family-view.fxml"));
+            Parent root = loader.load();
+
+            //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
+            FamilyController controller = loader.getController();
+            controller.setLoggedUser(familyMemberDAO, patientDAO, logged);
+
+            //obtiene el stage donde está el botón que creó el evento
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            Stage stage = (Stage) currentScene.getWindow();
+            //newScene.getStylesheets().add(getClass().getResource("css/family.css").toExternalForm());
+            stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
+            stage.show();
+        }
     }
 
 
