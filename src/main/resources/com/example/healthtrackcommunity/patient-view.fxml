@@ -197,10 +197,22 @@
 
                 </VBox>
 
-                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="recordatorio-card">
-                    <FontIcon iconLiteral="fas-bell" iconSize="24" styleClass="icon-recordatorio"/>
-                    <Label text="Próximo registro sugerido:" styleClass="label-recordatorio"/>
-                    <Label fx:id="nextReminderLabel" text="Hoy 8:00 PM" styleClass="hora-recordatorio"/>
+                <HBox alignment="CENTER_LEFT" spacing="15" styleClass="recordatorio-card">
+                    <FontIcon iconLiteral="fas-book-medical" iconSize="36" styleClass="icon-recordatorio"/>
+
+                    <VBox>
+                        <Label text="Analiza tus métricas" wrapText="true" styleClass="subtitulo"/>
+                        <Label text="Después de registrar tus métricas diarias, realiza un análisis automático de ellas. Si se detecta una tendencia peligrosa se generará una alerta para informar a tu médico." wrapText="true" styleClass="texto-ayuda"/>
+                    </VBox>
+
+                    <Button fx:id="analyzeMetricsBtn" text=" Analizar" styleClass="boton-primario"
+                            maxWidth="Infinity"
+                            minWidth="140"
+                            HBox.hgrow="NEVER">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-cogs" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
                 </HBox>
 
                 <VBox styleClass="alertas-card">

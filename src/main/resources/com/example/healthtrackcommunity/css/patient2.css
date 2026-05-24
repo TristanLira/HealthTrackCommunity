@@ -148,13 +148,13 @@
 }
 
 .subtitulo-alerta {
-    -fx-font-size: 16px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #e85050;
 }
 
 .texto-alerta {
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-text-fill: #a06060;
 }
 

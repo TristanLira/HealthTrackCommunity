@@ -41,7 +41,7 @@ public class PatientController {
     public VBox noDoctorWarning;
     public Label healthAlertLabel;
     public VBox recentMetricsContainer;
-    public Label nextReminderLabel;
+    public Button analyzeMetricsBtn;
 
     //historial de mediciones
     public VBox historySection;
