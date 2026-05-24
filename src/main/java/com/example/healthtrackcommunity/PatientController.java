@@ -527,11 +527,10 @@ public class PatientController {
     }
 
     private void showTendencies() {
-        if (alerts.isEmpty()) {
-            healthAlertLabel.setText("Tus métricas se encuentran en rangos normales.");
-        } else {
-            healthAlertLabel.setText("Tienes " + alerts.size() + " alerta(s). Espera la respuesta de tu médico en la sección de comentarios.");
-        }
+        if (monitoring == null) healthAlertLabel.setText("Necesitas un médico asignado para realizar un análisis de tus métricas.");
+        else if (alerts.isEmpty()) healthAlertLabel.setText("Tus métricas se encuentran en rangos normales.");
+        else healthAlertLabel.setText("Tienes " + alerts.size() + " alerta(s). Espera la respuesta de tu médico en la sección de comentarios.");
+
     }
 
     /********************************** agregar displays a historySection ******************************************/
