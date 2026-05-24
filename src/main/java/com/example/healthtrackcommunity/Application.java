@@ -25,4 +25,14 @@ public class Application extends javafx.application.Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    /*@Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("admin-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
+        scene.getStylesheets().add(getClass().getResource("css/admin.css").toExternalForm());
+        stage.setTitle("HealthTrack Community");
+        stage.setScene(scene);
+        stage.show();
+    }*/
 }

@@ -129,14 +129,16 @@
             <!-- SECCIÓN DE AGREGAR PACIENTE -->
             <VBox fx:id="addPatientSection" spacing="20" visible="false">
                 <Label text="Agregar Paciente" styleClass="titulo-seccion"/>
-                <GridPane hgap="15" vgap="15">
-                    <Label text="Email del paciente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="ejemplo@correo.com"/>
-                    <Label text="Nombre completo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <TextField fx:id="patientNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    <Label text="Contraseña:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                    <PasswordField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                </GridPane>
+
+                <VBox alignment="CENTER_LEFT" fillWidth="false">
+                    <GridPane hgap="15" vgap="15" maxWidth="-Infinity" styleClass="info-card">
+                        <Label text="Email del paciente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="ejemplo@correo.com"/>
+                        <Label text="Contraseña:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <PasswordField fx:id="patientPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+
                 <HBox spacing="20">
                     <Button onAction="#addPatient" styleClass="boton-primario">
                         <graphic><FontIcon iconLiteral="fas-save"/></graphic> Guardar

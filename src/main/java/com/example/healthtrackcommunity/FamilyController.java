@@ -1,10 +1,16 @@
 package com.example.healthtrackcommunity;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class FamilyController {
 
@@ -15,7 +21,7 @@ public class FamilyController {
     //dashboard
     public VBox dashboardSection;
     public Label patientCountLabel;
-    public Label lastAlertLabel;
+    public Label healthAlertLabel;
     
     //pacientes
     public VBox patientsListSection;
@@ -43,7 +49,12 @@ public class FamilyController {
     public PasswordField patientPasswordField;
 
 
+
     public void initialize() {}
+
+    public void setLoggedUser() {
+
+    }
 
     /******************************* MOSTRAR SECCIONES *****************************************/
 
@@ -78,7 +89,13 @@ public class FamilyController {
         }
     }
 
-    public void logout(ActionEvent actionEvent) {
+    public void logout(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("authentication-view.fxml"));
+        Parent root = loader.load();
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        Stage stage = (Stage) currentScene.getWindow();
+        stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
+        stage.show();
     }
 
     /******************************* SECCIÓN DE PACIENTES *****************************************/
