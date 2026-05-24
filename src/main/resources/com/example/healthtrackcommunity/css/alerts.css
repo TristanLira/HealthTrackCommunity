@@ -1,0 +1,138 @@
+/* ==========================
+   BASE DIALOG
+========================== */
+
+.dialog-pane {
+    -fx-background-color: #FAFCFF;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+
+    -fx-border-color: #E3EDF7;
+    -fx-border-width: 1;
+
+    -fx-padding: 8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(80,120,160,0.10),
+            24,
+            0.18,
+            0,
+            4
+    );
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.dialog-pane .header-panel {
+    -fx-background-color: #EAF4FB;
+    -fx-background-radius: 16 16 0 0;
+    -fx-padding: 18 22;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #4A6280;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+/* ==========================
+   CONTENT
+========================== */
+
+.dialog-pane > .content.label {
+    -fx-text-fill: #68778A;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+
+    -fx-padding: 20 22 10 22;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.dialog-pane .button-bar {
+    -fx-padding: 8 18 18 18;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-radius: 12;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 10 18;
+
+    -fx-cursor: hand;
+
+    -fx-border-radius: 12;
+}
+
+/* ==========================
+   PRIMARY BUTTON
+========================== */
+
+.dialog-pane .button-bar .button:default {
+    -fx-background-color: #C9DDF1;
+    -fx-text-fill: #4F6D8C;
+}
+
+.dialog-pane .button-bar .button:default:hover {
+    -fx-background-color: #B8D1EA;
+}
+
+/* ==========================
+   CANCEL BUTTON
+========================== */
+
+.dialog-pane .button-bar .button:cancel {
+    -fx-background-color: #F1F5F9;
+    -fx-text-fill: #73839A;
+}
+
+.dialog-pane .button-bar .button:cancel:hover {
+    -fx-background-color: #E8EEF5;
+}
+
+/* ==========================
+   ALERT TYPES
+========================== */
+
+/* INFO */
+.info-alert .header-panel {
+    -fx-background-color: #EAF4FB;
+}
+
+.info-alert .header-panel .label {
+    -fx-text-fill: #5A7CA2;
+}
+
+/* CONFIRMATION */
+.confirm-alert .header-panel {
+    -fx-background-color: #EAF7EF;
+}
+
+.confirm-alert .header-panel .label {
+    -fx-text-fill: #5E8E6B;
+}
+
+/* WARNING */
+.warning-alert .header-panel {
+    -fx-background-color: #FFF7E7;
+}
+
+.warning-alert .header-panel .label {
+    -fx-text-fill: #B58A4A;
+}
+
+/* ERROR */
+.error-alert .header-panel {
+    -fx-background-color: #FDEEEF;
+}
+
+.error-alert .header-panel .label {
+    -fx-text-fill: #B96A73;
+}

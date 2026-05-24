@@ -20,6 +20,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -94,6 +96,7 @@ public class DoctorController {
     private ObservableList<MetricAlert> alerts;
 
     public void initialize() {
+        AlertUtil.showInfoAlert("prueba","hola hola hola");
     }
 
     public void setLoggedUser(DoctorDAO dao, Doctor logged, PatientDAO allPatientsDAO) {
@@ -197,7 +200,7 @@ public class DoctorController {
             MetricAlertDisplay d = new MetricAlertDisplay(i, patientDAO.get(i.getPatientId()));
             addAlertEvents(d);
             Platform.runLater(() ->
-                    alertsContainer.getChildren().add(d));
+                    alertsContainer.getChildren().addFirst(d));
         }
 
         //futuras alertas
@@ -210,7 +213,8 @@ public class DoctorController {
                         MetricAlertDisplay d = new MetricAlertDisplay(i, patientDAO.get(i.getPatientId()));
                         addAlertEvents(d);
                         Platform.runLater(() ->
-                                alertsContainer.getChildren().add(d));
+                                alertsContainer.getChildren().addFirst(d));
+                        //igual que con las metricas, lo añade al inicio para que se muestren en orden de carga a la bd
                     }
                 } else if (change.wasRemoved()) {
                     for (MetricAlert i: change.getRemoved()) {
@@ -234,7 +238,7 @@ public class DoctorController {
 
     private void addAlertEvents(MetricAlertDisplay d) {
         d.getDismissBtn().setOnAction(event -> {
-            showConfirmationAlert(
+            AlertUtil.showConfirmationAlert(
                     "Eliminar alerta",
                     "¿Realmente quiere eliminar esta alerta?",
                     () -> alertDAO.delete(d.getAlert()));
@@ -247,7 +251,7 @@ public class DoctorController {
 
     private void showPatients() {
 
-        //agrega las que ya estaban en la gui
+        //agrega las que ya estaban en la lista
         for (Patient i: patients) {
             PatientDisplay p = new PatientDisplay(i);
             addRemoveEvent(p);
@@ -295,7 +299,7 @@ public class DoctorController {
 
     private void addRemoveEvent(PatientDisplay p) {
         p.getRemoveBtn().setOnAction(event -> {
-            showConfirmationAlert(
+            AlertUtil.showConfirmationAlert(
                     "Eliminar paciente",
                     "¿Está seguro que quiere eliminar este paciente?",
                     () -> removePatient(p.getPatientId()));
@@ -535,7 +539,7 @@ public class DoctorController {
         });
 
         r.getDeclineBtn().setOnAction(event -> {
-            showConfirmationAlert(
+            AlertUtil.showConfirmationAlert(
                     "Rechazar solicitud de seguimiento médico",
                     "¿Está seguro que quiere rechazar la solicitud?",
                     () -> requestDAO.delete(r.getRequest()));
@@ -692,33 +696,4 @@ public class DoctorController {
         return chart;
     }
 
-
-    /********************* ALERTAS *******************************/
-
-    private void showInfoAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
-    }
-
-    private void showErrorAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
-    }
-
-    private void showConfirmationAlert(String title, String message, Runnable onConfirm) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            onConfirm.run();
-        } else {
-            alert.close();
-        }
-    }
 }

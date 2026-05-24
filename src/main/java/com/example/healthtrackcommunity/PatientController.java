@@ -387,7 +387,7 @@ public class PatientController {
     public void saveHeartRate(ActionEvent actionEvent) {
         HeartRateMetric h = getHeartRateMetric();
         if (h == null) {
-            errorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
+            AlertUtil.showErrorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
             return;
         }
         heartRateDAO.create(h);
@@ -411,7 +411,7 @@ public class PatientController {
     public void savePressure(ActionEvent actionEvent) {
         PressureMetric p = getPressureMetric();
         if (p == null) {
-            errorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
+            AlertUtil.showErrorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
             return;
         }
         pressureDAO.create(p);
@@ -437,7 +437,7 @@ public class PatientController {
     public void saveGlucose(ActionEvent actionEvent) {
         GlucoseMetric g = getGlucoseMetric();
         if (g == null) {
-            errorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
+            AlertUtil.showErrorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
             return;
         }
         glucoseDAO.create(g);
@@ -461,7 +461,7 @@ public class PatientController {
     public void saveWeight(ActionEvent actionEvent) {
         WeightMetric w = getWeightMetric();
         if (w == null) {
-            errorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
+            AlertUtil.showErrorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
             return;
         }
         weightDAO.create(w);
@@ -496,7 +496,7 @@ public class PatientController {
 
     public void analyzeMetrics(ActionEvent event) {
         if (monitoring == null) {
-            errorAlert("Sin médico asignado", "Necesitas un médico asignado antes de analizar tus métricas.");
+            AlertUtil.showErrorAlert("Sin médico asignado", "Necesitas un médico asignado antes de analizar tus métricas.");
             return;
         }
 
@@ -507,7 +507,7 @@ public class PatientController {
                 MetricAlert a = analyzer.getAlert(logged.getId(), monitoring.getId());
                 registerAlert(a);
             } else {
-                Platform.runLater(() -> infoAlert("Métricas correctas", "Tus métricas se encuentran en rangos normales. ¡Continúa así!"));
+                Platform.runLater(() -> AlertUtil.showInfoAlert("Métricas correctas", "Tus métricas se encuentran en rangos normales. ¡Continúa así!"));
             }
         });
 
@@ -518,11 +518,11 @@ public class PatientController {
         alertDAO.create(a,
                 () -> {
                     Platform.runLater(() ->
-                            infoAlert("Tendencia peligrosa", "Se detectó una tendencia peligrosa. Se ha enviado una alerta a tu médico."));
+                            AlertUtil.showInfoAlert("Tendencia peligrosa", "Se detectó una tendencia peligrosa. Se ha enviado una alerta a tu médico."));
                 },
                 () -> {
                     Platform.runLater(() ->
-                            infoAlert("No se creó la alerta", "Ya se ha registrado una alerta hoy. Espera a mañana para realizar otra."));
+                            AlertUtil.showInfoAlert("No se creó la alerta", "Ya se ha registrado una alerta hoy. Espera a mañana para realizar otra."));
                 });
     }
 
@@ -654,7 +654,7 @@ public class PatientController {
         doctorsComboBox.setValue(null);
 
         if (d == null) {
-            errorAlert("Seleccione médico", "No fue posible mandar la solicitud, por favor seleccione un médico.");
+            AlertUtil.showErrorAlert("Seleccione médico", "No fue posible mandar la solicitud, por favor seleccione un médico.");
             return;
         }
 
@@ -663,9 +663,9 @@ public class PatientController {
         //corre las alertas con runLater porque los callbacks son llamados por firebase en un hilo diferente
         requestDAO.create(m,
                 () -> Platform.runLater(
-                        () -> infoAlert("Solicitud enviada", "Un solicitud de seguimiento médico fue enviada a " + d + ".")),
+                        () -> AlertUtil.showInfoAlert("Solicitud enviada", "Un solicitud de seguimiento médico fue enviada a " + d + ".")),
                 () -> Platform.runLater(
-                        () -> errorAlert("Solicitud no enviada", "La solicitud no fue enviada. Por favor inténtelo de nuevo."))
+                        () -> AlertUtil.showErrorAlert("Solicitud no enviada", "La solicitud no fue enviada. Por favor inténtelo de nuevo."))
         );
 
         showDoctorInfo();
@@ -816,23 +816,6 @@ public class PatientController {
         chart.getData().add(series);
 
         return chart;
-    }
-
-
-    /********ALERTAS********/
-
-    private void infoAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
-    }
-
-    private void errorAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
     }
 
 }
