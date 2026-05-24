@@ -107,9 +107,13 @@
                 </HBox>
 
                 <VBox styleClass="grafico-card">
-                    <Label text="Pacientes con Alertas Recientes" styleClass="subtitulo"/>
+                    <Label text="Pacientes con Alertas" styleClass="subtitulo"/>
                     <!--ListView fx:id="alertPatientsListView" styleClass="lista-pacientes"/-->
-                    <VBox fx:id="alertPatientsContainer" styleClass="lista-pacientes"/>
+                    <VBox fx:id="alertsContainer" styleClass="lista-pacientes" spacing="15">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+                    </VBox>
                 </VBox>
             </VBox>
 

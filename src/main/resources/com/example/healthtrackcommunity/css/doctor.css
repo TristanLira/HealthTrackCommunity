@@ -583,3 +583,121 @@
 .weight-chart .chart-plot-background {
     -fx-background-color: #e6f8ef;
 }
+
+/**** DISPLAY ALERTAS MÉDICAS ****/
+
+.metric-alert-display {
+    -fx-background-color: #FFF9F9;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    /* acento de alerta */
+    -fx-border-color: #E65A5A;
+    -fx-border-width: 0 0 0 6;
+
+    -fx-padding: 14 18;
+    -fx-spacing: 14;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.08),
+            10,
+            0.12,
+            0,
+            2
+    );
+}
+
+/* ===========================
+   PACIENTE
+=========================== */
+
+.metric-alert-patient {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2F3E46;
+}
+
+/* fecha */
+.metric-alert-date {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7A848A;
+}
+
+/* total */
+.metric-alert-total {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #D64545;
+}
+
+/* ===========================
+   MÉTRICAS PELIGROSAS
+=========================== */
+
+.danger-metric {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #8C2D2D;
+
+    -fx-background-color: #FFE9E9;
+    -fx-background-radius: 8;
+
+    -fx-padding: 6 10;
+}
+
+/* ===========================
+   BOTÓN COMENTAR
+=========================== */
+
+.comment-alert-btn {
+    -fx-background-color: #6B9EC7;
+    -fx-text-fill: white;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 8;
+    -fx-padding: 8 14;
+
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.comment-alert-btn:hover {
+    -fx-background-color: #5589B5;
+}
+
+.comment-alert-icon {
+    -fx-icon-color: white;
+    -fx-icon-size: 14px;
+}
+
+/* ===========================
+   BOTÓN DESCARTAR
+=========================== */
+
+.dismiss-alert-btn {
+    -fx-background-color: #D64545;
+    -fx-text-fill: white;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 8;
+    -fx-padding: 8 14;
+
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.dismiss-alert-btn:hover {
+    -fx-background-color: #C33737;
+}
+
+.dismiss-alert-icon {
+    -fx-icon-color: white;
+    -fx-icon-size: 14px;
+}

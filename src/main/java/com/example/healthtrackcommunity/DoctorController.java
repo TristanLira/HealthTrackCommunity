@@ -35,7 +35,7 @@ public class DoctorController {
     public VBox dashboardSection;
     public Label totalPatientsLabel;
     public Label activeAlertsLabel;
-    public VBox alertPatientsContainer;
+    public VBox alertsContainer;
 
     //SECCION DE PACIENTES
     public VBox patientsListSection;
@@ -89,6 +89,10 @@ public class DoctorController {
     private MetricDAO currentHeartRateDAO;
     private MetricDAO currentWeightDAO;
 
+    //alertas para el doctor
+    private MetricAlertDAO alertDAO;
+    private ObservableList<MetricAlert> alerts;
+
     public void initialize() {
     }
 
@@ -110,9 +114,13 @@ public class DoctorController {
         currentPatientMetricLabel.setText("Sin paciente seleccionado.");
         currentPatientChartLabel.setText("Sin paciente seleccionado.");
 
+        alertDAO = new MetricAlertDAO(logged);
+        alerts = alertDAO.getAll();
+
         //getUnmonitoredPatients();
         showPatients();
         showPendingRequests();
+        loadAlerts();
     }
 
     /******************************** MOSTRAR SECCIONES *****************************************/
@@ -121,6 +129,7 @@ public class DoctorController {
         hideAllSections();
         dashboardSection.setVisible(true);
         dashboardSection.setManaged(true);
+        totalPatientsLabel.setText(patients.size() + "");
     }
 
     public void showPatientsList(ActionEvent event) {
@@ -178,6 +187,53 @@ public class DoctorController {
         pane.getSelectionModel().select(selected);
     }
 
+    /******************************** DASHBOARD *****************************************/
+
+    private void loadAlerts() {
+        activeAlertsLabel.setText("" + alerts.size());
+
+        //alertas cargadas
+        for (MetricAlert i: alerts) {
+            MetricAlertDisplay d = new MetricAlertDisplay(i, patientDAO.get(i.getPatientId()));
+            addAlertEvents(d);
+            Platform.runLater(() ->
+                    alertsContainer.getChildren().add(d));
+        }
+
+        //futuras alertas
+        alerts.addListener((ListChangeListener<MetricAlert>) change -> {
+            while (change.next()) {
+                activeAlertsLabel.setText("" + alerts.size());
+
+                if (change.wasAdded()) {
+                    for (MetricAlert i: change.getAddedSubList()) {
+                        MetricAlertDisplay d = new MetricAlertDisplay(i, patientDAO.get(i.getPatientId()));
+                        addAlertEvents(d);
+                        Platform.runLater(() ->
+                                alertsContainer.getChildren().add(d));
+                    }
+                } else if (change.wasRemoved()) {
+                    for (MetricAlert i: change.getRemoved()) {
+                        removeAlertDisplay(i);
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void removeAlertDisplay(MetricAlert m) {
+        for (Node i: alertsContainer.getChildren()) {
+            if (!(i instanceof MetricAlertDisplay)) continue;
+            if ( ((MetricAlertDisplay) i).displaysAlert(m) ) {
+                Platform.runLater(() -> alertsContainer.getChildren().remove(i));
+                return;
+            }
+        }
+    }
+
+    private void addAlertEvents(MetricAlertDisplay d) {}
+
     /******************************** SECCIÓN DE PACIENTES *****************************************/
 
     private void showPatients() {
@@ -193,6 +249,7 @@ public class DoctorController {
         //evento para los futuros pacientes agregados
         patients.addListener((ListChangeListener<Patient>) change -> {
             while(change.next()) {
+                totalPatientsLabel.setText(patients.size() + "");
 
                 if (change.wasAdded()) {
 
