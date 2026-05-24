@@ -19,6 +19,7 @@ public class MetricAlertDAO
 
     public MetricAlertDAO() {
         ref = FirebaseConnection.getDB().getReference("metricAlerts");
+
         alerts = FXCollections.observableArrayList();
 
         doctor = null;
@@ -30,6 +31,7 @@ public class MetricAlertDAO
     //solo alertas de un doctor
     public MetricAlertDAO(Doctor doctor) {
         ref = FirebaseConnection.getDB().getReference("metricAlerts");
+
         alerts = FXCollections.observableArrayList();
 
         this.doctor = doctor;
@@ -41,6 +43,7 @@ public class MetricAlertDAO
     //solo alertas de un paciente
     public MetricAlertDAO(Patient patient) {
         ref = FirebaseConnection.getDB().getReference("metricAlerts");
+
         alerts = FXCollections.observableArrayList();
 
         this.patient = patient;
@@ -100,6 +103,8 @@ public class MetricAlertDAO
 
     @Override
     public void create(MetricAlert a) {
+        if (dateUsed(a)) return;
+
         DatabaseReference pushed = ref.push();
 
         a.setId(pushed.getKey());
@@ -120,9 +125,23 @@ public class MetricAlertDAO
         ref.child(a.getId()).removeValueAsync();
     }
 
+    //revisa si ya existe una métrica con la fecha actual
+    private boolean dateUsed(MetricAlert a) {
+        for (MetricAlert i: alerts) {
+            if (i.getDate().equals(a.getDate())) return true;
+        }
+        return false;
+    }
+
     /* FUNCIONES CON CALLBACKS */
 
     public void create(MetricAlert a, Runnable success, Runnable fail) {
+        if (dateUsed(a)) {
+            System.out.println("La alerta no fue creada, la fecha ya fue usada.");
+            fail.run();
+            return;
+        }
+
         DatabaseReference pushed = ref.push();
 
         a.setId(pushed.getKey());

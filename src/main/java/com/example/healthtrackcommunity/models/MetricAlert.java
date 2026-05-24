@@ -119,6 +119,14 @@ public class MetricAlert {
     }
 
     @Exclude
+    public int getAllDangerousTendencies() {
+        return dangerousPressureCounter +
+                dangerousGlucoseCounter +
+                dangerousHeartRateCounter +
+                dangerousWeightCounter;
+    }
+
+    @Exclude
     public LocalDate getDateObj() {
         return dateObj;
     }

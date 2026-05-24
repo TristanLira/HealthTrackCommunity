@@ -117,6 +117,9 @@ public class PatientController {
     ObservableList<Metric> weight;
     ObservableList<Metric> recent;
 
+    //alertas
+    private MetricAlertDAO alertDAO;
+    private ObservableList<MetricAlert> alerts;
 
     public void initialize() {
         hideAllSections();
@@ -130,12 +133,14 @@ public class PatientController {
         glucoseDAO = new MetricDAO(logged, MetricDAO.GLUCOSE);
         weightDAO = new MetricDAO(logged, MetricDAO.WEIGHT);
         requestDAO = new MonitoringRequestDAO(logged);
+        alertDAO = new MetricAlertDAO(logged);
 
         heartRate = heartRateDAO.getAll();
         pressure = pressureDAO.getAll();
         glucose = glucoseDAO.getAll();
         weight = weightDAO.getAll();
         requests = requestDAO.getAll();
+        alerts = alertDAO.getAll();
 
         //recent = FXCollections.observableArrayList();
         //getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
@@ -161,6 +166,8 @@ public class PatientController {
 
         loadMetricDisplays();
         loadRecentDisplays();
+
+        updateAlertLabel();
 
         //addMetricsDebug();
     }
@@ -473,6 +480,58 @@ public class PatientController {
         weightField.clear();
         heightField.clear();
         return new WeightMetric(logged.getId(), height, weight);
+    }
+
+    /********************************** generar alertas ******************************************/
+
+    //cada que recibe una alerta en la lista actualiza la label
+    private void updateAlertLabel() {
+        showTendencies();
+        alerts.addListener((ListChangeListener<MetricAlert>) change -> {
+            while (change.next()) {
+                Platform.runLater(() -> showTendencies());
+            }
+        });
+    }
+
+    public void analyzeMetrics(ActionEvent event) {
+        if (monitoring == null) {
+            errorAlert("Sin médico asignado", "Necesitas un médico asignado antes de analizar tus métricas.");
+            return;
+        }
+
+        //hace el análisis en un hilo nuevo para no bloquear el de javafx
+        Thread t = new Thread(() -> {
+            HealthTrendAnalyzer analyzer = new HealthTrendAnalyzer(recent);
+            if (analyzer.hasDangerousTendencies()) {
+                MetricAlert a = analyzer.getAlert(logged.getId(), monitoring.getId());
+                registerAlert(a);
+            } else {
+                Platform.runLater(() -> infoAlert("Métricas correctas", "Tus métricas se encuentran en rangos normales. ¡Continúa así!"));
+            }
+        });
+
+        t.start();
+    }
+
+    private void registerAlert(MetricAlert a) {
+        alertDAO.create(a,
+                () -> {
+                    Platform.runLater(() ->
+                            infoAlert("Tendencia peligrosa", "Se detectó una tendencia peligrosa. Se ha enviado una alerta a tu médico."));
+                },
+                () -> {
+                    Platform.runLater(() ->
+                            infoAlert("No se creó la alerta", "Ya se ha registrado una alerta hoy. Espera a mañana para realizar otra."));
+                });
+    }
+
+    private void showTendencies() {
+        if (alerts.isEmpty()) {
+            healthAlertLabel.setText("Tus métricas se encuentran en rangos normales.");
+        } else {
+            healthAlertLabel.setText("Tienes " + alerts.size() + " alerta(s). Espera la respuesta de tu médico en la sección de comentarios.");
+        }
     }
 
     /********************************** agregar displays a historySection ******************************************/

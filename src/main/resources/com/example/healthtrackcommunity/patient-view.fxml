@@ -205,7 +205,7 @@
                         <Label text="Después de registrar tus métricas diarias, realiza un análisis automático de ellas. Si se detecta una tendencia peligrosa se generará una alerta para informar a tu médico." wrapText="true" styleClass="texto-ayuda"/>
                     </VBox>
 
-                    <Button fx:id="analyzeMetricsBtn" text=" Analizar" styleClass="boton-primario"
+                    <Button fx:id="analyzeMetricsBtn" onAction="#analyzeMetrics" text=" Analizar" styleClass="boton-primario"
                             maxWidth="Infinity"
                             minWidth="140"
                             HBox.hgrow="NEVER">
@@ -218,7 +218,7 @@
                 <VBox styleClass="alertas-card">
                     <Label text="Alertas de Salud" styleClass="subtitulo-alerta"/>
                     <Label fx:id="healthAlertLabel"
-                           text="Tus métricas están dentro de rangos normales"
+                           text="Tus métricas se encuentran en rangos normales."
                            wrapText="true" styleClass="texto-alerta"/>
                 </VBox>
 
