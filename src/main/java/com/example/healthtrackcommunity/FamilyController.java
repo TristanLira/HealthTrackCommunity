@@ -86,7 +86,7 @@ public class FamilyController {
     }
 
     private void setupMetricDAOs() {
-        // Se crearán cuando se seleccione un paciente
+        // se crearán cuando se seleccione un paciente.
     }
 
     private void loadMetricsForPatient(Patient p) {
@@ -113,20 +113,17 @@ public class FamilyController {
             if (m instanceof WeightMetric) weightMetricsContainer.getChildren().add(new WeightDisplay((WeightMetric) m));
         }
 
-        // Cargar gráficos
         generateCharts(pressureDAO.getAll(), glucoseDAO.getAll(), heartDAO.getAll(), weightDAO.getAll());
     }
 
     private void generateCharts(ObservableList<Metric> pressureList, ObservableList<Metric> glucoseList,
                                 ObservableList<Metric> heartList, ObservableList<Metric> weightList) {
-        // Crear gráficos similares a DoctorController
         pressureChartContainer.getChildren().clear();
         glucoseChartContainer.getChildren().clear();
         heartRateChartContainer.getChildren().clear();
         weightChartContainer.getChildren().clear();
 
         if (!pressureList.isEmpty()) pressureChartContainer.getChildren().createLineChart(pressureList);
-        // Implementar métodos auxiliares para crear gráficos...
     }
 
     @FXML public void showDashboard(ActionEvent e) { hideAll(); dashboardSection.setVisible(true); }
@@ -144,7 +141,7 @@ public class FamilyController {
         }
         Patient newPatient = new Patient(email, password, name);
         patientDAO.create(newPatient, () -> {
-            // Asociar paciente al familiar
+            // asociación paciente y familiar.
             logged.getPatientIds().add(newPatient.getId());
             familyDAO.update(logged);
             loadAssociatedPatients();
