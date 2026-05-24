@@ -96,4 +96,14 @@ public class HealthTrendAnalyzer {
                 dangerousHeartRateCounter != 0 ||
                 dangerousWeightCounter != 0;
     }
+
+    public MetricAlert getAlert(String patientId, String doctorId) {
+        if (!hasDangerousTendencies()) return null;
+
+        return new MetricAlert(patientId, doctorId,
+                dangerousPressureCounter,
+                dangerousGlucoseCounter,
+                dangerousHeartRateCounter,
+                dangerousWeightCounter);
+    }
 }
