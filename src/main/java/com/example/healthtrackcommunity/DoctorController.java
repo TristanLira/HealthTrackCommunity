@@ -120,7 +120,7 @@ public class DoctorController {
         //getUnmonitoredPatients();
         showPatients();
         showPendingRequests();
-        loadAlerts();
+        showAlerts();
     }
 
     /******************************** MOSTRAR SECCIONES *****************************************/
@@ -189,7 +189,7 @@ public class DoctorController {
 
     /******************************** DASHBOARD *****************************************/
 
-    private void loadAlerts() {
+    private void showAlerts() {
         activeAlertsLabel.setText("" + alerts.size());
 
         //alertas cargadas
@@ -232,7 +232,16 @@ public class DoctorController {
         }
     }
 
-    private void addAlertEvents(MetricAlertDisplay d) {}
+    private void addAlertEvents(MetricAlertDisplay d) {
+        d.getDismissBtn().setOnAction(event -> {
+            showConfirmationAlert(
+                    "Eliminar alerta",
+                    "¿Realmente quiere eliminar esta alerta?",
+                    () -> alertDAO.delete(d.getAlert()));
+        });
+
+        //TODO agregar crear comentario cuando se implementen
+    }
 
     /******************************** SECCIÓN DE PACIENTES *****************************************/
 
