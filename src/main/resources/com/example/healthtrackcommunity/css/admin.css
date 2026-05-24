@@ -1,0 +1,100 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #eaf7e6;
+}
+
+.menu-lateral {
+    -fx-background-color: #2e7d32;
+    -fx-border-color: #43a047;
+    -fx-border-width: 0 1 0 0;
+}
+
+.icon-perfil {
+    -fx-icon-color: #ffffff;
+}
+
+.icono-menu {
+    -fx-icon-color: #ffffff;
+}
+
+.nombre-admin {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.separador-menu {
+    -fx-background-color: #43a047;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: #1b5e20;
+}
+
+.area-principal {
+    -fx-background-color: #f1f8e9;
+}
+
+.titulo-seccion {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1b5e20;
+}
+
+.tarjeta-resumen {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-alignment: CENTER;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+.numero-grande {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2e7d32;
+}
+
+.boton-aprobar {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 6 15;
+}
+
+.boton-aprobar:hover {
+    -fx-background-color: #388e3c;
+}
+
+.doctor-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+}
+
+.patient-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #c8e6c9;
+    -fx-border-radius: 20;
+    -fx-padding: 8 15;
+}

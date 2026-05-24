@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.healthtrackcommunity.FamilyController"
+          stylesheets="@css/family.css" maxHeight="Infinity">
+
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="25"/>
+        <ColumnConstraints percentWidth="75"/>
+    </columnConstraints>
+
+    <VBox alignment="TOP_CENTER" spacing="20" styleClass="menu-lateral" GridPane.columnIndex="0">
+        <padding>
+            <Insets top="25" right="15" bottom="25" left="15"/>
+        </padding>
+        <VBox alignment="CENTER" spacing="10">
+            <FontIcon iconLiteral="fas-users" iconSize="60" styleClass="icon-perfil"/>
+            <Label fx:id="familyNameLabel" text="Familiar" styleClass="nombre-familiar"/>
+            <Label text="Cuidador" styleClass="rol-usuario"/>
+        </VBox>
+        <Separator styleClass="separador-menu"/>
+        <VBox spacing="10">
+            <Button onAction="#showDashboard" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-home" styleClass="icono-menu"/></graphic>
+                <text>Dashboard</text>
+            </Button>
+            <Button onAction="#showPatientsList" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-address-book" styleClass="icono-menu"/></graphic>
+                <text>Mis Familiares</text>
+            </Button>
+            <Button onAction="#showMetrics" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
+                <text>Métricas y Gráficos</text>
+            </Button>
+            <Button onAction="#showAddPatient" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-user-plus" styleClass="icono-menu"/></graphic>
+                <text>Agregar Paciente</text>
+            </Button>
+        </VBox>
+        <Separator styleClass="separador-menu"/>
+        <Button onAction="#logout" styleClass="menu-button">
+            <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="icono-menu"/></graphic>
+            <text>Cerrar Sesión</text>
+        </Button>
+    </VBox>
+
+    <ScrollPane fx:id="mainScrollPane" fitToWidth="true" styleClass="area-principal" GridPane.columnIndex="1">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <StackPane fx:id="mainContent" styleClass="area-principal">
+
+            <VBox fx:id="dashboardSection" spacing="20">
+                <Label text="Bienvenido, cuidador" styleClass="titulo-seccion"/>
+                <VBox styleClass="info-card">
+                    <Label text="Pacientes a tu cargo:" styleClass="subtitulo"/>
+                    <Label fx:id="patientCountLabel" text="0" styleClass="numero-grande"/>
+                </VBox>
+                <VBox styleClass="info-card">
+                    <Label text="Últimas alertas" styleClass="subtitulo"/>
+                    <Label fx:id="lastAlertLabel" text="Sin alertas recientes" wrapText="true"/>
+                </VBox>
+            </VBox>
+
+            <VBox fx:id="patientsListSection" spacing="20" visible="false">
+                <Label text="Mis Familiares" styleClass="titulo-seccion"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchPatientField" promptText="Buscar por nombre o email" HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#filterPatients" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-search"/></graphic>
+                    </Button>
+                    <Button onAction="#clearFilter" styleClass="boton-secundario">
+                        <graphic><FontIcon iconLiteral="fas-eraser"/></graphic>
+                    </Button>
+                </HBox>
+                <VBox fx:id="patientsContainer" spacing="10"/>
+            </VBox>
+
+            <VBox fx:id="metricsSection" spacing="20" visible="false">
+                <Label text="Métricas y Gráficos" styleClass="titulo-seccion"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Seleccionar paciente:" styleClass="label-normal"/>
+                    <ComboBox fx:id="patientSelector" promptText="Elige un paciente" onAction="#onPatientSelected"/>
+                </HBox>
+                <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="metricsTabPane">
+                    <Tab text="Presión Arterial">
+                        <VBox fx:id="pressureMetricsContainer" spacing="10"/>
+                    </Tab>
+                    <Tab text="Glucosa">
+                        <VBox fx:id="glucoseMetricsContainer" spacing="10"/>
+                    </Tab>
+                    <Tab text="Frecuencia Cardíaca">
+                        <VBox fx:id="heartRateMetricsContainer" spacing="10"/>
+                    </Tab>
+                    <Tab text="Peso/IMC">
+                        <VBox fx:id="weightMetricsContainer" spacing="10"/>
+                    </Tab>
+                </TabPane>
+                <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="chartsTabPane">
+                    <Tab text="Gráfico Presión">
+                        <VBox fx:id="pressureChartContainer" alignment="CENTER"/>
+                    </Tab>
+                    <Tab text="Gráfico Glucosa">
+                        <VBox fx:id="glucoseChartContainer" alignment="CENTER"/>
+                    </Tab>
+                    <Tab text="Gráfico Frecuencia Cardíaca">
+                        <VBox fx:id="heartRateChartContainer" alignment="CENTER"/>
+                    </Tab>
+                    <Tab text="Gráfico Peso/IMC">
+                        <VBox fx:id="weightChartContainer" alignment="CENTER"/>
+                    </Tab>
+                </TabPane>
+            </VBox>
+
+            <VBox fx:id="addPatientSection" spacing="20" visible="false">
+                <Label text="Agregar Paciente" styleClass="titulo-seccion"/>
+                <GridPane hgap="15" vgap="15">
+                    <Label text="Email del paciente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="patientEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="ejemplo@correo.com"/>
+                    <Label text="Nombre completo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="patientNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Contraseña:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <PasswordField fx:id="patientPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+                <HBox spacing="20">
+                    <Button onAction="#addPatient" styleClass="boton-primario">
+                        <graphic><FontIcon iconLiteral="fas-save"/></graphic> Guardar
+                    </Button>
+                    <Button onAction="#cancelAddPatient" styleClass="boton-secundario">Cancelar</Button>
+                </HBox>
+            </VBox>
+
+        </StackPane>
+    </ScrollPane>
+</GridPane>

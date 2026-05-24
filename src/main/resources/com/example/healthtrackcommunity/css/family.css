@@ -1,0 +1,165 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #f0f9e8;
+}
+
+.menu-lateral {
+    -fx-background-color: #b8d9a6;
+    -fx-border-color: #c8e0b6;
+    -fx-border-width: 0 1 0 0;
+}
+
+.icon-perfil {
+    -fx-icon-color: #ffffff;
+}
+
+.icono-menu {
+    -fx-icon-color: #ffffff;
+}
+
+.nombre-familiar {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.rol-usuario {
+    -fx-font-size: 12px;
+    -fx-text-fill: #e2f0d6;
+}
+
+.separador-menu {
+    -fx-background-color: #c8e0b6;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: #9bcb7a;
+}
+
+.area-principal {
+    -fx-background-color: #f9fef5;
+}
+
+.titulo-seccion {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5a8f3c;
+}
+
+.subtitulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6fa84a;
+}
+
+.info-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+.numero-grande {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6fa84a;
+}
+
+.boton-primario {
+    -fx-background-color: #8bc34a;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-font-weight: bold;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #7cb342;
+}
+
+.boton-secundario {
+    -fx-background-color: #dcedbc;
+    -fx-text-fill: #5a8f3c;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #c5e0a4;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #d0e2b6;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #d0e2b6;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: #e2f0d6;
+    -fx-padding: 8 20;
+}
+
+.tab:selected {
+    -fx-background-color: #8bc34a;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.metric-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-padding: 15;
+    -fx-spacing: 8;
+    -fx-border-radius: 14;
+    -fx-border-width: 0 0 0 5;
+}
+
+.metric-card-pressure {
+    -fx-border-color: #6fa8dc;
+}
+
+.metric-card-glucose {
+    -fx-border-color: #c27ba0;
+}
+
+.metric-card-heart-rate {
+    -fx-border-color: #e06666;
+}
+
+.metric-card-weight {
+    -fx-border-color: #93c47d;
+}
+
+.label-normal {
+    -fx-font-size: 14px;
+    -fx-text-fill: #4a6a2c;
+}
