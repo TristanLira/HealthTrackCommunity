@@ -136,3 +136,12 @@
 .error-alert .header-panel .label {
     -fx-text-fill: #B96A73;
 }
+
+/* DEFAULT */
+.default-alert .header-panel {
+    -fx-background-color: #dddedf;
+}
+
+.default-alert .header-panel .label {
+    -fx-text-fill: #6E7781;
+}

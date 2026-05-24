@@ -12,7 +12,8 @@ public class AlertUtil {
         alert.setTitle("Información");
         alert.setHeaderText(title);
         alert.setContentText(message);
-        addAlertCss(alert, Alert.AlertType.INFORMATION);
+        //addAlertCss(alert, Alert.AlertType.INFORMATION);
+        addAlertCss(alert);
         alert.show();
     }
 
@@ -40,7 +41,7 @@ public class AlertUtil {
         }
     }
 
-    private static void addAlertCss(Alert alert, Alert.AlertType type) {
+    public static void addAlertCss(Alert alert, Alert.AlertType type) {
         //alert.initStyle(StageStyle.UNDECORATED);
         alert.getDialogPane().getStylesheets().add(AlertUtil.class
                 .getResource("/com/example/healthtrackcommunity/css/alerts.css").toExternalForm());
@@ -53,6 +54,15 @@ public class AlertUtil {
             case WARNING -> alert.getDialogPane().getStyleClass().add("warning-alert");
 
             case ERROR -> alert.getDialogPane().getStyleClass().add("error-alert");
+
+            default -> alert.getDialogPane().getStyleClass().add("default-alert");
         }
+    }
+
+    public static void addAlertCss(Alert alert) {
+        alert.getDialogPane().getStylesheets().add(AlertUtil.class
+                .getResource("/com/example/healthtrackcommunity/css/alerts.css").toExternalForm());
+
+        alert.getDialogPane().getStyleClass().add("default-alert");
     }
 }
