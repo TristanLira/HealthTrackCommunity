@@ -655,4 +655,7 @@ public class DoctorController {
             alert.close();
         }
     }
+
+    public static class AdminController {
+    }
 }
