@@ -50,6 +50,11 @@
                 <text>Mis Pacientes</text>
             </Button>
 
+            <Button onAction="#showCommentsSection" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-comment" styleClass="icono-menu"/></graphic>
+                <text>Comentarios enviados</text>
+            </Button>
+
             <Button onAction="#showPatientMetrics" styleClass="menu-button" maxWidth="Infinity">
                 <graphic><FontIcon iconLiteral="fas-history" styleClass="icono-menu"/></graphic>
                 <text>Métricas de Pacientes</text>
@@ -107,9 +112,13 @@
                 </HBox>
 
                 <VBox styleClass="grafico-card">
-                    <Label text="Pacientes con Alertas Recientes" styleClass="subtitulo"/>
+                    <Label text="Pacientes con Alertas" styleClass="subtitulo"/>
                     <!--ListView fx:id="alertPatientsListView" styleClass="lista-pacientes"/-->
-                    <VBox fx:id="alertPatientsContainer" styleClass="lista-pacientes"/>
+                    <VBox fx:id="alertsContainer" styleClass="lista-pacientes" spacing="15">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+                    </VBox>
                 </VBox>
             </VBox>
 
@@ -135,7 +144,33 @@
                 </HBox>
 
                 <VBox fx:id="patientsListContainer" spacing="10"/>
+            </VBox>
 
+            <!--SECCIÓN DE COMENTARIOS -->
+            <VBox fx:id="commentsSection" spacing="20" visible="false">
+                <Label text="Comentarios enviados" styleClass="titulo-seccion"/>
+
+                <HBox maxWidth="Infinity" alignment="CENTER_LEFT" spacing="20">
+
+                    <VBox spacing="5">
+                        <Label text="Filtrar por paciente visualizado" styleClass="subtitulo"/>
+                        <Label fx:id="currentPatientCommentLabel" styleClass="texto-ayuda" maxWidth="-Infinity"/>
+                    </VBox>
+
+                    <Button fx:id="filterCommentsBtn" styleClass="boton-primario" onAction="#filterComments">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-search" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="removeCommentsFilterBtn" styleClass="boton-primario" onAction="#removeCommentsFilter">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-trash-alt" styleClass="icono-menu"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <VBox fx:id="doctorCommentsContainer" spacing="10"/>
             </VBox>
 
             <!--SECCIÓN DE SOLICITUDES-->

@@ -24,6 +24,9 @@ public class PatientDisplay extends HBox {
     private Button visualizeBtn;
     private FontIcon visualizeBtnIcon;
 
+    private Button commentBtn;
+    private FontIcon commentBtnIcon;
+
 
     public PatientDisplay(Patient p) {
         super();
@@ -46,6 +49,10 @@ public class PatientDisplay extends HBox {
         visualizeBtnIcon = new FontIcon("fas-user");
         visualizeBtn.setGraphic(visualizeBtnIcon);
 
+        commentBtn = new Button(" Enviar comentario");
+        commentBtnIcon = new FontIcon("fas-comment");
+        commentBtn.setGraphic(commentBtnIcon);
+
         //primera columna
         VBox v1 = new VBox();
         v1.setSpacing(spacing);
@@ -54,8 +61,8 @@ public class PatientDisplay extends HBox {
         //segunda columna
         HBox h1 = new HBox();
         h1.setAlignment(Pos.CENTER);
-        h1.setSpacing(spacing);
-        h1.getChildren().addAll(visualizeBtn, removeBtn);
+        h1.setSpacing(spacing * 2);
+        h1.getChildren().addAll(commentBtn, visualizeBtn, removeBtn);
 
         //espacios
         Region spacing1 = new Region();
@@ -77,6 +84,8 @@ public class PatientDisplay extends HBox {
         visualizeBtn.getStyleClass().add("accept-request-btn");
         visualizeBtnIcon.getStyleClass().add("accept-request-icon");
 
+        commentBtn.getStyleClass().add("comment-btn");
+        commentBtnIcon.getStyleClass().add("comment-btn-icon");
     }
 
     public boolean displaysPatient(Patient p2) {
@@ -94,6 +103,10 @@ public class PatientDisplay extends HBox {
 
     public Button getVisualizeBtn() {
         return visualizeBtn;
+    }
+
+    public Button getCommentBtn() {
+        return commentBtn;
     }
 
     public String getPatientName() {

@@ -107,7 +107,7 @@ public class AuthenticationController {
         String specialization = doctorSpecializationField.getText();
 
         if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -115,9 +115,9 @@ public class AuthenticationController {
         cleanDoctorForm();
 
         doctorDAO.create(d,
-                () -> infoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar."),
-                () -> errorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
-                () -> errorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));
+                () -> AlertUtil.showInfoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar."),
+                () -> AlertUtil.showErrorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
+                () -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));
     }
 
     private void cleanDoctorForm() {
@@ -133,7 +133,7 @@ public class AuthenticationController {
         String name = patientNameField.getText();
 
         if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -141,9 +141,9 @@ public class AuthenticationController {
         cleanPatientForm();
 
         patientDAO.create(p,
-                () -> infoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar."),
-                () -> errorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
-                () -> errorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));
+                () -> AlertUtil.showInfoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar."),
+                () -> AlertUtil.showErrorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
+                () -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));
     }
 
     private void cleanPatientForm() {
@@ -160,7 +160,7 @@ public class AuthenticationController {
         String password = loginPasswordField.getText();
 
         if (emptyStr(email) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -177,7 +177,7 @@ public class AuthenticationController {
         }
 
         if (dLogged == null && pLogged == null) {
-            errorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
+            AlertUtil.showErrorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
             return;
         }
 
@@ -231,21 +231,5 @@ public class AuthenticationController {
         stage.show();
     }
 
-
-    /********************************** ALERTAS ******************************************/
-
-    private void errorAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
-    }
-
-    private void infoAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
-    }
 }
 
