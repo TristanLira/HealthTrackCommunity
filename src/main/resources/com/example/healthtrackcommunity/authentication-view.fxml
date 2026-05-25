@@ -60,6 +60,11 @@
                         styleClass="section-button">
                 </Button>
 
+                <Button text="Registrarse como familiar"
+                        fx:id="showFamilyRegisterBtn"
+                        onAction="#showFamilyRegister"
+                        styleClass="section-button">
+                </Button>
             </VBox>
 
         </VBox>
@@ -127,6 +132,27 @@
                 </GridPane>
 
                 <Button fx:id="registerPatientBtn" text = " Registrar" onAction="#registerPatient">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-user-plus" styleClass="button-icon"/>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <!--registro de family-->
+            <VBox alignment="CENTER" fx:id="familyRegisterForm" spacing = "10" styleClass="authentication-form" fillWidth="false" VBox.vgrow="NEVER">
+                <Label text="Registrar un nuevo familiar" styleClass="text-subtitle1"/>
+
+                <GridPane alignment="CENTER">
+                    <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label text="Nombre completo" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label text="Contraseña" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="familyEmailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <TextField fx:id="familyNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <PasswordField fx:id="familyPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Button fx:id="registerFamilyBtn" text = " Registrar" onAction="#registerFamily">
                     <graphic>
                         <FontIcon iconLiteral="fas-user-plus" styleClass="button-icon"/>
                     </graphic>

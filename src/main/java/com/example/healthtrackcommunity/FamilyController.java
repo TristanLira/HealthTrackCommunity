@@ -1,6 +1,10 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.models.FamilyMember;
 import com.example.healthtrackcommunity.models.Patient;
+import config.DoctorDAO;
+import config.FamilyMemberDAO;
+import config.PatientDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -57,8 +61,7 @@ public class FamilyController {
 
     public void initialize() {}
 
-    public void setLoggedUser() {
-
+    public void setLoggedUser(FamilyMemberDAO familyDAO, FamilyMember logged, PatientDAO patientDA0) {
     }
 
     /******************************* MOSTRAR SECCIONES *****************************************/

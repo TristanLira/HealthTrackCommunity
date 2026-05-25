@@ -8,9 +8,9 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        //startAuth(stage);
+        startAuth(stage);
         //startAdmin(stage);
-        startFamily(stage);
+        //startFamily(stage);
     }
 
     public void startAuth(Stage stage) throws IOException {
