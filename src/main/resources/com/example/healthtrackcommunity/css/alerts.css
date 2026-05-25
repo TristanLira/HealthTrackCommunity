@@ -145,3 +145,82 @@
 .default-alert .header-panel .label {
     -fx-text-fill: #6E7781;
 }
+
+
+
+/* ==========================
+   LABELS
+========================== */
+
+.dialog-pane .label {
+    -fx-text-fill: #5E7187;
+    -fx-font-size: 14px;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+/* ==========================
+   TEXT INPUTS
+========================== */
+
+.dialog-pane .text-field,
+.dialog-pane .password-field,
+.dialog-pane .text-area {
+    -fx-background-color: #F9FBFD;
+
+    -fx-border-color: #DCE8F3;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+
+    -fx-background-radius: 12;
+
+    -fx-padding: 10 14;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #4D5B6A;
+
+    -fx-prompt-text-fill: #A5B2BF;
+}
+
+/* Hover */
+.dialog-pane .text-field:hover,
+.dialog-pane .password-field:hover,
+.dialog-pane .text-area:hover {
+    -fx-border-color: #C8DCEC;
+}
+
+/* Focus */
+.dialog-pane .text-field:focused,
+.dialog-pane .password-field:focused,
+.dialog-pane .text-area:focused {
+    -fx-border-color: #B8D1EA;
+    -fx-background-color: white;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(107,158,199,0.12),
+            8,
+            0.15,
+            0,
+            0
+    );
+}
+
+/* TextArea inner content */
+/*.dialog-pane .text-area .content {
+    -fx-background-color: transparent;
+}*/
+
+/* TextArea inner content */
+.dialog-pane .text-area .content {
+    -fx-background-color: #F9FBFD;
+    -fx-background-radius: 12;
+}
+
+/* Focus */
+.dialog-pane .text-area:focused .content {
+    -fx-background-color: white;
+}

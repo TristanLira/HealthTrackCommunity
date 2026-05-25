@@ -241,7 +241,7 @@
 }
 
 
-/**** DISPLAY PARA PACIENTE ****/
+/************************ DISPLAY PARA PACIENTE ***************************/
 
 /* Contenedor principal del PatientDisplay */
 .patient-display {
@@ -325,6 +325,54 @@
     -fx-icon-size: 14px;
 }
 
+/* Botón aceptar solicitud */
+.accept-request-btn {
+    -fx-background-color: #E6F7EC;
+    -fx-text-fill: #2E9E5B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.accept-request-btn:hover {
+    -fx-background-color: #D4F0DE;
+}
+
+/* Icono del botón */
+.accept-request-icon {
+    -fx-icon-color: #2E9E5B;
+    -fx-icon-size: 14px;
+}
+
+/* Botón enviar comentarios */
+.comment-btn {
+    -fx-background-color: #EAF4FB;
+    -fx-text-fill: #5A7CA2;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+    -fx-border-color: #D6E5F2;
+    -fx-border-radius: 10;
+}
+
+.comment-btn:hover {
+    -fx-background-color: #DCEBF7;
+}
+
+/* Icono del botón */
+.comment-btn-icon {
+    -fx-icon-color: #5A7CA2;
+    -fx-icon-size: 14px;
+}
+
+/************************ DISPLAYS DE MÉTRICAS ***************************/
+
 /* ===========================
    TIPOS DE MÉTRICAS
 =========================== */
@@ -403,7 +451,7 @@
     -fx-scale-y: 1.01;
 }
 
-
+/************************ GRÁFICOS DE EVOLUCIÓN ***************************/
 
 /* ===========================
    BASE LINE CHART
@@ -584,7 +632,9 @@
     -fx-background-color: #e6f8ef;
 }
 
-/**** DISPLAY ALERTAS MÉDICAS ****/
+
+
+/************************ DISPLAY DE ALERTAS MÉDICAS ***************************/
 
 .metric-alert-display {
     -fx-background-color: #FFF9F9;
