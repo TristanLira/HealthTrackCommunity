@@ -13,6 +13,7 @@ public class Comment {
 
     private String title;
     private String content;
+    private boolean fromAlert;
 
     private String date;
     private String time;
@@ -20,11 +21,12 @@ public class Comment {
     private LocalDate dateObj;
     private LocalTime timeObj;
 
-    public Comment(String patientId, String doctorId, String title, String content) {
+    public Comment(String patientId, String doctorId, String title, String content, boolean fromAlert) {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.title = title;
         this.content = content;
+        this.fromAlert = fromAlert;
 
         dateObj = LocalDate.now();
         date = dateObj.toString();
@@ -73,6 +75,14 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isFromAlert() {
+        return fromAlert;
+    }
+
+    public void setFromAlert(boolean fromAlert) {
+        this.fromAlert = fromAlert;
     }
 
     public String getDate() {

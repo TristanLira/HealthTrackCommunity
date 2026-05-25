@@ -61,7 +61,7 @@ public class PatientController {
 
     //seguimiento médico
     public VBox doctorMonitoringSection;
-    public VBox doctorNotesContainer;
+    public VBox doctorCommentsContainer;
 
     /*formularios de registro de métricas*/
     public VBox registerMetricsSection;
@@ -121,6 +121,10 @@ public class PatientController {
     private MetricAlertDAO alertDAO;
     private ObservableList<MetricAlert> alerts;
 
+    //comentarios
+    private CommentDAO commentDAO;
+    private ObservableList<Comment> comments;
+
     public void initialize() {
         hideAllSections();
         dashboardSection.setManaged(true);
@@ -134,6 +138,7 @@ public class PatientController {
         weightDAO = new MetricDAO(logged, MetricDAO.WEIGHT);
         requestDAO = new MonitoringRequestDAO(logged);
         alertDAO = new MetricAlertDAO(logged);
+        commentDAO = new CommentDAO(logged);
 
         heartRate = heartRateDAO.getAll();
         pressure = pressureDAO.getAll();
@@ -141,9 +146,7 @@ public class PatientController {
         weight = weightDAO.getAll();
         requests = requestDAO.getAll();
         alerts = alertDAO.getAll();
-
-        //recent = FXCollections.observableArrayList();
-        //getRecentMetrics(); //Obtiene solo las mediciones recientes. No se usa un DAO porque solo es una query, se hace directo.
+        comments = commentDAO.getAll();
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -169,10 +172,12 @@ public class PatientController {
 
         updateAlertLabel();
 
-        //addMetricsDebug();
+        showComments();
+
+        //addMetricsDebug(6);
     }
 
-    private void addMetricsDebug() {
+    private void addMetricsDebug(int days) {
         List<PressureMetric> pressureMetrics = new ArrayList<>();
         List<GlucoseMetric> glucoseMetrics = new ArrayList<>();
         List<HeartRateMetric> heartRateMetrics = new ArrayList<>();
@@ -180,7 +185,7 @@ public class PatientController {
 
         LocalDate today = LocalDate.now();
 
-        for (int i = 6; i >= 0; i--) {
+        for (int i = days; i >= 0; i--) {
             LocalDate day = today.minusDays(i);
 
             PressureMetric pressureMetric = new PressureMetric(
@@ -669,6 +674,40 @@ public class PatientController {
         );
 
         showDoctorInfo();
+    }
+
+    public void showComments() {
+        for (Comment i: comments) {
+            CommentDisplay display = new CommentDisplay(i);
+            doctorCommentsContainer.getChildren().add(display);
+        }
+
+        comments.addListener((ListChangeListener<Comment>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    for (Comment i: change.getAddedSubList()) {
+                        CommentDisplay display = new CommentDisplay(i);
+                        Platform.runLater(() ->
+                                doctorCommentsContainer.getChildren().addFirst(display));
+                        //se agregan al inicio para que se muestren las más recientes primero como en los demás listeners
+                    }
+                } else if (change.wasRemoved()) {
+                    for (Comment i: change.getRemoved()) {
+                        removeCommment(i);
+                    }
+                }
+            }
+        });
+    }
+
+    private void removeCommment(Comment c) {
+        for (Node i: doctorCommentsContainer.getChildren()) {
+            if (!(i instanceof CommentDisplay)) continue;
+            if ( ((CommentDisplay) i).displaysComment(c) ) {
+                Platform.runLater(() -> doctorCommentsContainer.getChildren().remove(i));
+            }
+        }
     }
 
     /********************************** graficos ******************************************/

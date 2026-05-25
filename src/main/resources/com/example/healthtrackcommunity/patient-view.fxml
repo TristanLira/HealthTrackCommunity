@@ -334,10 +334,9 @@
                     <Label fx:id="doctorNameLabel" styleClass="label-recordatorio"/>
                 </HBox>
 
-                <Label text="Notas de tu médico" styleClass="subtitulo-seccion"/>
+                <Label text="Comentarios de tu médico" styleClass="subtitulo-seccion"/>
 
-                <VBox fx:id="doctorNotesContainer" spacing="10"/>
-
+                <VBox fx:id="doctorCommentsContainer" spacing="10"/>
             </VBox>
 
         </StackPane>

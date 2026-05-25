@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -68,6 +69,13 @@ public class DoctorController {
     public VBox heartRateChartContainer;
     public VBox weightChartContainer;
 
+    //SECCIÓN DE COMENTARIOS
+    public VBox commentsSection;
+    public Label currentPatientCommentLabel;
+    public VBox doctorCommentsContainer;
+    public Button filterCommentsBtn;
+    public Button removeCommentsFilterBtn;
+
 
     //DAOs y doctor loggeado
     private DoctorDAO doctorDAO;
@@ -96,6 +104,10 @@ public class DoctorController {
     private MetricAlertDAO alertDAO;
     private ObservableList<MetricAlert> alerts;
 
+    //comentarios
+    private CommentDAO commentDAO;
+    private ObservableList<Comment> comments;
+
     public void initialize() {
     }
 
@@ -116,14 +128,19 @@ public class DoctorController {
 
         currentPatientMetricLabel.setText("Sin paciente seleccionado.");
         currentPatientChartLabel.setText("Sin paciente seleccionado.");
+        currentPatientCommentLabel.setText("Sin paciente seleccionado.");
 
         alertDAO = new MetricAlertDAO(logged);
         alerts = alertDAO.getAll();
+
+        commentDAO = new CommentDAO(logged);
+        comments = commentDAO.getAll();
 
         //getUnmonitoredPatients();
         showPatients();
         showPendingRequests();
         showAlerts();
+        showComments();
     }
 
     /******************************** MOSTRAR SECCIONES *****************************************/
@@ -139,6 +156,12 @@ public class DoctorController {
         hideAllSections();
         patientsListSection.setVisible(true);
         patientsListSection.setManaged(true);
+    }
+
+    public void showCommentsSection(ActionEvent actionEvent) {
+        hideAllSections();
+        commentsSection.setVisible(true);
+        commentsSection.setManaged(true);
     }
 
     public void showPendingRequests(ActionEvent event) {
@@ -163,9 +186,6 @@ public class DoctorController {
             reloadTab(chartsTab);
         });
         t.start();
-    }
-
-    public void showReports(ActionEvent event) {
     }
 
     public void logout(ActionEvent event) throws IOException {
@@ -245,7 +265,9 @@ public class DoctorController {
         });
 
         d.getCommentBtn().setOnAction(event -> {
-            createCommentAlert(patientDAO.get(d.getPatientId()), "", "");
+            createCommentAlert(patientDAO.get(d.getPatientId()),
+                     "Alerta del " + d.getAlert().getDate(),
+                    "");
         });
     }
 
@@ -383,7 +405,7 @@ public class DoctorController {
     private void addCommentEvent(PatientDisplay p) {
         p.getCommentBtn().setOnAction(event -> {
             Patient patient = patientDAO.get(p.getPatientId());
-            if (patient != null) createCommentAlert(patient, "", "");
+            if (patient != null) createCommentAlert(patient);
         });
     }
 
@@ -405,6 +427,7 @@ public class DoctorController {
             String currentPatientStr = current.getName() + " (" + current.getEmail() + ")";
             currentPatientMetricLabel.setText(currentPatientStr);
             currentPatientChartLabel.setText(currentPatientStr);
+            currentPatientCommentLabel.setText(currentPatientStr);
 
             //iniciar los daos
             currentPressureDAO = new MetricDAO(current, MetricDAO.PRESSURE);
@@ -737,9 +760,10 @@ public class DoctorController {
     }
 
 
-    /******************************** SECCIÓN DE GRAFICOS *****************************************/
+    /******************************** CREAR Y MOSTRAR COMENTARIOS *****************************************/
 
-    public static void createCommentAlert(Patient p, String title, String content) {
+    //comentario respondiendo a una alerta
+    private void createCommentAlert(Patient p, String title, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Comentario");
         alert.setHeaderText("Crear un nuevo comentario para " + p.getName());
@@ -765,12 +789,122 @@ public class DoctorController {
 
         //activar botón
         Optional<ButtonType> result = alert.showAndWait();
+
         if (result.get() == ButtonType.OK){
-            System.out.println("Titulo: " + commentTitle.getText());
-            System.out.println("Contenido: " + commentContent.getText());
+            Comment c = new Comment(p.getId(), logged.getId(), commentTitle.getText(), commentContent.getText(), true);
+            commentDAO.create(c,
+                    () -> Platform.runLater(() ->
+                            AlertUtil.showInfoAlert("Comentario creado", "El comentario fue creado correctamente.")),
+                    () -> Platform.runLater(() ->
+                            AlertUtil.showErrorAlert("Comentario no creado", "No se pudo enviar el comentario. Inténtelo de nuevo más tarde."))
+            );
         } else {
             alert.close();
         }
     }
 
+    //comentario normal
+    private void createCommentAlert(Patient p) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Comentario");
+        alert.setHeaderText("Crear un nuevo comentario para " + p.getName());
+        AlertUtil.addAlertCss(alert);
+
+        TextField commentTitle = new TextField();
+        TextArea commentContent = new TextArea();
+
+        GridPane grid = new GridPane();
+
+        grid.add(new Label("Título"), 0,0);
+        grid.add(commentTitle, 1,0);
+
+        grid.add(new Label("Contenido"), 0,1);
+        grid.add(commentContent, 1,1);
+
+        grid.setVgap(10);
+        grid.setHgap(10);
+
+        alert.getDialogPane().setContent(grid);
+
+        //activar botón
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK){
+            Comment c = new Comment(p.getId(), logged.getId(), commentTitle.getText(), commentContent.getText(), false);
+            commentDAO.create(c,
+                    () -> Platform.runLater(() ->
+                            AlertUtil.showInfoAlert("Comentario creado", "El comentario fue creado correctamente.")),
+                    () -> Platform.runLater(() ->
+                            AlertUtil.showErrorAlert("Comentario no creado", "No se pudo enviar el comentario. Inténtelo de nuevo más tarde."))
+            );
+        } else {
+            alert.close();
+        }
+    }
+
+    public void showComments() {
+        for (Comment i: comments) {
+            Patient p = patientDAO.get(i.getPatientId());
+            if (p == null) continue;
+            CommentDisplay display = new CommentDisplay(i, p);
+            doctorCommentsContainer.getChildren().add(display);
+        }
+
+        comments.addListener((ListChangeListener<Comment>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    for (Comment i: change.getAddedSubList()) {
+                        Patient p = patientDAO.get(i.getPatientId());
+                        if (p == null) continue;
+                        CommentDisplay display = new CommentDisplay(i, p);
+                        Platform.runLater(() ->
+                                doctorCommentsContainer.getChildren().addFirst(display));
+                        //se agregan al inicio para que se muestren las más recientes primero como en los demás listeners
+                    }
+                } else if (change.wasRemoved()) {
+                    for (Comment i: change.getRemoved()) {
+                        removeCommment(i);
+                    }
+                }
+            }
+        });
+    }
+
+    private void removeCommment(Comment c) {
+        for (Node i: doctorCommentsContainer.getChildren()) {
+            if (!(i instanceof CommentDisplay)) continue;
+            if ( ((CommentDisplay) i).displaysComment(c) ) {
+                Platform.runLater(() -> doctorCommentsContainer.getChildren().remove(i));
+            }
+        }
+    }
+
+    public void filterComments(ActionEvent actionEvent) {
+        Thread t = new Thread(() -> {
+            for (Node i: doctorCommentsContainer.getChildren()) {
+                if (!(i instanceof CommentDisplay)) continue;
+
+                String id = ((CommentDisplay) i).getComment().getPatientId();
+                Patient p = patientDAO.get(id);
+
+                boolean isForPatient = p != null && p.equals(current);
+                i.setVisible(isForPatient);
+                i.setManaged(isForPatient);
+            }
+        });
+
+        t.start();
+    }
+
+    public void removeCommentsFilter(ActionEvent actionEvent) {
+        Thread t = new Thread(() -> {
+            for (Node i: doctorCommentsContainer.getChildren()) {
+                i.setVisible(true);
+                i.setManaged(true);
+            }
+        });
+
+        t.start();
+    }
 }
