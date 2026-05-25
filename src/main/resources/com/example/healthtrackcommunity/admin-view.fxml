@@ -46,16 +46,6 @@
                 <text>Dashboard</text>
             </Button>
 
-            <Button onAction="#showPendingDoctors"
-                    styleClass="menu-button"
-                    maxWidth="Infinity">
-                <graphic>
-                    <FontIcon iconLiteral="fas-user-check"
-                              styleClass="icono-menu"/>
-                </graphic>
-                <text>Doctores Pendientes</text>
-            </Button>
-
             <Button onAction="#showAllDoctors"
                     styleClass="menu-button"
                     maxWidth="Infinity">

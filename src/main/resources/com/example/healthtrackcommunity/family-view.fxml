@@ -42,6 +42,10 @@
                 <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
                 <text>Métricas y Gráficos</text>
             </Button>
+            <Button onAction="#showCharts" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="icono-menu"/></graphic>
+                <text>Gráficos</text>
+            </Button>
         </VBox>
         <Separator styleClass="separador-menu"/>
         <Button onAction="#logout" styleClass="menu-button">
@@ -123,6 +127,16 @@
                         <VBox fx:id="weightMetricsContainer" spacing="10"/>
                     </Tab>
                 </TabPane>
+
+            </VBox>
+
+            <!-- SECCIÓN DE GRAFICOS -->
+            <VBox fx:id="chartsSection" spacing="20" visible="false">
+                <Label text="Gráficos de evolución" styleClass="titulo-seccion"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Seleccionar paciente:" styleClass="label-normal"/>
+                    <ComboBox fx:id="patientChartSelector" promptText="Elige un paciente" onAction="#onPatientSelected"/>
+                </HBox>
 
                 <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="chartsTabPane">
                     <Tab text="Gráfico Presión">

@@ -1,5 +1,6 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.models.Patient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -31,12 +32,15 @@ public class FamilyController {
     
     //métricas
     public VBox metricsSection;
-    public ComboBox patientSelector;
+    public ComboBox<Patient> patientSelector;
     public TabPane metricsTabPane;
     public VBox pressureMetricsContainer;
     public VBox glucoseMetricsContainer;
     public VBox heartRateMetricsContainer;
     public VBox weightMetricsContainer;
+
+    public VBox chartsSection;
+    public ComboBox<Patient> patientChartSelector;
     public TabPane chartsTabPane;
     public VBox pressureChartContainer;
     public VBox glucoseChartContainer;
@@ -77,10 +81,10 @@ public class FamilyController {
         metricsSection.setVisible(true);
     }
 
-    public void showAddPatient(ActionEvent actionEvent) {
+    public void showCharts(ActionEvent actionEvent) {
         hideAllSections();
-        addPatientSection.setManaged(true);
-        addPatientSection.setVisible(true);
+        chartsSection.setManaged(true);
+        chartsSection.setVisible(true);
     }
 
     private void hideAllSections() {
