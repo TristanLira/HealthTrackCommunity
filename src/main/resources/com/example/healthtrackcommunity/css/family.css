@@ -1,0 +1,634 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #ffffff;
+}
+
+/* ===========================
+   AREA PRINCIPAL
+=========================== */
+
+.area-principal {
+    -fx-background-color: #ffffff;
+}
+
+#mainContent {
+    -fx-background-color: #ffffff;
+}
+
+#mainScrollPane {
+    -fx-background-color: #ffffff;
+}
+
+#mainScrollPane > .viewport {
+    -fx-background-color: #ffffff;
+}
+
+/* ===========================
+   MENU LATERAL
+=========================== */
+
+.menu-lateral {
+    -fx-background-color: #A98BE0;
+    -fx-border-color: #d9cef3;
+    -fx-border-width: 0 1 0 0;
+}
+
+.icon-perfil {
+    -fx-icon-color: #ffffff;
+}
+
+.icono-menu {
+    -fx-icon-color: #ffffff;
+}
+
+.nombre-familiar {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.rol-usuario {
+    -fx-font-size: 12px;
+    -fx-text-fill: #ece6fa;
+}
+
+.separador-menu {
+    -fx-background-color: #d9cef3;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 12;
+    -fx-background-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: #9372D3;
+}
+
+/* ===========================
+   TITULOS
+=========================== */
+
+.titulo-seccion {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6F5AA8;
+}
+
+.subtitulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7D67B5;
+}
+
+.numero-grande {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6A56A0;
+}
+
+.label-normal {
+    -fx-font-size: 14px;
+    -fx-text-fill: #5C4A8E;
+}
+
+/* ===========================
+   TARJETAS (MORADO SUAVE)
+=========================== */
+
+.info-card {
+    -fx-background-color: #F3EEFC;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+
+    -fx-border-color: #DDD4F2;
+    -fx-border-width: 1;
+
+    -fx-padding: 20;
+    -fx-spacing: 10;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(169,139,224,0.10),
+            10,
+            0.12,
+            0,
+            2
+    );
+}
+
+.info-card:hover {
+    -fx-background-color: #ECE4FA;
+}
+
+/* ===========================
+   BOTONES
+=========================== */
+
+.boton-primario {
+    -fx-background-color: #A98BE0;
+    -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-font-weight: bold;
+}
+
+.boton-primario:hover {
+    -fx-background-color: #9372D3;
+}
+
+.boton-secundario {
+    -fx-background-color: #EEE8FB;
+    -fx-text-fill: #6F5AA8;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #E3DAF8;
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #DDD4F2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #DDD4F2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+
+/* ===========================
+   TABS
+=========================== */
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: #F3EEFC;
+    -fx-padding: 8 20;
+}
+
+.tab:selected {
+    -fx-background-color: #A98BE0;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* ===========================
+   ALERTAS (SIN CAMBIOS)
+=========================== */
+
+.alerta-warning {
+    -fx-background-color: #FFF7E8;
+    -fx-border-color: #F5E6C8;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+}
+
+.icon-warning {
+    -fx-icon-color: #f46060;
+}
+
+.texto-warning {
+    -fx-font-size: 14px;
+    -fx-text-fill: #e85050;
+    -fx-font-weight: bold;
+}
+
+.boton-warning {
+    -fx-background-color: #f46060;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 5 15;
+    -fx-font-size: 12px;
+}
+
+.boton-warning:hover {
+    -fx-background-color: #e84040;
+}
+
+.alertas-card {
+    -fx-background-color: #FFF7F0;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-border-color: #FFE8D0;
+    -fx-border-radius: 16;
+}
+
+.subtitulo-alerta {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e85050;
+}
+
+.texto-alerta {
+    -fx-font-size: 14px;
+    -fx-text-fill: #a06060;
+}
+
+/* ===========================
+   DISPLAY DE PACIENTE
+=========================== */
+
+/* Contenedor principal del PatientDisplay */
+.patient-display {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #DDD4F2;
+    -fx-border-width: 1;
+    -fx-padding: 14 18;
+    -fx-spacing: 10;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(169,139,224,0.10),
+            8,
+            0.15,
+            0,
+            2
+    );
+}
+
+.patient-display:hover {
+    -fx-background-color: #FBF9FF;
+    -fx-border-color: #CDBDF0;
+}
+
+/* Nombre del paciente */
+.patient-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6F5AA8;
+}
+
+/* Correo */
+.patient-email {
+    -fx-font-size: 13px;
+    -fx-text-fill: #9A8BC2;
+}
+
+/* Botón eliminar */
+.remove-patient-btn {
+    -fx-background-color: #FDECEC;
+    -fx-text-fill: #D64545;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.remove-patient-btn:hover {
+    -fx-background-color: #F8D6D6;
+}
+
+/* Icono del botón */
+.remove-patient-icon {
+    -fx-icon-color: #D64545;
+    -fx-icon-size: 14px;
+}
+
+/* Botón aceptar solicitud */
+.accept-request-btn {
+    -fx-background-color: #E6F7EC;
+    -fx-text-fill: #2E9E5B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+}
+
+.accept-request-btn:hover {
+    -fx-background-color: #D4F0DE;
+}
+
+/* Icono del botón */
+.accept-request-icon {
+    -fx-icon-color: #2E9E5B;
+    -fx-icon-size: 14px;
+}
+
+/* Botón enviar comentarios */
+.comment-btn {
+    -fx-background-color: #F3EEFC;
+    -fx-text-fill: #7D67B5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+    -fx-border-color: #DDD4F2;
+    -fx-border-radius: 10;
+}
+
+.comment-btn:hover {
+    -fx-background-color: #E9E0FA;
+}
+
+/* Icono del botón */
+.comment-btn-icon {
+    -fx-icon-color: #7D67B5;
+    -fx-icon-size: 14px;
+}
+
+/* ===========================
+   METRIC DISPLAY CARD
+=========================== */
+
+.metric-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-padding: 18;
+    -fx-spacing: 12;
+
+    -fx-effect: dropshadow(gaussian, rgba(139,181,214,0.12), 12, 0.15, 0, 3);
+
+    -fx-border-width: 0 0 0 6;
+}
+
+/* ===========================
+   TIPOS DE MÉTRICAS
+=========================== */
+
+/* Frecuencia cardiaca */
+.metric-card-heart-rate {
+    -fx-border-color: #fa8989;
+    -fx-background-color: #fbe0e0;
+}
+
+/* Presión arterial */
+.metric-card-pressure {
+    -fx-border-color: #8BC5D6;
+    -fx-background-color: #e5f4f8;
+}
+
+/* Glucosa */
+.metric-card-glucose {
+    -fx-border-color: #C9A8E8;
+    -fx-background-color: #e8def8;
+}
+
+/* Peso / IMC */
+.metric-card-weight {
+    -fx-border-color: #89D1B0;
+    -fx-background-color: #e6f8ef;
+}
+
+/* ===========================
+   TEXTOS GENERALES
+=========================== */
+
+/* Título general de la tarjeta */
+.metric-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: #6aabc7;*/
+    -fx-text-fill: #2F3E46;
+}
+
+/* Etiquetas:
+   Fecha de registro, Hora, etc */
+.metric-field-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: #7BAFC5;*/
+    -fx-text-fill: #4d555c;
+}
+
+/* Valores */
+.metric-field-value {
+    -fx-font-size: 15px;
+    /*-fx-font-weight: bold;*/
+    /*-fx-text-fill: #8A98A3;*/
+    -fx-text-fill: #4d555c;
+}
+
+/* Contenedor interno */
+.metric-content {
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 14;
+}
+
+/* Hover suave */
+.metric-card:hover {
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(139,181,214,0.18),
+            16,
+            0.2,
+            0,
+            4
+    );
+
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+/* ===========================
+   BASE LINE CHART
+=========================== */
+
+.chart {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-padding: 20;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.06),
+            12,
+            0.15,
+            0,
+            3
+    );
+}
+
+.chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 14;
+}
+
+/* Grid */
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(0,0,0,0.08);
+}
+
+.chart-alternative-row-fill,
+.chart-alternative-column-fill {
+    -fx-fill: transparent;
+}
+
+/* Ejes */
+.axis {
+    -fx-tick-label-fill: #4d555c;
+    -fx-font-size: 13px;
+}
+
+.axis-label {
+    -fx-text-fill: #2F3E46;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.axis-tick-mark,
+.axis-minor-tick-mark {
+    -fx-stroke: #bfc8cc;
+}
+
+.axis-line {
+    -fx-stroke: #d5dfe3;
+}
+
+/* Leyenda */
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #4d555c;
+}
+
+/* Puntos */
+.default-color0.chart-line-symbol {
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+/* Línea */
+.chart-series-line {
+    -fx-stroke-width: 3px;
+}
+
+/* Tooltip opcional */
+.chart-tooltip {
+    -fx-background-radius: 10;
+}
+
+
+/* ===========================
+   HEART RATE
+=========================== */
+
+.heart-rate-chart {
+    -fx-border-color: #fa8989;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.heart-rate-chart .default-color0.chart-series-line {
+    -fx-stroke: #fa8989;
+}
+
+.heart-rate-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #fa8989, white;
+}
+
+.heart-rate-chart .chart-plot-background {
+    -fx-background-color: #fbe0e0;
+}
+
+
+/* ===========================
+   PRESSURE
+=========================== */
+
+.pressure-chart {
+    -fx-border-color: #8BC5D6;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.pressure-chart .default-color0.chart-series-line {
+    -fx-stroke: #8BC5D6;
+}
+.pressure-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #8BC5D6, white;
+}
+
+.pressure-chart .default-color1.chart-series-line {
+    -fx-stroke: #8b95d6;
+}
+.pressure-chart .default-color1.chart-line-symbol {
+    -fx-background-color: #8b95d6, white;
+}
+
+.pressure-chart .chart-plot-background {
+    -fx-background-color: #e5f4f8;
+}
+
+
+/* ===========================
+   GLUCOSE
+=========================== */
+
+.glucose-chart {
+    -fx-border-color: #C9A8E8;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.glucose-chart .default-color0.chart-series-line {
+    -fx-stroke: #C9A8E8;
+}
+
+.glucose-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #C9A8E8, white;
+}
+
+.glucose-chart .chart-plot-background {
+    -fx-background-color: #e8def8;
+}
+
+
+/* ===========================
+   WEIGHT
+=========================== */
+
+.weight-chart {
+    -fx-border-color: #89D1B0;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.weight-chart .default-color0.chart-series-line {
+    -fx-stroke: #89D1B0;
+}
+
+.weight-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #89D1B0, white;
+}
+
+.weight-chart .chart-plot-background {
+    -fx-background-color: #e6f8ef;
+}

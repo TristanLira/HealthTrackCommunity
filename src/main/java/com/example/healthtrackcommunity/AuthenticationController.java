@@ -1,9 +1,12 @@
 package com.example.healthtrackcommunity;
 
 import com.example.healthtrackcommunity.models.Doctor;
+import com.example.healthtrackcommunity.models.FamilyMember;
 import com.example.healthtrackcommunity.models.Patient;
 import config.DoctorDAO;
+import config.FamilyMemberDAO;
 import config.PatientDAO;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +30,7 @@ public class AuthenticationController {
     public StackPane formsSection;
     public Button showPatientRegisterBtn;
     public Button showDoctorRegisterBtn;
+    public Button showFamilyRegisterBtn;
     public Button showLoginBtn;
 
     //formulario de registro para doctor
@@ -50,23 +54,36 @@ public class AuthenticationController {
     public PasswordField loginPasswordField;
     public Button loginBtn;
 
+    //formulario de registro de familiar
+    public VBox familyRegisterForm;
+    public TextField familyEmailField;
+    public TextField familyNameField;
+    public PasswordField familyPasswordField;
+    public Button registerFamilyBtn;
+
     //DAOS
     DoctorDAO doctorDAO;
     PatientDAO patientDAO;
+    FamilyMemberDAO familyDAO;
 
     ObservableList<Doctor> doctors;
     ObservableList<Patient> patients;
+    ObservableList<FamilyMember> familyMembers;
 
     public void initialize() {
         showForm(userLoginForm);
         patientDAO = new PatientDAO();
         doctorDAO = new DoctorDAO();
+        familyDAO = new FamilyMemberDAO();
+
         doctors = doctorDAO.getAll();
         patients = patientDAO.getAll();
+        familyMembers = familyDAO.getAll();
 
         //DEBUG
-        loginEmailField.setText("tristan.lira.1636@gmail.com");
-        loginEmailField.setText("24030458@itcelaya.edu.mx");
+        //loginEmailField.setText("tristan.lira.1636@gmail.com");
+        //loginEmailField.setText("24030458@itcelaya.edu.mx");
+        loginEmailField.setText("familiar1@gmail.com");
         loginPasswordField.setText("password1");
     }
 
@@ -78,6 +95,10 @@ public class AuthenticationController {
 
     public void showPatientRegister(ActionEvent actionEvent) {
         showForm(patientRegisterForm);
+    }
+
+    public void showFamilyRegister(ActionEvent actionEvent) {
+        showForm(familyRegisterForm);
     }
 
     public void showLogin(ActionEvent actionEvent) {
@@ -115,9 +136,10 @@ public class AuthenticationController {
         cleanDoctorForm();
 
         doctorDAO.create(d,
-                () -> AlertUtil.showInfoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar."),
-                () -> AlertUtil.showErrorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
-                () -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+        );
     }
 
     private void cleanDoctorForm() {
@@ -141,15 +163,42 @@ public class AuthenticationController {
         cleanPatientForm();
 
         patientDAO.create(p,
-                () -> AlertUtil.showInfoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar."),
-                () -> AlertUtil.showErrorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto."),
-                () -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."));
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+        );
     }
 
     private void cleanPatientForm() {
         patientEmailField.clear();
         patientNameField.clear();
         patientPasswordField.clear();
+    }
+
+    public void registerFamily(ActionEvent actionEvent) {
+        String email = familyEmailField.getText();
+        String password = familyPasswordField.getText();
+        String name = familyNameField.getText();
+
+        if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            return;
+        }
+
+        FamilyMember f = new FamilyMember(email, password, name);
+        cleanFamilyForm();
+
+        familyDAO.create(f,
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Familiar creado.", "Familiar registrado! Inicie sesión para entrar.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear el familiar.", "El familiar no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+        );
+    }
+
+    private void cleanFamilyForm() {
+        familyEmailField.clear();
+        familyNameField.clear();
+        familyPasswordField.clear();
     }
 
 
@@ -176,7 +225,12 @@ public class AuthenticationController {
             if (i.getEmail().equals(email) && i.getPassword().equals(password)) pLogged = i;
         }
 
-        if (dLogged == null && pLogged == null) {
+        FamilyMember fLogged = null;
+        for(FamilyMember i: familyMembers) {
+            if (i.getEmail().equals(email) && i.getPassword().equals(password)) fLogged = i;
+        }
+
+        if (dLogged == null && pLogged == null && fLogged == null) {
             AlertUtil.showErrorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
             return;
         }
@@ -190,9 +244,29 @@ public class AuthenticationController {
         }
         else if (pLogged != null) {
             loadPatientView(actionEvent, pLogged);
-        } else {
+        } else if (fLogged != null) {
+            loadFamilyView(actionEvent, fLogged);
+        }
+        else {
             //TODO cuenta de administrador
         }
+    }
+
+    private void loadFamilyView(ActionEvent event, FamilyMember logged) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("family-view.fxml"));
+        Parent root = loader.load();
+
+        //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
+        FamilyController controller = loader.getController();
+        controller.setLoggedUser(familyDAO, logged, patientDAO);
+
+        //obtiene el stage donde está el botón que creó el evento
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        Stage stage = (Stage) currentScene.getWindow();
+        Scene newScene = new Scene(root, currentScene.getWidth(), currentScene.getHeight());
+        //newScene.getStylesheets().add(getClass().getResource("css/patient.css").toExternalForm());
+        stage.setScene(newScene);
+        stage.show();
     }
 
     private void loadDoctorView(ActionEvent event, Doctor logged) throws IOException {
@@ -230,6 +304,5 @@ public class AuthenticationController {
         stage.setScene(newScene);
         stage.show();
     }
-
 }
 
