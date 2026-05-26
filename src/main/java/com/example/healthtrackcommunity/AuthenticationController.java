@@ -128,7 +128,7 @@ public class AuthenticationController {
         String specialization = doctorSpecializationField.getText();
 
         if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -136,9 +136,9 @@ public class AuthenticationController {
         cleanDoctorForm();
 
         doctorDAO.create(d,
-                () -> Platform.runLater(() -> infoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar.")),
-                () -> Platform.runLater(() -> errorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
-                () -> Platform.runLater(() -> errorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
         );
     }
 
@@ -155,7 +155,7 @@ public class AuthenticationController {
         String name = patientNameField.getText();
 
         if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -163,9 +163,9 @@ public class AuthenticationController {
         cleanPatientForm();
 
         patientDAO.create(p,
-                () -> Platform.runLater(() -> infoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar.")),
-                () -> Platform.runLater(() -> errorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
-                () -> Platform.runLater(() -> errorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Paciente creado.", "Paciente registrado! Inicie sesión para entrar.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear paciente.", "El paciente no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
         );
     }
 
@@ -181,7 +181,7 @@ public class AuthenticationController {
         String name = familyNameField.getText();
 
         if (emptyStr(email) || emptyStr(name) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -189,9 +189,9 @@ public class AuthenticationController {
         cleanFamilyForm();
 
         familyDAO.create(f,
-                () -> Platform.runLater(() -> infoAlert("Familiar creado.", "Familiar registrado! Inicie sesión para entrar.")),
-                () -> Platform.runLater(() -> errorAlert("Error al crear el familiar.", "El familiar no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
-                () -> Platform.runLater(() -> errorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Familiar creado.", "Familiar registrado! Inicie sesión para entrar.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear el familiar.", "El familiar no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
         );
     }
 
@@ -209,7 +209,7 @@ public class AuthenticationController {
         String password = loginPasswordField.getText();
 
         if (emptyStr(email) || emptyStr(password)) {
-            errorAlert("Campos vacíos", "Por favor rellene todos los campos.");
+            AlertUtil.showErrorAlert("Campos vacíos", "Por favor rellene todos los campos.");
             return;
         }
 
@@ -231,7 +231,7 @@ public class AuthenticationController {
         }
 
         if (dLogged == null && pLogged == null && fLogged == null) {
-            errorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
+            AlertUtil.showErrorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
             return;
         }
 
@@ -303,23 +303,6 @@ public class AuthenticationController {
         //newScene.getStylesheets().add(getClass().getResource("css/patient.css").toExternalForm());
         stage.setScene(newScene);
         stage.show();
-    }
-
-
-    /********************************** ALERTAS ******************************************/
-
-    private void errorAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
-    }
-
-    private void infoAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.show();
     }
 }
 

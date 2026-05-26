@@ -5,6 +5,7 @@ import com.example.healthtrackcommunity.models.Patient;
 import config.DoctorDAO;
 import config.FamilyMemberDAO;
 import config.PatientDAO;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -132,20 +133,27 @@ public class FamilyController {
             }
 
             if (patient == null) {
-                //TODO mostrar alerta
+                Platform.runLater(() ->
+                    AlertUtil.showErrorAlert("Paciente no encontrado", "No se encontró el paciente, verifique el email y la contraseña."));
                 return;
             }
 
             //si ya tiene el paciente evita registrarlo de nuevo
             if (logged.getPatientsId().contains(patient.getId())) {
-                //alerta
+                Platform.runLater(() ->
+                    AlertUtil.showErrorAlert("Paciente registrado", "Ya ha registrado a este paciente."));
                 return;
             }
 
             logged.addPatientId(patient.getId());
-            familyDAO.update(logged);
+            //familyDAO.update(logged);
 
-            //alerta
+            familyDAO.update(logged,
+                    () -> Platform.runLater(() ->
+                            AlertUtil.showInfoAlert("Paciente agregado", "El paciente fue agregado correctamente a su cuenta.")),
+                    () -> Platform.runLater(() ->
+                            AlertUtil.showErrorAlert("Error", "El paciente no pudo ser agregado, inténtelo de nuevo."))
+            );
         });
 
         t.start();

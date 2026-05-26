@@ -140,6 +140,24 @@ public class FamilyMemberDAO implements DAO<FamilyMember> {
         });
     }
 
+    public void update(FamilyMember f, Runnable success, Runnable fail) {
+        if (!familyMembers.contains(f)) {
+            fail.run();
+            return;
+        }
+
+        ref.child(f.getId()).setValue(f, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference databaseReference) {
+                if (error == null) {
+                    success.run();
+                } else {
+                    fail.run();
+                }
+            }
+        });
+    }
+
     /* VALIDACIONES */
 
     private boolean validateEmail(String email) {
