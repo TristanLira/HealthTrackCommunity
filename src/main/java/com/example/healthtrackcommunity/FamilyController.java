@@ -1,10 +1,10 @@
 package com.example.healthtrackcommunity;
 
-import com.example.healthtrackcommunity.controls.PatientDisplay;
-import com.example.healthtrackcommunity.models.FamilyMember;
-import com.example.healthtrackcommunity.models.Patient;
+import com.example.healthtrackcommunity.controls.*;
+import com.example.healthtrackcommunity.models.*;
 import config.DoctorDAO;
 import config.FamilyMemberDAO;
+import config.MetricDAO;
 import config.PatientDAO;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -122,6 +122,12 @@ public class FamilyController {
         Stage stage = (Stage) currentScene.getWindow();
         stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
         stage.show();
+    }
+
+    private void reloadTab(TabPane pane) {
+        Tab selected = pane.getSelectionModel().getSelectedItem();
+        pane.getSelectionModel().clearSelection();
+        pane.getSelectionModel().select(selected);
     }
 
     /******************************* SECCIÓN DE DASHBOARD *****************************************/
@@ -311,7 +317,81 @@ public class FamilyController {
     /******************************* SECCIÓN DE MÉTRICAS *****************************************/
 
     public void onPatientSelected(ActionEvent actionEvent) {
+        if (patientSelector.getValue() != null) {
+            loadMetricDisplays(patientSelector.getValue());
+        }
+    }
+
+    private void loadMetricDisplays(Patient p) {
+        MetricDAO pressureDAO = new MetricDAO(p, MetricDAO.PRESSURE);
+        MetricDAO glucoseDAO = new MetricDAO(p, MetricDAO.GLUCOSE);
+        MetricDAO heartRateDAO = new MetricDAO(p, MetricDAO.HEART_RATE);
+        MetricDAO weightDAO = new MetricDAO(p, MetricDAO.WEIGHT);
+
+        loadDisplay(pressureDAO.getAll(), pressureMetricsContainer, PressureMetric.class);
+        loadDisplay(heartRateDAO.getAll(), heartRateMetricsContainer, HeartRateMetric.class);
+        loadDisplay(glucoseDAO.getAll(), glucoseMetricsContainer, GlucoseMetric.class);
+        loadDisplay(weightDAO.getAll(), weightMetricsContainer, WeightMetric.class);
+    }
+
+    private void loadDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        list.addListener((ListChangeListener<? super Metric>) change -> {
+
+            while (change.next()) {
+                if (change.wasAdded()) {
+
+                    for (Metric i: change.getAddedSubList()) {
+                        if (i.getClass() != metricClass) continue; //no debería haber otro tipo de métricas en esta lista, pero por si acaso
+                        MetricDisplay display = getDisplay(i);
+                        display.hideTitle();
+                        Platform.runLater(() -> container.getChildren().addFirst(display));
+                        /*Ya que en la base de datos las mediciones se guardan en orden de registro, al leerlas se obtienen primero las más
+                         * antiguas. Guardando cada medición recibida de la base de datos al inicio, se terminan mostrando ordenadas en la GUI*/
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Metric i: change.getRemoved()) {
+                        for (Node j: container.getChildren()) {
+                            if (!(j instanceof MetricDisplay)) continue;
+                            if ( ((MetricDisplay) j).isMetric(i) ) {
+                                Platform.runLater(() -> container.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
+
+                }
+
+                reloadTab(metricsTabPane);
+            }
+        });
+    }
+
+    private MetricDisplay getDisplay(Metric m) {
+        MetricDisplay display;
+
+        if (m instanceof PressureMetric) {
+            display = new PressureDisplay((PressureMetric) m);
+        }
+        else if (m instanceof HeartRateMetric) {
+            display = new HeartRateDisplay((HeartRateMetric) m);
+        }
+        else if (m instanceof GlucoseMetric) {
+            display = new GlucoseDisplay((GlucoseMetric) m);
+        }
+        else if (m instanceof WeightMetric) {
+            display = new WeightDisplay((WeightMetric) m);
+        } else {
+            display = new MetricDisplay(m);
+        }
+
+        return display;
     }
 
 
+    /******************************* SECCIÓN DE GRÁFICOS *****************************************/
+
+    public void onPatientChartSelected(ActionEvent actionEvent) {
+    }
 }

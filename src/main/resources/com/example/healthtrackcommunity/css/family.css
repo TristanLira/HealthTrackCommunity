@@ -1,23 +1,31 @@
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
-    -fx-background-color: #f3effb;
+    -fx-background-color: #ffffff;
 }
 
+/* ===========================
+   AREA PRINCIPAL
+=========================== */
+
 .area-principal {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffffff;
 }
 
 #mainContent {
-    -fx-background-color: #f3effb;
+    -fx-background-color: #ffffff;
 }
 
 #mainScrollPane {
-    -fx-background-color: #f3effb;
+    -fx-background-color: #ffffff;
 }
 
 #mainScrollPane > .viewport {
-    -fx-background-color: #f3effb;
+    -fx-background-color: #ffffff;
 }
+
+/* ===========================
+   MENU LATERAL
+=========================== */
 
 .menu-lateral {
     -fx-background-color: #A98BE0;
@@ -63,9 +71,9 @@
     -fx-background-color: #9372D3;
 }
 
-.area-principal {
-    -fx-background-color: #faf8fe;
-}
+/* ===========================
+   TITULOS
+=========================== */
 
 .titulo-seccion {
     -fx-font-size: 28px;
@@ -79,27 +87,49 @@
     -fx-text-fill: #7D67B5;
 }
 
+.numero-grande {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6A56A0;
+}
+
+.label-normal {
+    -fx-font-size: 14px;
+    -fx-text-fill: #5C4A8E;
+}
+
+/* ===========================
+   TARJETAS (MORADO SUAVE)
+=========================== */
+
 .info-card {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #F3EEFC;
     -fx-background-radius: 16;
+    -fx-border-radius: 16;
+
+    -fx-border-color: #DDD4F2;
+    -fx-border-width: 1;
+
     -fx-padding: 20;
     -fx-spacing: 10;
 
     -fx-effect: dropshadow(
             gaussian,
             rgba(169,139,224,0.10),
-            8,
-            0,
+            10,
+            0.12,
             0,
             2
     );
 }
 
-.numero-grande {
-    -fx-font-size: 48px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #7D67B5;
+.info-card:hover {
+    -fx-background-color: #ECE4FA;
 }
+
+/* ===========================
+   BOTONES
+=========================== */
 
 .boton-primario {
     -fx-background-color: #A98BE0;
@@ -114,19 +144,23 @@
 }
 
 .boton-secundario {
-    -fx-background-color: #eee8fb;
+    -fx-background-color: #EEE8FB;
     -fx-text-fill: #6F5AA8;
     -fx-background-radius: 12;
     -fx-padding: 12 24;
 }
 
 .boton-secundario:hover {
-    -fx-background-color: #e3daf8;
+    -fx-background-color: #E3DAF8;
 }
+
+/* ===========================
+   INPUTS
+=========================== */
 
 .text-field {
     -fx-background-color: white;
-    -fx-border-color: #ddd4f2;
+    -fx-border-color: #DDD4F2;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 8;
@@ -134,18 +168,22 @@
 
 .combo-box {
     -fx-background-color: white;
-    -fx-border-color: #ddd4f2;
+    -fx-border-color: #DDD4F2;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 8;
 }
+
+/* ===========================
+   TABS
+=========================== */
 
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: transparent;
 }
 
 .tab {
-    -fx-background-color: #eee8fb;
+    -fx-background-color: #F3EEFC;
     -fx-padding: 8 20;
 }
 
@@ -158,38 +196,10 @@
     -fx-font-weight: bold;
 }
 
-/* MÉTRICAS (SIN CAMBIOS) */
-.metric-card {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 14;
-    -fx-padding: 15;
-    -fx-spacing: 8;
-    -fx-border-radius: 14;
-    -fx-border-width: 0 0 0 5;
-}
+/* ===========================
+   ALERTAS (SIN CAMBIOS)
+=========================== */
 
-.metric-card-pressure {
-    -fx-border-color: #6fa8dc;
-}
-
-.metric-card-glucose {
-    -fx-border-color: #c27ba0;
-}
-
-.metric-card-heart-rate {
-    -fx-border-color: #e06666;
-}
-
-.metric-card-weight {
-    -fx-border-color: #93c47d;
-}
-
-.label-normal {
-    -fx-font-size: 14px;
-    -fx-text-fill: #6F5AA8;
-}
-
-/* ALERTAS (SIN CAMBIOS) */
 .alerta-warning {
     -fx-background-color: #FFF7E8;
     -fx-border-color: #F5E6C8;
@@ -348,4 +358,98 @@
 .comment-btn-icon {
     -fx-icon-color: #7D67B5;
     -fx-icon-size: 14px;
+}
+
+/* ===========================
+   METRIC DISPLAY CARD
+=========================== */
+
+.metric-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-padding: 18;
+    -fx-spacing: 12;
+
+    -fx-effect: dropshadow(gaussian, rgba(139,181,214,0.12), 12, 0.15, 0, 3);
+
+    -fx-border-width: 0 0 0 6;
+}
+
+/* ===========================
+   TIPOS DE MÉTRICAS
+=========================== */
+
+/* Frecuencia cardiaca */
+.metric-card-heart-rate {
+    -fx-border-color: #fa8989;
+    -fx-background-color: #fbe0e0;
+}
+
+/* Presión arterial */
+.metric-card-pressure {
+    -fx-border-color: #8BC5D6;
+    -fx-background-color: #e5f4f8;
+}
+
+/* Glucosa */
+.metric-card-glucose {
+    -fx-border-color: #C9A8E8;
+    -fx-background-color: #e8def8;
+}
+
+/* Peso / IMC */
+.metric-card-weight {
+    -fx-border-color: #89D1B0;
+    -fx-background-color: #e6f8ef;
+}
+
+/* ===========================
+   TEXTOS GENERALES
+=========================== */
+
+/* Título general de la tarjeta */
+.metric-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: #6aabc7;*/
+    -fx-text-fill: #2F3E46;
+}
+
+/* Etiquetas:
+   Fecha de registro, Hora, etc */
+.metric-field-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: #7BAFC5;*/
+    -fx-text-fill: #4d555c;
+}
+
+/* Valores */
+.metric-field-value {
+    -fx-font-size: 15px;
+    /*-fx-font-weight: bold;*/
+    /*-fx-text-fill: #8A98A3;*/
+    -fx-text-fill: #4d555c;
+}
+
+/* Contenedor interno */
+.metric-content {
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 14;
+}
+
+/* Hover suave */
+.metric-card:hover {
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(139,181,214,0.18),
+            16,
+            0.2,
+            0,
+            4
+    );
+
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
 }

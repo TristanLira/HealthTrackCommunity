@@ -115,16 +115,32 @@
                 </HBox>
                 <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="metricsTabPane">
                     <Tab text="Presión Arterial">
-                        <VBox fx:id="pressureMetricsContainer" spacing="10"/>
+                        <VBox fx:id="pressureMetricsContainer" spacing="10">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                     <Tab text="Glucosa">
-                        <VBox fx:id="glucoseMetricsContainer" spacing="10"/>
+                        <VBox fx:id="glucoseMetricsContainer" spacing="10">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                     <Tab text="Frecuencia Cardíaca">
-                        <VBox fx:id="heartRateMetricsContainer" spacing="10"/>
+                        <VBox fx:id="heartRateMetricsContainer" spacing="10">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                     <Tab text="Peso/IMC">
-                        <VBox fx:id="weightMetricsContainer" spacing="10"/>
+                        <VBox fx:id="weightMetricsContainer" spacing="10">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                 </TabPane>
 
@@ -135,21 +151,37 @@
                 <Label text="Gráficos de evolución" styleClass="titulo-seccion"/>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Label text="Seleccionar paciente:" styleClass="label-normal"/>
-                    <ComboBox fx:id="patientChartSelector" promptText="Elige un paciente" onAction="#onPatientSelected"/>
+                    <ComboBox fx:id="patientChartSelector" promptText="Elige un paciente" onAction="#onPatientChartSelected"/>
                 </HBox>
 
                 <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="chartsTabPane">
                     <Tab text="Gráfico Presión">
-                        <VBox fx:id="pressureChartContainer" alignment="CENTER"/>
+                        <VBox fx:id="pressureChartContainer" alignment="CENTER">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                     <Tab text="Gráfico Glucosa">
-                        <VBox fx:id="glucoseChartContainer" alignment="CENTER"/>
+                        <VBox fx:id="glucoseChartContainer" alignment="CENTER">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                     <Tab text="Gráfico Frecuencia Cardíaca">
-                        <VBox fx:id="heartRateChartContainer" alignment="CENTER"/>
+                        <VBox fx:id="heartRateChartContainer" alignment="CENTER">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                     <Tab text="Gráfico Peso/IMC">
-                        <VBox fx:id="weightChartContainer" alignment="CENTER"/>
+                        <VBox fx:id="weightChartContainer" alignment="CENTER">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
                     </Tab>
                 </TabPane>
             </VBox>
