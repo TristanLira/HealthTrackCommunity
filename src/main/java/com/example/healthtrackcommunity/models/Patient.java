@@ -64,7 +64,7 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Paciente: " + name + "\n" + email + "\n" + password;
+        return name + " (" + email + ")";
     }
 
     @Override

@@ -1,11 +1,15 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.controls.PatientDisplay;
 import com.example.healthtrackcommunity.models.FamilyMember;
 import com.example.healthtrackcommunity.models.Patient;
 import config.DoctorDAO;
 import config.FamilyMemberDAO;
 import config.PatientDAO;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,6 +22,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.font.FontRenderContext;
 import java.io.IOException;
 import java.util.IllegalFormatCodePointException;
 
@@ -60,6 +65,7 @@ public class FamilyController {
 
     private FamilyMemberDAO familyDAO;
     private FamilyMember logged;
+    private ObservableList<Patient> familyPatients;
 
     private PatientDAO patientDAO;
 
@@ -71,6 +77,9 @@ public class FamilyController {
         familyNameLabel.setText(logged.getName());
 
         this.patientDAO = patientDA0;
+
+        createFamilyPatientsList();
+        loadPatients();
     }
 
     /******************************* MOSTRAR SECCIONES *****************************************/
@@ -145,6 +154,7 @@ public class FamilyController {
                 return;
             }
 
+            familyPatients.add(patient);
             logged.addPatientId(patient.getId());
             //familyDAO.update(logged);
 
@@ -164,12 +174,138 @@ public class FamilyController {
         patientPasswordField.clear();
     }
 
+    private void createFamilyPatientsList() {
+        familyPatients = FXCollections.observableArrayList();
+        patientSelector.setItems(familyPatients);
+        patientChartSelector.setItems(familyPatients);
+
+        for (String i: logged.getPatientsId()) {
+            Patient p = patientDAO.get(i);
+            if (p != null) familyPatients.add(p);
+        }
+    }
+
     /******************************* SECCIÓN DE PACIENTES *****************************************/
 
+    private void loadPatients() {
+        //agrega las que ya estaban en la lista
+        /*patientsListContainer.getChildren().clear();
+
+        for (Patient i: patients) {
+            PatientDisplay p = new PatientDisplay(i);
+            addPatientEvents(p);
+            Platform.runLater(() -> {
+                totalPatientsLabel.setText(patients.size() + "");
+                patientsListContainer.getChildren().add(p);
+            });
+        }*/
+
+        //por alguna razón no carga la lista de pacientes a la primera si no se hace con el runnable
+
+        patientsContainer.getChildren().clear();
+
+        Runnable refresh = () -> {
+            Platform.runLater(() -> patientsContainer.getChildren().clear());
+
+            for (Patient i : familyPatients) {
+                PatientDisplay p = new PatientDisplay(i);
+                addPatientEvents(p);
+                Platform.runLater(() ->
+                        patientsContainer.getChildren().add(p));
+            }
+
+            Platform.runLater(() ->
+                    patientCountLabel.setText(familyPatients.size() + ""));
+        };
+
+        refresh.run();
+
+        //evento para los futuros pacientes agregados
+        familyPatients.addListener((ListChangeListener<Patient>) change -> {
+            while(change.next()) {
+                Platform.runLater(() ->
+                        patientCountLabel.setText(familyPatients.size() + ""));
+
+                if (change.wasAdded()) {
+
+                    for (Patient i: change.getAddedSubList()) {
+                        if (i == null) {
+                            System.out.println("Paciente recibido (null)");
+                            continue;
+                        }
+                        System.out.println("Paciente recibido: " + i.getName() + "(" + i.getDoctorId() + ")");
+                        PatientDisplay p = new PatientDisplay(i);
+                        addPatientEvents(p);
+                        Platform.runLater(() ->
+                                patientsContainer.getChildren().add(p));
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Patient i: change.getRemoved()) {
+                        for (Node j: patientsContainer.getChildren()) {
+                            if (!(j instanceof PatientDisplay)) continue;
+                            if ( ((PatientDisplay) j).displaysPatient(i) ) {
+                                Platform.runLater(() ->
+                                        patientsContainer.getChildren().remove(j));
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    private void addPatientEvents(PatientDisplay p) {
+        //como reutiliza el display de doctor, desactiva algunas de las funciones disponibles para el doctor
+        p.getCommentBtn().setManaged(false);
+        p.getCommentBtn().setVisible(false);
+        p.getRemoveBtn().setManaged(false);
+        p.getRemoveBtn().setVisible(false);
+        p.getVisualizeBtn().setManaged(false);
+        p.getVisualizeBtn().setVisible(false);
+    }
+
     public void filterPatients(ActionEvent actionEvent) {
+        String filter = searchPatientField.getText();
+        searchPatientField.clear();
+
+        removeFilters();
+
+        //inicia el filtro en otro hilo para no congelar el de javafx
+        Thread t = new Thread(() -> startFilter(filter));
+        t.start();
     }
 
     public void clearFilter(ActionEvent actionEvent) {
+        Thread t = new Thread(() -> removeFilters());
+        t.start();
+    }
+
+    public void startFilter(String filter) {
+        for (Node i: patientsContainer.getChildren()) {
+            if (!(i instanceof PatientDisplay)) continue;
+
+            if ( ((PatientDisplay)i).getPatientName().contains(filter) ||
+                    ((PatientDisplay)i).getPatientEmail().contains(filter))
+                continue;
+
+            Platform.runLater(() -> {
+                i.setVisible(false);
+                i.setManaged(false);
+            });
+        }
+    }
+
+    public void removeFilters() {
+        for (Node i: patientsContainer.getChildren()) {
+            Platform.runLater(() -> {
+                i.setVisible(true);
+                i.setManaged(true);
+            });
+        }
     }
 
     /******************************* SECCIÓN DE MÉTRICAS *****************************************/
