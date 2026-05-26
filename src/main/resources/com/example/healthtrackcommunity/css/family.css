@@ -453,3 +453,182 @@
     -fx-scale-x: 1.01;
     -fx-scale-y: 1.01;
 }
+
+/* ===========================
+   BASE LINE CHART
+=========================== */
+
+.chart {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-padding: 20;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.06),
+            12,
+            0.15,
+            0,
+            3
+    );
+}
+
+.chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 14;
+}
+
+/* Grid */
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(0,0,0,0.08);
+}
+
+.chart-alternative-row-fill,
+.chart-alternative-column-fill {
+    -fx-fill: transparent;
+}
+
+/* Ejes */
+.axis {
+    -fx-tick-label-fill: #4d555c;
+    -fx-font-size: 13px;
+}
+
+.axis-label {
+    -fx-text-fill: #2F3E46;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.axis-tick-mark,
+.axis-minor-tick-mark {
+    -fx-stroke: #bfc8cc;
+}
+
+.axis-line {
+    -fx-stroke: #d5dfe3;
+}
+
+/* Leyenda */
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #4d555c;
+}
+
+/* Puntos */
+.default-color0.chart-line-symbol {
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+/* Línea */
+.chart-series-line {
+    -fx-stroke-width: 3px;
+}
+
+/* Tooltip opcional */
+.chart-tooltip {
+    -fx-background-radius: 10;
+}
+
+
+/* ===========================
+   HEART RATE
+=========================== */
+
+.heart-rate-chart {
+    -fx-border-color: #fa8989;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.heart-rate-chart .default-color0.chart-series-line {
+    -fx-stroke: #fa8989;
+}
+
+.heart-rate-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #fa8989, white;
+}
+
+.heart-rate-chart .chart-plot-background {
+    -fx-background-color: #fbe0e0;
+}
+
+
+/* ===========================
+   PRESSURE
+=========================== */
+
+.pressure-chart {
+    -fx-border-color: #8BC5D6;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.pressure-chart .default-color0.chart-series-line {
+    -fx-stroke: #8BC5D6;
+}
+.pressure-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #8BC5D6, white;
+}
+
+.pressure-chart .default-color1.chart-series-line {
+    -fx-stroke: #8b95d6;
+}
+.pressure-chart .default-color1.chart-line-symbol {
+    -fx-background-color: #8b95d6, white;
+}
+
+.pressure-chart .chart-plot-background {
+    -fx-background-color: #e5f4f8;
+}
+
+
+/* ===========================
+   GLUCOSE
+=========================== */
+
+.glucose-chart {
+    -fx-border-color: #C9A8E8;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.glucose-chart .default-color0.chart-series-line {
+    -fx-stroke: #C9A8E8;
+}
+
+.glucose-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #C9A8E8, white;
+}
+
+.glucose-chart .chart-plot-background {
+    -fx-background-color: #e8def8;
+}
+
+
+/* ===========================
+   WEIGHT
+=========================== */
+
+.weight-chart {
+    -fx-border-color: #89D1B0;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.weight-chart .default-color0.chart-series-line {
+    -fx-stroke: #89D1B0;
+}
+
+.weight-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #89D1B0, white;
+}
+
+.weight-chart .chart-plot-background {
+    -fx-background-color: #e6f8ef;
+}
