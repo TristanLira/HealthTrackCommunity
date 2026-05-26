@@ -14,11 +14,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.IllegalFormatCodePointException;
 
 public class FamilyController {
 
+    private static final Logger log = LoggerFactory.getLogger(FamilyController.class);
     public Label familyNameLabel;
     public ScrollPane mainScrollPane;
     public StackPane mainContent;
@@ -28,6 +32,8 @@ public class FamilyController {
     public Label patientCountLabel;
     public Label lastAlertLabel;
     public VBox alertsContainer;
+    public TextField patientEmailField;
+    public PasswordField patientPasswordField;
     
     //pacientes
     public VBox patientsListSection;
@@ -50,18 +56,20 @@ public class FamilyController {
     public VBox glucoseChartContainer;
     public VBox heartRateChartContainer;
     public VBox weightChartContainer;
-    
-    //agregar paciente
-    public VBox addPatientSection;
-    public TextField patientEmailField;
-    public TextField patientNameField;
-    public PasswordField patientPasswordField;
 
+    private FamilyMemberDAO familyDAO;
+    private FamilyMember logged;
 
+    private PatientDAO patientDAO;
 
     public void initialize() {}
 
     public void setLoggedUser(FamilyMemberDAO familyDAO, FamilyMember logged, PatientDAO patientDA0) {
+        this.familyDAO = familyDAO;
+        this.logged = logged;
+        familyNameLabel.setText(logged.getName());
+
+        this.patientDAO = patientDA0;
     }
 
     /******************************* MOSTRAR SECCIONES *****************************************/
@@ -106,6 +114,48 @@ public class FamilyController {
         stage.show();
     }
 
+    /******************************* SECCIÓN DE DASHBOARD *****************************************/
+    public void addPatient(ActionEvent actionEvent) {
+        String patientEmail = patientEmailField.getText();
+        String patientPassword = patientPasswordField.getText();
+
+        cleanPatientForm();
+
+        //hace la búsqueda en otro hilo para no bloquear el hilo de javafx
+        Thread t = new Thread(() -> {
+            Patient patient = null;
+            for (Patient i: patientDAO.getAll()) {
+                if (i.getEmail().equals(patientEmail) && i.getPassword().equals(patientPassword)) {
+                    patient = i;
+                    break;
+                }
+            }
+
+            if (patient == null) {
+                //TODO mostrar alerta
+                return;
+            }
+
+            //si ya tiene el paciente evita registrarlo de nuevo
+            if (logged.getPatientsId().contains(patient.getId())) {
+                //alerta
+                return;
+            }
+
+            logged.addPatientId(patient.getId());
+            familyDAO.update(logged);
+
+            //alerta
+        });
+
+        t.start();
+    }
+
+    private void cleanPatientForm() {
+        patientEmailField.clear();
+        patientPasswordField.clear();
+    }
+
     /******************************* SECCIÓN DE PACIENTES *****************************************/
 
     public void filterPatients(ActionEvent actionEvent) {
@@ -119,10 +169,5 @@ public class FamilyController {
     public void onPatientSelected(ActionEvent actionEvent) {
     }
 
-    /******************************* SECCIÓN DE MÉTRICAS *****************************************/
-    public void addPatient(ActionEvent actionEvent) {
-    }
 
-    public void cancelAddPatient(ActionEvent actionEvent) {
-    }
 }

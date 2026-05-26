@@ -79,7 +79,7 @@
                     </VBox>
                 </VBox>
 
-                <VBox styleClass="info-card">
+                <VBox styleClass="info-card" alignment="CENTER" fillWidth="false">
                     <Label text="Pacientes a tu cargo:" styleClass="subtitulo"/>
                     <Label fx:id="patientCountLabel" text="0" styleClass="numero-grande"/>
                 </VBox>
