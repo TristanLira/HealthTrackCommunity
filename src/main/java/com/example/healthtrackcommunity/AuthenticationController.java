@@ -13,10 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -27,7 +24,11 @@ import java.io.IOException;
 
 public class AuthenticationController {
 
+    private String aboutUs =
+            "Somos una plataforma colaborativa enfocada en el monitoreo y seguimiento de enfermedades crónicas.";
+
     public StackPane formsSection;
+    public Label aboutUsLabel;
     public Button showPatientRegisterBtn;
     public Button showDoctorRegisterBtn;
     public Button showFamilyRegisterBtn;
@@ -71,6 +72,7 @@ public class AuthenticationController {
     ObservableList<FamilyMember> familyMembers;
 
     public void initialize() {
+        aboutUsLabel.setText(aboutUs);
         showForm(userLoginForm);
         patientDAO = new PatientDAO();
         doctorDAO = new DoctorDAO();
