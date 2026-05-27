@@ -43,6 +43,8 @@ dependencies {
 
     //firebase
     implementation("com.google.firebase:firebase-admin:9.8.0")
+
+    implementation("com.google.code.gson:gson:2.13.1")
 }
 
 tasks.withType<Test> {

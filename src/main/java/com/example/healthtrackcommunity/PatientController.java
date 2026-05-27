@@ -1,5 +1,6 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.api.WeatherDAO;
 import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
 import com.google.firebase.database.*;
@@ -58,6 +59,7 @@ public class PatientController {
     public VBox patientPressureChartContainer;
     public VBox patientHeartRateChartContainer;
     public VBox patientWeightChartContainer;
+    public VBox weatherChartContainer;
 
     //seguimiento médico
     public VBox doctorMonitoringSection;
@@ -93,6 +95,21 @@ public class PatientController {
     public HBox doctorInfoCard;
     public Label doctorNameLabel;
     public Label requestInfoLabel;
+    
+    //tarjeta de clima
+    public VBox weatherCard;
+    public Label weatherIconLabel;
+    public Label weatherDescriptionLabel;
+    public Label temperatureLabel;
+    public Label maxTempLabel;
+    public Label minTempLabel;
+
+    //labels de recomendaciones
+    public Label pressureRecommendationLabel;
+    public Label heartRateRecommendationLabel;
+    public Label weightRecommendationLabel;
+    public Label glucoseRecommendationLabel;
+    public Label weatherRecommendationLabel;
 
     //información de pacientes y doctores
     private PatientDAO patientDAO;
@@ -131,6 +148,8 @@ public class PatientController {
         hideAllSections();
         dashboardSection.setManaged(true);
         dashboardSection.setVisible(true);
+
+        generateWeatherChart();
     }
 
     private void initMetricDAOs() {
@@ -185,7 +204,7 @@ public class PatientController {
 
         //addDoctorsDebug();
 
-        addCommentsToPatientsDebug();
+        //addCommentsToPatientsDebug();
     }
 
     private void addMetricsDebug(Patient p, int days) {
@@ -674,12 +693,20 @@ public class PatientController {
         //hace el análisis en un hilo nuevo para no bloquear el de javafx
         Thread t = new Thread(() -> {
             HealthTrendAnalyzer analyzer = new HealthTrendAnalyzer(recent);
+
             if (analyzer.hasDangerousTendencies()) {
                 MetricAlert a = analyzer.getAlert(logged.getId(), monitoring.getId());
                 registerAlert(a);
             } else {
                 Platform.runLater(() -> AlertUtil.showInfoAlert("Métricas correctas", "Tus métricas se encuentran en rangos normales. ¡Continúa así!"));
             }
+
+            Platform.runLater(() -> {
+                pressureRecommendationLabel.setText(analyzer.getPressureRecommendation());
+                glucoseRecommendationLabel.setText(analyzer.getGlucoseRecommendation());
+                heartRateRecommendationLabel.setText(analyzer.getHeartRateRecommendation());
+                weightRecommendationLabel.setText(analyzer.getWeightRecommendation());
+            });
         });
 
         t.start();
@@ -886,5 +913,92 @@ public class PatientController {
                 recent);
 
         generator.setTab(chartsTab);
+    }
+
+    /*generar gráfico de clima*/
+
+    private void generateWeatherChart() {
+        WeatherData weather;
+
+        try {
+            WeatherDAO dao = new WeatherDAO();
+            weather = dao.getWeather(20.5235, -100.8157, 7);
+
+            System.out.println("Temperatura actual: " + weather.getCurrentTemperature() + "°C");
+            System.out.println("Clima actual: " + weather.getCurrentWeather());
+            System.out.println("\nHistorial:");
+
+            for (WeatherDay day : weather.getHistory()) {
+                System.out.println(day);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        LineChart<String, Number> lineChart = getTemperatureChart(weather.getHistory());
+
+        Platform.runLater(() -> {
+            weatherChartContainer.getChildren().clear();
+            weatherChartContainer.getChildren().add(lineChart);
+            weatherRecommendationLabel.setText(weather.getRecommendation());
+        });
+    }
+
+    private LineChart<String, Number> getTemperatureChart(List<WeatherDay> weatherDays) {
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Temperatura");
+
+        LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
+
+        XYChart.Series<String, Number> maxTemps = new XYChart.Series<>();
+        maxTemps.setName("Temperatura máxima");
+
+        XYChart.Series<String, Number> minTemps = new XYChart.Series<>();
+        minTemps.setName("Temperatura mínima");
+
+        for (WeatherDay day : weatherDays) {
+            String label = ChartGenerator.getDayName( LocalDate.parse(day.getDate()) );
+            maxTemps.getData().add(new XYChart.Data<>(label, day.getMaxTemperature()));
+            minTemps.getData().add(new XYChart.Data<>(label, day.getMinTemperature())
+            );
+        }
+
+        chart.getData().addAll(maxTemps, minTemps);
+
+        chart.setCreateSymbols(true); // muestra puntos
+        chart.setAnimated(false);
+
+        chart.getStyleClass().add("weather-chart");
+
+        return chart;
+    }
+
+    public void setWeather(WeatherData weather) {
+
+        temperatureLabel.setText(
+                Math.round(weather.getCurrentTemperature())
+                        + "°C"
+        );
+
+        weatherDescriptionLabel.setText(
+                weather.getCurrentWeather()
+        );
+
+        WeatherDay today =
+                weather.getHistory().getLast();
+
+        maxTempLabel.setText(
+                Math.round(today.getMaxTemperature())
+                        + "°C"
+        );
+
+        minTempLabel.setText(
+                Math.round(today.getMinTemperature())
+                        + "°C"
+        );
     }
 }

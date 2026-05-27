@@ -88,7 +88,7 @@ public class ChartGenerator {
         tab.getSelectionModel().select(selected);
     }
 
-    private String getDayName(LocalDate date) {
+    public static String getDayName(LocalDate date) {
         switch (date.getDayOfWeek()) {
             case MONDAY -> {
                 return "LUN";
