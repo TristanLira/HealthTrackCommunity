@@ -109,6 +109,7 @@ public class PatientController {
     public Label heartRateRecommendationLabel;
     public Label weightRecommendationLabel;
     public Label glucoseRecommendationLabel;
+    public Label weatherRecommendationLabel;
 
     //información de pacientes y doctores
     private PatientDAO patientDAO;
@@ -692,12 +693,20 @@ public class PatientController {
         //hace el análisis en un hilo nuevo para no bloquear el de javafx
         Thread t = new Thread(() -> {
             HealthTrendAnalyzer analyzer = new HealthTrendAnalyzer(recent);
+
             if (analyzer.hasDangerousTendencies()) {
                 MetricAlert a = analyzer.getAlert(logged.getId(), monitoring.getId());
                 registerAlert(a);
             } else {
                 Platform.runLater(() -> AlertUtil.showInfoAlert("Métricas correctas", "Tus métricas se encuentran en rangos normales. ¡Continúa así!"));
             }
+
+            Platform.runLater(() -> {
+                pressureRecommendationLabel.setText(analyzer.getPressureRecommendation());
+                glucoseRecommendationLabel.setText(analyzer.getGlucoseRecommendation());
+                heartRateRecommendationLabel.setText(analyzer.getHeartRateRecommendation());
+                weightRecommendationLabel.setText(analyzer.getWeightRecommendation());
+            });
         });
 
         t.start();
@@ -933,6 +942,7 @@ public class PatientController {
         Platform.runLater(() -> {
             weatherChartContainer.getChildren().clear();
             weatherChartContainer.getChildren().add(lineChart);
+            weatherRecommendationLabel.setText(weather.getRecommendation());
         });
     }
 
@@ -940,22 +950,18 @@ public class PatientController {
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
-
         yAxis.setLabel("Temperatura");
 
         LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
 
         XYChart.Series<String, Number> maxTemps = new XYChart.Series<>();
-
         maxTemps.setName("Temperatura máxima");
 
         XYChart.Series<String, Number> minTemps = new XYChart.Series<>();
-
         minTemps.setName("Temperatura mínima");
 
         for (WeatherDay day : weatherDays) {
             String label = ChartGenerator.getDayName( LocalDate.parse(day.getDate()) );
-
             maxTemps.getData().add(new XYChart.Data<>(label, day.getMaxTemperature()));
             minTemps.getData().add(new XYChart.Data<>(label, day.getMinTemperature())
             );

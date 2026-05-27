@@ -286,7 +286,7 @@
                             <VBox fx:id="patientPressureChartContainer" alignment="CENTER" spacing="15"/>
 
                             <VBox spacing="10" styleClass="recommendation-card, pressure-recommendation">
-                                <Label text="Presión arterial" styleClass="recommendation-title"/>
+                                <Label text="Recomendaciones en base a la presión arterial" styleClass="recommendation-title"/>
                                 <Label fx:id="pressureRecommendationLabel" wrapText="true" styleClass="recommendation-message"
                                        text="Realiza un análisis para obtener recomendaciones."/>
                             </VBox>
@@ -297,7 +297,7 @@
                         <VBox alignment="CENTER" spacing="15">
                             <VBox fx:id="patientHeartRateChartContainer" alignment="CENTER" spacing="15"/>
                             <VBox spacing="10" styleClass="recommendation-card, heart-rate-recommendation">
-                                <Label text="Ritmo cardiaco" styleClass="recommendation-title"/>
+                                <Label text="Recomendaciones en base al ritmo cardiaco" styleClass="recommendation-title"/>
                                 <Label fx:id="heartRateRecommendationLabel" wrapText="true" styleClass="recommendation-message"
                                        text="Realiza un análisis para obtener recomendaciones."/>
                             </VBox>
@@ -309,7 +309,7 @@
                             <VBox fx:id="patientGlucoseChartContainer" alignment="CENTER" spacing="15"/>
 
                             <VBox spacing="10" styleClass="recommendation-card, heart-rate-recommendation">
-                                <Label text="Glucosa" styleClass="recommendation-title"/>
+                                <Label text="Recomendaciones en base al nivel de glucosa" styleClass="recommendation-title"/>
                                 <Label fx:id="glucoseRecommendationLabel" wrapText="true" styleClass="recommendation-message"
                                        text="Realiza un análisis para obtener recomendaciones."/>
                             </VBox>
@@ -321,7 +321,7 @@
                             <VBox fx:id="patientWeightChartContainer" alignment="CENTER" spacing="15"/>
 
                             <VBox spacing="10" styleClass="recommendation-card, weight-recommendation">
-                                <Label text="Peso" styleClass="recommendation-title"/>
+                                <Label text="Recomendaciones en base al peso" styleClass="recommendation-title"/>
                                 <Label fx:id="weightRecommendationLabel" wrapText="true" styleClass="recommendation-message"
                                        text="Realiza un análisis para obtener recomendaciones."/>
                             </VBox>
@@ -378,7 +378,7 @@
                                 <!-- Recommendations -->
                                 <VBox spacing="8">
                                     <Label text="Recomendaciones" styleClass="weather-recommendation-title"/>
-                                    <Label fx:id="recommendationLabel" wrapText="true" text="Mantente hidratado y evita exposición prolongada al sol." styleClass="weather-recommendation-text"/>
+                                    <Label fx:id="weatherRecommendationLabel" wrapText="true" text="Mantente hidratado y evita exposición prolongada al sol." styleClass="weather-recommendation-text"/>
                                 </VBox>
 
                             </VBox>
