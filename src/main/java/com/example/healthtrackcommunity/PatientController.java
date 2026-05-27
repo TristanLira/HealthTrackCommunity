@@ -26,8 +26,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
+import java.util.*;
 
 public class PatientController {
 
@@ -179,9 +179,16 @@ public class PatientController {
         createChartGenerator();
 
         //addMetricsDebug(6);
+
+        /*Thread t = new Thread(() -> createPatientsDebug(100, 100));
+        t.start();*/
+
+        //addDoctorsDebug();
+
+        addCommentsToPatientsDebug();
     }
 
-    private void addMetricsDebug(int days) {
+    private void addMetricsDebug(Patient p, int days) {
         List<PressureMetric> pressureMetrics = new ArrayList<>();
         List<GlucoseMetric> glucoseMetrics = new ArrayList<>();
         List<HeartRateMetric> heartRateMetrics = new ArrayList<>();
@@ -193,23 +200,23 @@ public class PatientController {
             LocalDate day = today.minusDays(i);
 
             PressureMetric pressureMetric = new PressureMetric(
-                    logged.getId(),
+                    p.getId(),
                     110 + (int)(Math.random() * 20), // sistólica random
                     70 + (int)(Math.random() * 15)   // diastólica random
             );
 
             GlucoseMetric glucoseMetric = new GlucoseMetric(
-                    logged.getId(),
+                    p.getId(),
                     80 + (int)(Math.random() * 60)
             );
 
             HeartRateMetric heartRateMetric = new HeartRateMetric(
-                    logged.getId(),
+                    p.getId(),
                     60 + (int)(Math.random() * 41)
             );
 
             WeightMetric weightMetric = new WeightMetric(
-                    logged.getId(),
+                    p.getId(),
                     175,
                     65 + (int)(Math.random() * 10) // peso 65–75 kg
             );
@@ -226,10 +233,165 @@ public class PatientController {
             weightMetrics.add(weightMetric);
         }
 
-        for (Metric j: pressureMetrics) pressureDAO.create(j);
-        for (Metric j: glucoseMetrics) glucoseDAO.create(j);
-        for (Metric j: heartRateMetrics) heartRateDAO.create(j);
-        for (Metric j: weightMetrics) weightDAO.create(j);
+        MetricDAO pDAO = new MetricDAO(p, MetricDAO.PRESSURE);
+        MetricDAO gDAO = new MetricDAO(p, MetricDAO.GLUCOSE);
+        MetricDAO hDAO = new MetricDAO(p, MetricDAO.HEART_RATE);
+        MetricDAO wDAO = new MetricDAO(p, MetricDAO.WEIGHT);
+
+        for (Metric j: pressureMetrics) pDAO.create(j);
+        for (Metric j: glucoseMetrics) gDAO.create(j);
+        for (Metric j: heartRateMetrics) hDAO.create(j);
+        for (Metric j: weightMetrics) wDAO.create(j);
+    }
+
+    private void addMetricsDebug(int days) {
+        addMetricsDebug(logged, days);
+    }
+
+    private void createPatientsDebug(int patientsNum, int metricsNum) {
+        String[] names = {
+                "Juan", "María", "José", "Ana", "Luis", "Carmen", "Pedro", "Sofía",
+                "Miguel", "Lucía", "Fernando", "Valeria", "Carlos", "Elena", "Jorge",
+                "Daniela", "Ricardo", "Paula", "Andrés", "Camila", "Diego", "Fernanda",
+                "Manuel", "Gabriela", "Eduardo", "Natalia", "Alejandro", "Patricia",
+                "Francisco", "Andrea", "Raúl", "Mónica", "Sebastián", "Victoria"
+        };
+
+        String[] lastNames = {
+                "Pérez", "García", "Martínez", "López", "Hernández", "González",
+                "Rodríguez", "Sánchez", "Ramírez", "Cruz", "Flores", "Torres",
+                "Rivera", "Gómez", "Díaz", "Morales", "Vargas", "Castillo",
+                "Ortiz", "Reyes", "Jiménez", "Ruiz", "Mendoza", "Aguilar",
+                "Ramos", "Silva", "Romero", "Navarro", "Delgado", "Medina"
+        };
+
+        Random random = new Random();
+        Set<String> usedNames = new HashSet<>();
+
+        for (int i = 1; i <= patientsNum; i++) {
+
+            String fullName;
+
+            //evitar nombres completos repetidos
+            do {
+                String firstName = names[random.nextInt(names.length)];
+                String lastName1 = lastNames[random.nextInt(lastNames.length)];
+                String lastName2 = lastNames[random.nextInt(lastNames.length)];
+
+                fullName = firstName + " " + lastName1 + " " + lastName2;
+
+            } while (usedNames.contains(fullName));
+
+            usedNames.add(fullName);
+
+            Patient p = new Patient(
+                    "paciente" + i + "@gmail.com",
+                    "password1",
+                    fullName
+            );
+
+            patientDAO.create(p,
+                    () -> addMetricsDebug(p, 100),
+                    () -> System.out.println("Error al crear: " + p.getEmail()),
+                    () -> System.out.println("Email ya registrado: " + p.getEmail())
+            );
+        }
+    }
+
+    private void addDoctorsDebug() {
+        ObservableList<Patient> copy = FXCollections.observableArrayList(patients);
+
+        Random random = new Random();
+
+        for (Patient i: copy) {
+            if (!i.getDoctorId().isEmpty()) continue;
+
+            Doctor rdoctor = null;
+
+            while (rdoctor == null) rdoctor = doctors.get(random.nextInt(doctors.size()) );
+
+            i.setDoctorId(rdoctor.getId());
+            patientDAO.update(i);
+        }
+
+        System.out.println("DOCTORES AGREGADOS");
+    }
+
+    private void addCommentsToPatientsDebug() {
+        ObservableList<Patient> copy = FXCollections.observableArrayList(patients);
+        for (Patient i: copy) createComments(i, 10);
+    }
+
+    private void createComments(Patient p, int days) {
+        if (p.getDoctorId().isEmpty()) return;
+
+        List<String> commentTitles = List.of(
+                "Seguimiento General",
+                "Estado de Salud",
+                "Monitoreo Preventivo",
+                "Revisión de Métricas",
+                "Control de Signos Vitales",
+                "Observación Médica",
+                "Recomendación General",
+                "Evaluación Periódica",
+                "Seguimiento de Rutina",
+                "Análisis de Resultados",
+                "Control Médico",
+                "Evaluación de Progreso",
+                "Estado Actual",
+                "Revisión Preventiva",
+                "Observaciones del Médico",
+                "Chequeo General",
+                "Revisión de Indicadores",
+                "Monitoreo de Salud",
+                "Seguimiento Clínico",
+                "Control Preventivo"
+        );
+
+        List<String> medicalComments = List.of(
+                "Tus signos vitales se encuentran dentro de rangos normales. Continúa con tus hábitos actuales.",
+                "Se recomienda mantener una alimentación equilibrada y una hidratación adecuada.",
+                "Tus métricas muestran estabilidad general. Continúa con el monitoreo regular.",
+                "Se observan ligeras variaciones que no parecen preocupantes por el momento.",
+                "Es importante mantener actividad física moderada de forma constante.",
+                "No se detectan alteraciones importantes en los registros recientes.",
+                "Sería recomendable continuar con revisiones periódicas para seguimiento.",
+                "Procura mantener horarios de sueño regulares y evitar estrés excesivo.",
+                "Tus resultados reflejan una evolución favorable en comparación con registros anteriores.",
+                "Hay pequeños cambios en algunos indicadores que conviene seguir observando.",
+                "Continúa registrando tus mediciones para llevar un mejor control.",
+                "Se recomienda reducir el consumo de alimentos altos en azúcar y sodio.",
+                "Tu estado general parece estable con base en las métricas actuales.",
+                "Mantén hábitos saludables y evita periodos prolongados de inactividad.",
+                "Las mediciones actuales permanecen dentro de valores esperados.",
+                "Es recomendable repetir algunas mediciones en próximos días para confirmar estabilidad.",
+                "No se identifican señales de alerta inmediatas, pero es importante continuar el seguimiento.",
+                "Se observa consistencia en los registros, lo cual es positivo para el monitoreo.",
+                "Podría beneficiarte mantener una rutina más constante de actividad física.",
+                "Tus métricas reflejan un estado general adecuado hasta el momento."
+        );
+
+
+        Random r = new Random();
+
+        for (int i = days; i >= 0; i--) {
+            //fecha y hora
+            LocalDate day = LocalDate.now().minusDays(i);
+            LocalTime randomTime = LocalTime.of(
+                    r.nextInt(24), // hora (0–23)
+                    r.nextInt(60), // minuto (0–59)
+                    r.nextInt(60)  // segundo (0–59)
+            );
+
+            String title = commentTitles.get( r.nextInt(commentTitles.size()) );
+            String comment = medicalComments.get( r.nextInt(medicalComments.size()) );
+
+            Comment c = new Comment(p.getId(), p.getDoctorId(), title, comment, false);
+            c.setDate(day.toString());
+            c.setTime(randomTime.toString());
+
+            commentDAO.create(c);
+        }
     }
 
     private void updateRequestInfo() {
