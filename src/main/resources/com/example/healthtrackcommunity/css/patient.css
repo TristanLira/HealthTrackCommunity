@@ -567,6 +567,39 @@
     -fx-background-color: #e6f8ef;
 }
 
+/* ===========================
+   WEATHER
+=========================== */
+
+.weather-chart {
+    -fx-border-color: #F4C542;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+/* Temperatura máxima */
+.weather-chart .default-color0.chart-series-line {
+    -fx-stroke: #f48042;
+}
+
+.weather-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #f48042, white;
+}
+
+/* Temperatura mínima */
+.weather-chart .default-color1.chart-series-line {
+    -fx-stroke: #F4C542;
+}
+
+.weather-chart .default-color1.chart-line-symbol {
+    -fx-background-color: #F4C542, white;
+}
+
+/* Fondo del chart */
+.weather-chart .chart-plot-background {
+    -fx-background-color: #FFF6D8;
+}
+
 /********************************
     COMMENT DISPLAY
 ********************************/

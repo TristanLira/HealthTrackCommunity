@@ -1,5 +1,6 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.api.WeatherDAO;
 import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
 import com.google.firebase.database.*;
@@ -58,6 +59,7 @@ public class PatientController {
     public VBox patientPressureChartContainer;
     public VBox patientHeartRateChartContainer;
     public VBox patientWeightChartContainer;
+    public VBox weatherChartContainer;
 
     //seguimiento médico
     public VBox doctorMonitoringSection;
@@ -131,6 +133,8 @@ public class PatientController {
         hideAllSections();
         dashboardSection.setManaged(true);
         dashboardSection.setVisible(true);
+
+        generateWeatherChart();
     }
 
     private void initMetricDAOs() {
@@ -185,7 +189,7 @@ public class PatientController {
 
         //addDoctorsDebug();
 
-        addCommentsToPatientsDebug();
+        //addCommentsToPatientsDebug();
     }
 
     private void addMetricsDebug(Patient p, int days) {
@@ -887,4 +891,70 @@ public class PatientController {
 
         generator.setTab(chartsTab);
     }
+
+    /*generar gráfico de clima*/
+
+    private void generateWeatherChart() {
+        WeatherData weather;
+
+        try {
+            WeatherDAO dao = new WeatherDAO();
+            weather = dao.getWeather(20.5235, -100.8157, 7);
+
+            System.out.println("Temperatura actual: " + weather.getCurrentTemperature() + "°C");
+            System.out.println("Clima actual: " + weather.getCurrentWeather());
+            System.out.println("\nHistorial:");
+
+            for (WeatherDay day : weather.getHistory()) {
+                System.out.println(day);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        LineChart<String, Number> lineChart = getTemperatureChart(weather.getHistory());
+
+        Platform.runLater(() -> {
+            weatherChartContainer.getChildren().clear();
+            weatherChartContainer.getChildren().add(lineChart);
+        });
+    }
+
+    private LineChart<String, Number> getTemperatureChart(List<WeatherDay> weatherDays) {
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+
+        yAxis.setLabel("Temperatura");
+
+        LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
+
+        XYChart.Series<String, Number> maxTemps = new XYChart.Series<>();
+
+        maxTemps.setName("Temperatura máxima");
+
+        XYChart.Series<String, Number> minTemps = new XYChart.Series<>();
+
+        minTemps.setName("Temperatura mínima");
+
+        for (WeatherDay day : weatherDays) {
+            String label = ChartGenerator.getDayName( LocalDate.parse(day.getDate()) );
+
+            maxTemps.getData().add(new XYChart.Data<>(label, day.getMaxTemperature()));
+            minTemps.getData().add(new XYChart.Data<>(label, day.getMinTemperature())
+            );
+        }
+
+        chart.getData().addAll(maxTemps, minTemps);
+
+        chart.setCreateSymbols(true); // muestra puntos
+        chart.setAnimated(false);
+
+        chart.getStyleClass().add("weather-chart");
+
+        return chart;
+    }
+
 }

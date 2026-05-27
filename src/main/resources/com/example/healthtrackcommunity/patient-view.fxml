@@ -296,6 +296,10 @@
                     <Tab text="Peso / IMC">
                         <VBox fx:id="patientWeightChartContainer" alignment="CENTER" spacing="15"/>
                     </Tab>
+
+                    <Tab text="Clima">
+                        <VBox fx:id="weatherChartContainer" alignment="CENTER" spacing="15"/>
+                    </Tab>
                 </TabPane>
             </VBox>
 
