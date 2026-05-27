@@ -145,7 +145,7 @@
                     </Button>
                 </HBox>
 
-                <VBox fx:id="allPatientsContainer" spacing="5"/>
+                <VBox fx:id="patientsContainer" spacing="5"/>
             </VBox>
 
         </StackPane>

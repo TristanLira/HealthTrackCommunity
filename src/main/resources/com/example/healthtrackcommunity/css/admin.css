@@ -155,3 +155,168 @@
     -fx-padding: 12 24;
     -fx-font-weight: bold;
 }
+
+/************************ DISPLAY PARA PACIENTE / DOCTOR ***************************/
+
+/* Contenedor principal */
+.patient-display {
+
+    -fx-background-color: white;
+
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+
+    -fx-border-color: #ead9db;
+    -fx-border-width: 1;
+
+    -fx-padding: 14 18;
+    -fx-spacing: 10;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(158,61,68,0.08),
+            8,
+            0.15,
+            0,
+            2
+    );
+}
+
+.patient-display:hover {
+
+    -fx-background-color: #fff7f7;
+    -fx-border-color: #d9b2b6;
+}
+
+
+/* ===========================
+   TEXTO
+=========================== */
+
+/* Nombre */
+.patient-name {
+
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #7b2f35;
+}
+
+/* Correo / especialización */
+.patient-email {
+
+    -fx-font-size: 13px;
+
+    -fx-text-fill: #9f7378;
+}
+
+
+/* ===========================
+   BOTÓN ELIMINAR
+=========================== */
+
+.remove-patient-btn {
+
+    -fx-background-color: #fdeced;
+
+    -fx-text-fill: #b03d47;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 10;
+
+    -fx-padding: 8 14;
+
+    -fx-cursor: hand;
+
+    -fx-graphic-text-gap: 8;
+
+    -fx-border-color: #efcfd2;
+    -fx-border-radius: 10;
+}
+
+.remove-patient-btn:hover {
+
+    -fx-background-color: #f9d9dc;
+}
+
+.remove-patient-icon {
+
+    -fx-icon-color: #b03d47;
+    -fx-icon-size: 14px;
+}
+
+
+/* ===========================
+   BOTÓN VISUALIZAR
+=========================== */
+
+.accept-request-btn {
+
+    -fx-background-color: #f4e8ea;
+
+    -fx-text-fill: #9e3d44;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 10;
+
+    -fx-padding: 8 14;
+
+    -fx-cursor: hand;
+
+    -fx-graphic-text-gap: 8;
+
+    -fx-border-color: #e2c9cc;
+    -fx-border-radius: 10;
+}
+
+.accept-request-btn:hover {
+
+    -fx-background-color: #ead9db;
+}
+
+.accept-request-icon {
+
+    -fx-icon-color: #9e3d44;
+    -fx-icon-size: 14px;
+}
+
+
+/* ===========================
+   BOTÓN COMENTAR
+=========================== */
+
+.comment-btn {
+
+    -fx-background-color: #fbf4f4;
+
+    -fx-text-fill: #8a5258;
+
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 10;
+
+    -fx-padding: 8 14;
+
+    -fx-cursor: hand;
+
+    -fx-graphic-text-gap: 8;
+
+    -fx-border-color: #ead9db;
+    -fx-border-radius: 10;
+}
+
+.comment-btn:hover {
+
+    -fx-background-color: #f3e5e6;
+}
+
+.comment-btn-icon {
+
+    -fx-icon-color: #8a5258;
+    -fx-icon-size: 14px;
+}

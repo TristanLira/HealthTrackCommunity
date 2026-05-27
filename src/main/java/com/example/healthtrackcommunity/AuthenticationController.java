@@ -1,8 +1,10 @@
 package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.models.Administrator;
 import com.example.healthtrackcommunity.models.Doctor;
 import com.example.healthtrackcommunity.models.FamilyMember;
 import com.example.healthtrackcommunity.models.Patient;
+import config.AdministratorDAO;
 import config.DoctorDAO;
 import config.FamilyMemberDAO;
 import config.PatientDAO;
@@ -66,10 +68,12 @@ public class AuthenticationController {
     DoctorDAO doctorDAO;
     PatientDAO patientDAO;
     FamilyMemberDAO familyDAO;
+    AdministratorDAO adminDAO;
 
     ObservableList<Doctor> doctors;
     ObservableList<Patient> patients;
     ObservableList<FamilyMember> familyMembers;
+    ObservableList<Administrator> admins;
 
     public void initialize() {
         aboutUsLabel.setText(aboutUs);
@@ -77,13 +81,15 @@ public class AuthenticationController {
         patientDAO = new PatientDAO();
         doctorDAO = new DoctorDAO();
         familyDAO = new FamilyMemberDAO();
+        adminDAO = new AdministratorDAO();
 
         doctors = doctorDAO.getAll();
         patients = patientDAO.getAll();
         familyMembers = familyDAO.getAll();
+        admins = adminDAO.getAll();
 
         //DEBUG
-        loginEmailField.setText("tristan.lira.1636@gmail.com");
+        loginEmailField.setText("admin1@gmail.com");
         //loginEmailField.setText("24030458@itcelaya.edu.mx");
         // loginEmailField.setText("familiar1@gmail.com");
         loginPasswordField.setText("password1");
@@ -232,7 +238,12 @@ public class AuthenticationController {
             if (i.getEmail().equals(email) && i.getPassword().equals(password)) fLogged = i;
         }
 
-        if (dLogged == null && pLogged == null && fLogged == null) {
+        Administrator aLogged = null;
+        for (Administrator i: admins) {
+            if (i.getEmail().equals(email) && i.getPassword().equals(password)) aLogged = i;
+        }
+
+        if (dLogged == null && pLogged == null && fLogged == null && aLogged == null) {
             AlertUtil.showErrorAlert("Cuenta inexistente.", "El email o la contraseña son incorrectos. Por favor inténtelo de nuevo.");
             return;
         }
@@ -250,7 +261,7 @@ public class AuthenticationController {
             loadFamilyView(actionEvent, fLogged);
         }
         else {
-            //TODO cuenta de administrador
+            loadAdminView(actionEvent, aLogged);
         }
     }
 
@@ -261,6 +272,23 @@ public class AuthenticationController {
         //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
         FamilyController controller = loader.getController();
         controller.setLoggedUser(familyDAO, logged, patientDAO);
+
+        //obtiene el stage donde está el botón que creó el evento
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        Stage stage = (Stage) currentScene.getWindow();
+        Scene newScene = new Scene(root, currentScene.getWidth(), currentScene.getHeight());
+        //newScene.getStylesheets().add(getClass().getResource("css/patient.css").toExternalForm());
+        stage.setScene(newScene);
+        stage.show();
+    }
+
+    private void loadAdminView(ActionEvent event, Administrator logged) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
+        Parent root = loader.load();
+
+        //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
+        AdminController controller = loader.getController();
+        controller.setLoggedUser(adminDAO, logged, patientDAO, doctorDAO);
 
         //obtiene el stage donde está el botón que creó el evento
         Scene currentScene = ((Node) event.getSource()).getScene();
