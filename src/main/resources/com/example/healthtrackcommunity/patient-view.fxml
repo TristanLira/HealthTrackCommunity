@@ -282,23 +282,108 @@
                 <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="chartsTab">
 
                     <Tab text="Presión Arterial">
-                        <VBox fx:id="patientPressureChartContainer" alignment="CENTER" spacing="15"/>
+                        <VBox alignment="CENTER" spacing="15">
+                            <VBox fx:id="patientPressureChartContainer" alignment="CENTER" spacing="15"/>
+
+                            <VBox spacing="10" styleClass="recommendation-card, pressure-recommendation">
+                                <Label text="Presión arterial" styleClass="recommendation-title"/>
+                                <Label fx:id="pressureRecommendationLabel" wrapText="true" styleClass="recommendation-message"
+                                       text="Realiza un análisis para obtener recomendaciones."/>
+                            </VBox>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Frecuencia Cardíaca">
-                        <VBox fx:id="patientHeartRateChartContainer" alignment="CENTER" spacing="15"/>
+                        <VBox alignment="CENTER" spacing="15">
+                            <VBox fx:id="patientHeartRateChartContainer" alignment="CENTER" spacing="15"/>
+                            <VBox spacing="10" styleClass="recommendation-card, heart-rate-recommendation">
+                                <Label text="Ritmo cardiaco" styleClass="recommendation-title"/>
+                                <Label fx:id="heartRateRecommendationLabel" wrapText="true" styleClass="recommendation-message"
+                                       text="Realiza un análisis para obtener recomendaciones."/>
+                            </VBox>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Glucosa">
-                        <VBox fx:id="patientGlucoseChartContainer" alignment="CENTER" spacing="15"/>
+                        <VBox spacing="15" alignment="CENTER">
+                            <VBox fx:id="patientGlucoseChartContainer" alignment="CENTER" spacing="15"/>
+
+                            <VBox spacing="10" styleClass="recommendation-card, heart-rate-recommendation">
+                                <Label text="Glucosa" styleClass="recommendation-title"/>
+                                <Label fx:id="glucoseRecommendationLabel" wrapText="true" styleClass="recommendation-message"
+                                       text="Realiza un análisis para obtener recomendaciones."/>
+                            </VBox>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Peso / IMC">
-                        <VBox fx:id="patientWeightChartContainer" alignment="CENTER" spacing="15"/>
+                        <VBox spacing="15" alignment="CENTER">
+                            <VBox fx:id="patientWeightChartContainer" alignment="CENTER" spacing="15"/>
+
+                            <VBox spacing="10" styleClass="recommendation-card, weight-recommendation">
+                                <Label text="Peso" styleClass="recommendation-title"/>
+                                <Label fx:id="weightRecommendationLabel" wrapText="true" styleClass="recommendation-message"
+                                       text="Realiza un análisis para obtener recomendaciones."/>
+                            </VBox>
+                        </VBox>
                     </Tab>
 
                     <Tab text="Clima">
-                        <VBox fx:id="weatherChartContainer" alignment="CENTER" spacing="15"/>
+                        <VBox alignment="CENTER" spacing="15">
+                            <VBox fx:id="weatherChartContainer" alignment="CENTER" spacing="15"/>
+
+                            <!-- tarjeta de clima -->
+                            <VBox spacing="16" fillWidth="true" styleClass="weather-card">
+
+                                <!-- Header -->
+                                <VBox spacing="4">
+
+                                    <Label text="Clima actual"
+                                           styleClass="weather-title"/>
+
+                                    <Label fx:id="weatherDescriptionLabel"
+                                           text="Parcialmente nublado"
+                                           styleClass="weather-description"/>
+                                </VBox>
+
+                                <!-- Temperature -->
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox spacing="2">
+                                        <Label fx:id="temperatureLabel" text="26°C" styleClass="weather-temperature"/>
+                                        <Label text="Temperatura actual" styleClass="weather-subtitle"/>
+                                    </VBox>
+
+                                    <Pane HBox.hgrow="ALWAYS"/>
+
+                                    <VBox alignment="CENTER_RIGHT"
+                                          spacing="6">
+
+                                        <HBox spacing="6">
+                                            <Label text="Máx" styleClass="weather-stat-title"/>
+                                            <Label fx:id="maxTempLabel" text="31°C" styleClass="weather-max"/>
+                                        </HBox>
+
+                                        <HBox spacing="6">
+                                            <Label text="Mín" styleClass="weather-stat-title"/>
+                                            <Label fx:id="minTempLabel" text="18°C" styleClass="weather-min"/>
+                                        </HBox>
+
+                                    </VBox>
+
+                                </HBox>
+
+                                <!-- Divider -->
+                                <Separator/>
+
+                                <!-- Recommendations -->
+                                <VBox spacing="8">
+                                    <Label text="Recomendaciones" styleClass="weather-recommendation-title"/>
+                                    <Label fx:id="recommendationLabel" wrapText="true" text="Mantente hidratado y evita exposición prolongada al sol." styleClass="weather-recommendation-text"/>
+                                </VBox>
+
+                            </VBox>
+
+                        </VBox>
                     </Tab>
                 </TabPane>
             </VBox>

@@ -709,3 +709,276 @@
 .comment-display-alert .comment-icon {
     -fx-icon-color: #A1666F;
 }
+
+.weather-card {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #FFF8DE,
+            #FFF1BF
+    );
+
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+
+    -fx-border-color: #F4C542;
+    -fx-border-width: 1.2;
+
+    -fx-padding: 18;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.06),
+            12,
+            0.15,
+            0,
+            3
+    );
+}
+
+.weather-icon-container {
+
+    -fx-background-color: rgba(255,255,255,0.55);
+
+    -fx-background-radius: 50;
+
+    -fx-padding: 12;
+}
+
+.weather-icon {
+    -fx-font-size: 28px;
+}
+
+.weather-title {
+
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #5E4700;
+}
+
+.weather-description {
+
+    -fx-font-size: 13px;
+
+    -fx-text-fill: #8E762D;
+}
+
+.weather-temperature {
+
+    -fx-font-size: 38px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #D39B00;
+}
+
+.weather-max,
+.weather-min {
+
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.weather-max {
+    -fx-text-fill: #C98A00;
+}
+
+.weather-min {
+    -fx-text-fill: #B79A52;
+}
+
+.weather-arrow-max,
+.weather-arrow-min {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.weather-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #A88B42;
+}
+
+.weather-stat-title {
+    -fx-font-size: 13px;
+    -fx-text-fill: #9A8545;
+}
+
+.weather-recommendation-title {
+
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #5E4700;
+}
+
+.weather-recommendation-text {
+
+    -fx-font-size: 13px;
+
+    -fx-text-fill: #6E6134;
+
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 12;
+
+    -fx-padding: 12;
+}
+
+/* ===========================
+   RECOMMENDATION CARD BASE
+=========================== */
+
+.recommendation-card {
+
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+
+    -fx-padding: 18;
+    -fx-spacing: 14;
+
+    -fx-border-width: 1.2;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.06),
+            12,
+            0.15,
+            0,
+            3
+    );
+}
+
+/* TITULO GRANDE */
+.recommendation-title {
+
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+/* subtitulo / estado */
+.recommendation-subtitle {
+
+    -fx-font-size: 13px;
+}
+
+/* texto principal */
+.recommendation-message {
+
+    -fx-font-size: 13px;
+
+    -fx-background-color: rgba(255,255,255,0.45);
+    -fx-background-radius: 12;
+
+    -fx-padding: 12;
+}
+
+
+/* ===========================
+   HEART RATE
+=========================== */
+
+.heart-rate-recommendation {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #FFF1F1,
+            #FBE0E0
+    );
+
+    -fx-border-color: #FA8989;
+}
+
+.heart-rate-recommendation .recommendation-title {
+    -fx-text-fill: #A34C4C;
+}
+
+.heart-rate-recommendation .recommendation-subtitle {
+    -fx-text-fill: #C26A6A;
+}
+
+.heart-rate-recommendation .recommendation-message {
+    -fx-text-fill: #6D4C4C;
+}
+
+
+/* ===========================
+   PRESSURE
+=========================== */
+
+.pressure-recommendation {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #F4FBFD,
+            #E5F4F8
+    );
+
+    -fx-border-color: #8BC5D6;
+}
+
+.pressure-recommendation .recommendation-title {
+    -fx-text-fill: #4F7988;
+}
+
+.pressure-recommendation .recommendation-subtitle {
+    -fx-text-fill: #6B96A6;
+}
+
+.pressure-recommendation .recommendation-message {
+    -fx-text-fill: #50656D;
+}
+
+
+/* ===========================
+   GLUCOSE
+=========================== */
+
+.glucose-recommendation {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #F5F0FB,
+            #E8DEF8
+    );
+
+    -fx-border-color: #C9A8E8;
+}
+
+.glucose-recommendation .recommendation-title {
+    -fx-text-fill: #71518E;
+}
+
+.glucose-recommendation .recommendation-subtitle {
+    -fx-text-fill: #9576B0;
+}
+
+.glucose-recommendation .recommendation-message {
+    -fx-text-fill: #635B73;
+}
+
+
+/* ===========================
+   WEIGHT
+=========================== */
+
+.weight-recommendation {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #EFFBF5,
+            #E6F8EF
+    );
+
+    -fx-border-color: #89D1B0;
+}
+
+.weight-recommendation .recommendation-title {
+    -fx-text-fill: #4F8A70;
+}
+
+.weight-recommendation .recommendation-subtitle {
+    -fx-text-fill: #74A68F;
+}
+
+.weight-recommendation .recommendation-message {
+    -fx-text-fill: #536A5E;
+}

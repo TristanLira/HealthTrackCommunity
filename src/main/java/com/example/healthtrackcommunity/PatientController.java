@@ -95,6 +95,20 @@ public class PatientController {
     public HBox doctorInfoCard;
     public Label doctorNameLabel;
     public Label requestInfoLabel;
+    
+    //tarjeta de clima
+    public VBox weatherCard;
+    public Label weatherIconLabel;
+    public Label weatherDescriptionLabel;
+    public Label temperatureLabel;
+    public Label maxTempLabel;
+    public Label minTempLabel;
+
+    //labels de recomendaciones
+    public Label pressureRecommendationLabel;
+    public Label heartRateRecommendationLabel;
+    public Label weightRecommendationLabel;
+    public Label glucoseRecommendationLabel;
 
     //información de pacientes y doctores
     private PatientDAO patientDAO;
@@ -957,4 +971,28 @@ public class PatientController {
         return chart;
     }
 
+    public void setWeather(WeatherData weather) {
+
+        temperatureLabel.setText(
+                Math.round(weather.getCurrentTemperature())
+                        + "°C"
+        );
+
+        weatherDescriptionLabel.setText(
+                weather.getCurrentWeather()
+        );
+
+        WeatherDay today =
+                weather.getHistory().getLast();
+
+        maxTempLabel.setText(
+                Math.round(today.getMaxTemperature())
+                        + "°C"
+        );
+
+        minTempLabel.setText(
+                Math.round(today.getMinTemperature())
+                        + "°C"
+        );
+    }
 }
