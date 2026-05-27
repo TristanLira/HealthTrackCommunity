@@ -233,3 +233,18 @@
 
     -fx-padding: 0 8 0 0;
 }
+
+#aboutUsLabel {
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+}
+
+.auth-section1 {
+    -fx-padding: 20;
+}
+
+/* Para asegurar que el texto se envuelva correctamente */
+.text-subtitle2 {
+    -fx-wrap-text: true;
+    -fx-max-width: 280px;
+}
