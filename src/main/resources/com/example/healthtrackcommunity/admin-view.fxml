@@ -106,10 +106,10 @@
                     </VBox>
                 </HBox>
 
-                <VBox fx:id="pendingDoctorsSection" spacing="20">
+                <!--VBox fx:id="pendingDoctorsSection" spacing="20">
                     <Label text="Solicitudes de Registro de Doctores" styleClass="subtitulo"/>
                     <VBox fx:id="pendingDoctorsContainer" spacing="10"/>
-                </VBox>
+                </VBox-->
             </VBox>
 
             <!-- sección de doctores -->

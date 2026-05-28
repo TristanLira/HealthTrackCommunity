@@ -89,10 +89,10 @@ public class AuthenticationController {
         admins = adminDAO.getAll();
 
         //DEBUG
-        loginEmailField.setText("admin1@gmail.com");
+        /*loginEmailField.setText("admin1@gmail.com");
         //loginEmailField.setText("24030458@itcelaya.edu.mx");
         // loginEmailField.setText("familiar1@gmail.com");
-        loginPasswordField.setText("password1");
+        loginPasswordField.setText("password1");*/
     }
 
     /*********************MOSTRAR FORMULARIOS DE REGISTRO/INICIO DE SESION*******************************/

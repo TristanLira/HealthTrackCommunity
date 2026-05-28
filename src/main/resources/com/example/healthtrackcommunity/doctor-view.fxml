@@ -216,11 +216,6 @@
                         </VBox>
                     </Tab>
                 </TabPane>
-
-                <Button styleClass="boton-primario">
-                    <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
-                    <text> Generar Reporte Clínico (PDF)</text>
-                </Button>
             </VBox>
 
             <!--SECCIÓN DE GRÁFICOS-->
