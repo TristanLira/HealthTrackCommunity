@@ -308,7 +308,7 @@
                         <VBox spacing="15" alignment="CENTER">
                             <VBox fx:id="patientGlucoseChartContainer" alignment="CENTER" spacing="15"/>
 
-                            <VBox spacing="10" styleClass="recommendation-card, heart-rate-recommendation">
+                            <VBox spacing="10" styleClass="recommendation-card, glucose-recommendation">
                                 <Label text="Recomendaciones en base al nivel de glucosa" styleClass="recommendation-title"/>
                                 <Label fx:id="glucoseRecommendationLabel" wrapText="true" styleClass="recommendation-message"
                                        text="Realiza un análisis para obtener recomendaciones."/>

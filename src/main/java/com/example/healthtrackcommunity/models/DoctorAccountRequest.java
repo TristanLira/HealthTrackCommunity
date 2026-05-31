@@ -1,31 +1,21 @@
 package com.example.healthtrackcommunity.models;
 
-public class Doctor {
+public class DoctorAccountRequest {
 
-    private String adminId;
     private String id;
     private String email;
     private String password;
     private String name;
     private String specialization;
 
-    public Doctor(String email, String password, String name, String specialization) {
-        this.id = "";
+    public DoctorAccountRequest(String email, String password, String name, String specialization) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.specialization = specialization;
     }
 
-    public Doctor() {}
-
-    public String getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
-    }
+    public DoctorAccountRequest() {}
 
     public String getId() {
         return id;
@@ -70,16 +60,13 @@ public class Doctor {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if (!(o instanceof Doctor)) return false;
+        if (!(o instanceof DoctorAccountRequest)) return false;
 
-        Doctor d = (Doctor) o;
+        DoctorAccountRequest r = (DoctorAccountRequest) o;
+
+        if (r.getId() == null || r.getId().isEmpty()) return false;
 
         //si se tiene el mismo id son iguales, sin importar ningún otro atributo
-        return d.getId().equals(id);
-    }
-
-    @Override
-    public String toString() {
-        return name + " (" + specialization + ")";
+        return r.getId().equals(id);
     }
 }

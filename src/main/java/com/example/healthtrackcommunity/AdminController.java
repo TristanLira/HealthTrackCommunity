@@ -399,4 +399,10 @@ public class AdminController {
             });
         }
     }
+
+    public void addAdminToDoctors() {
+        for (Doctor i: doctors) {
+
+        }
+    }
 }
