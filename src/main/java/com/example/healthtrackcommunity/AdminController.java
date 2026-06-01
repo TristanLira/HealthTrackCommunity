@@ -235,7 +235,7 @@ public class AdminController {
 
             Platform.runLater(() -> {
                 totalDoctorsLabel.setText(doctors.size() + "");
-                pendingDoctorsLabel.setText("0");
+                //pendingDoctorsLabel.setText("0");
             });
         };
 
