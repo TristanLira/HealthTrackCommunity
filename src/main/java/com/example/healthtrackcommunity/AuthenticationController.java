@@ -12,10 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javax.print.Doc;
 import java.io.IOException;
 
 public class AuthenticationController {
@@ -63,7 +61,7 @@ public class AuthenticationController {
     PatientDAO patientDAO;
     FamilyMemberDAO familyDAO;
     AdministratorDAO adminDAO;
-    DoctorAccountDAO requestDAO;
+    DoctorAccountRequestDAO requestDAO;
 
     ObservableList<Doctor> doctors;
     ObservableList<Patient> patients;
@@ -78,7 +76,7 @@ public class AuthenticationController {
         doctorDAO = new DoctorDAO();
         familyDAO = new FamilyMemberDAO();
         adminDAO = new AdministratorDAO();
-        requestDAO = new DoctorAccountDAO(doctorDAO.getAll());
+        requestDAO = new DoctorAccountRequestDAO(doctorDAO.getAll());
 
         doctors = doctorDAO.getAll();
         patients = patientDAO.getAll();
@@ -87,10 +85,10 @@ public class AuthenticationController {
         requests = requestDAO.getAll();
 
         //DEBUG
-        /*loginEmailField.setText("admin1@gmail.com");
+        loginEmailField.setText("admin1@gmail.com");
         //loginEmailField.setText("24030458@itcelaya.edu.mx");
         // loginEmailField.setText("familiar1@gmail.com");
-        loginPasswordField.setText("password1");*/
+        loginPasswordField.setText("password1");
     }
 
     /*********************MOSTRAR FORMULARIOS DE REGISTRO/INICIO DE SESION*******************************/
@@ -295,7 +293,7 @@ public class AuthenticationController {
 
         //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
         AdminController controller = loader.getController();
-        controller.setLoggedUser(adminDAO, logged, patientDAO, doctorDAO);
+        controller.setLoggedUser(adminDAO, logged, patientDAO, requestDAO);
 
         //obtiene el stage donde está el botón que creó el evento
         Scene currentScene = ((Node) event.getSource()).getScene();

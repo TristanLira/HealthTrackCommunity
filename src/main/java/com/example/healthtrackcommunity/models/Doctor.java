@@ -9,7 +9,8 @@ public class Doctor {
     private String name;
     private String specialization;
 
-    public Doctor(String email, String password, String name, String specialization) {
+    public Doctor(String adminId, String email, String password, String name, String specialization) {
+        this.adminId = adminId;
         this.id = "";
         this.email = email;
         this.password = password;

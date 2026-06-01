@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 import java.util.regex.Pattern;
 
 
-public class DoctorAccountDAO implements DAO<DoctorAccountRequest> {
+public class DoctorAccountRequestDAO implements DAO<DoctorAccountRequest> {
 
     private DatabaseReference ref;
 
@@ -21,7 +21,7 @@ public class DoctorAccountDAO implements DAO<DoctorAccountRequest> {
     // Lista de doctores existente para validar emails
     private ObservableList<Doctor> doctors;
 
-    public DoctorAccountDAO(ObservableList<Doctor> doctors) {
+    public DoctorAccountRequestDAO(ObservableList<Doctor> doctors) {
         this.doctors = doctors;
 
         ref = FirebaseConnection.getDB().getReference("doctorAccountRequests");

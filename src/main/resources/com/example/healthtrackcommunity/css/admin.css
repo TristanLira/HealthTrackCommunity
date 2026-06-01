@@ -254,9 +254,9 @@
 
 .accept-request-btn {
 
-    -fx-background-color: #f4e8ea;
+    -fx-background-color: #E6F7EC;
 
-    -fx-text-fill: #9e3d44;
+    -fx-text-fill: #2E9E5B;
 
     -fx-font-size: 13px;
     -fx-font-weight: bold;
@@ -269,54 +269,40 @@
 
     -fx-graphic-text-gap: 8;
 
-    -fx-border-color: #e2c9cc;
+    -fx-border-color: #a2f1bf;
     -fx-border-radius: 10;
 }
 
 .accept-request-btn:hover {
-
-    -fx-background-color: #ead9db;
+    -fx-background-color: #D4F0DE;
 }
 
 .accept-request-icon {
 
-    -fx-icon-color: #9e3d44;
+    -fx-icon-color: #2E9E5B;
     -fx-icon-size: 14px;
 }
 
-
-/* ===========================
-   BOTÓN COMENTAR
-=========================== */
-
+/* Botón enviar comentarios */
 .comment-btn {
-
-    -fx-background-color: #fbf4f4;
-
-    -fx-text-fill: #8a5258;
-
+    -fx-background-color: #EAF4FB;
+    -fx-text-fill: #5A7CA2;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-
     -fx-background-radius: 10;
-
     -fx-padding: 8 14;
-
     -fx-cursor: hand;
-
     -fx-graphic-text-gap: 8;
-
-    -fx-border-color: #ead9db;
+    -fx-border-color: #D6E5F2;
     -fx-border-radius: 10;
 }
 
 .comment-btn:hover {
-
-    -fx-background-color: #f3e5e6;
+    -fx-background-color: #DCEBF7;
 }
 
+/* Icono del botón */
 .comment-btn-icon {
-
-    -fx-icon-color: #8a5258;
+    -fx-icon-color: #5A7CA2;
     -fx-icon-size: 14px;
 }
