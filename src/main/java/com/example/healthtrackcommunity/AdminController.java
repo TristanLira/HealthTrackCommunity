@@ -4,11 +4,14 @@ import com.example.healthtrackcommunity.controls.DoctorDisplay;
 import com.example.healthtrackcommunity.controls.PatientDisplay;
 import com.example.healthtrackcommunity.models.Administrator;
 import com.example.healthtrackcommunity.models.Doctor;
+import com.example.healthtrackcommunity.models.DoctorAccountRequest;
 import com.example.healthtrackcommunity.models.Patient;
 import config.AdministratorDAO;
+import config.DoctorAccountRequestDAO;
 import config.DoctorDAO;
 import config.PatientDAO;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -51,28 +55,34 @@ public class AdminController {
     private AdministratorDAO adminDAO;
     private PatientDAO patientDAO;
     private DoctorDAO doctorDAO;
+    private DoctorAccountRequestDAO requestDAO;
 
     //listas
     ObservableList<Administrator> admins;
     ObservableList<Patient> patients;
     ObservableList<Doctor> doctors;
+    ObservableList<DoctorAccountRequest> requests;
 
     private Administrator logged;
 
-    public void setLoggedUser(AdministratorDAO adminDAO, Administrator logged, PatientDAO patientDAO, DoctorDAO doctorDAO) {
+    public void setLoggedUser(AdministratorDAO adminDAO, Administrator logged, PatientDAO patientDAO, DoctorAccountRequestDAO requestDAO) {
         this.logged = logged;
         this.adminDAO = adminDAO;
-        this.doctorDAO = doctorDAO;
+        //this.doctorDAO = doctorDAO;
+        this.doctorDAO = new DoctorDAO(logged);
         this.patientDAO = patientDAO;
+        this.requestDAO = requestDAO;
 
         patients = patientDAO.getAll();
         doctors = doctorDAO.getAll();
         admins = adminDAO.getAll();
+        this.requests = requestDAO.getAll();
 
         adminNameLabel.setText(logged.getName());
 
         loadPatients();
         loadDoctors();
+        loadDoctorRequests();
 
         /*Doctor d = new Doctor("doctorprueba@gmail.com", "password1", "Prueba", "Prueba");
         doctorDAO.create(d);*/
@@ -121,6 +131,93 @@ public class AdminController {
         stage.show();
     }
 
+    /******************************* SECCIÓN DE DASHBOARD *****************************************/
+
+    private void loadDoctorRequests() {
+        for (DoctorAccountRequest i: requests) {
+            DoctorDisplay display = new DoctorDisplay(i);
+            addDoctorAccountDisplayEvents(display);
+            pendingDoctorsContainer.getChildren().addFirst(display);
+            pendingDoctorsLabel.setText("" + requests.size());
+        }
+
+        requests.addListener((ListChangeListener<DoctorAccountRequest>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+
+                    for (DoctorAccountRequest i: change.getAddedSubList()) {
+                        Platform.runLater(() -> createDoctorRequestDisplay(i));
+                    }
+
+                } else if (change.wasRemoved()) {
+                    for (DoctorAccountRequest i: change.getRemoved()) {
+                        removeDoctorRequest(i);
+                    }
+
+                }
+
+            }
+        });
+    }
+
+    private void createDoctorRequestDisplay(DoctorAccountRequest r) {
+        DoctorDisplay display = new DoctorDisplay(r);
+        addDoctorAccountDisplayEvents(display);
+        pendingDoctorsContainer.getChildren().addFirst(display);
+        pendingDoctorsLabel.setText("" + requests.size());
+    }
+
+    private void removeDoctorRequest(DoctorAccountRequest r) {
+        for (Node i: pendingDoctorsContainer.getChildren()) {
+            if ( !(i instanceof DoctorDisplay) ) continue;
+            DoctorDisplay display = (DoctorDisplay) i;
+
+            if (display.displaysDoctorRequest(r)) {
+                Platform.runLater(() -> pendingDoctorsContainer.getChildren().remove(i));
+                break;
+            }
+        }
+    }
+
+    private void addDoctorAccountDisplayEvents(DoctorDisplay display) {
+        display.getRemoveBtn().setOnAction(event -> {
+            AlertUtil.showConfirmationAlert(
+                    "Eliminar solicitud",
+                    "¿Está seguro que quiere eliminar esta solicitud?",
+                    () -> {
+                        DoctorAccountRequest request = requestDAO.get(display.getRequestId());
+                        if (request != null) requestDAO.delete(request);
+                    });
+        });
+
+        display.getAcceptBtn().setOnAction(event -> {
+            AlertUtil.showConfirmationAlert(
+                    "Aceptar solicitud",
+                    "¿Está seguro que quiere aceptar esta solicitud y crear una cuenta de médico?",
+                    () -> createDoctorFromRequest(requestDAO.get(display.getRequestId())));
+        });
+    }
+
+    private void createDoctorFromRequest(DoctorAccountRequest r) {
+        if (r == null) {
+            System.out.println("solicitud es null");
+            return;
+        }
+
+        Doctor d = new Doctor(logged.getId(), r.getEmail(), r.getPassword(), r.getName(), r.getSpecialization());
+        doctorDAO.create(d,
+                () -> Platform.runLater(() -> {
+                    AlertUtil.showInfoAlert("Cuenta creada", "La cuenta de médico fue creada correctamente.");
+                    requestDAO.delete(r);
+                }),
+
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Cuenta no creada", "La cuenta de médico no pudo ser creada. Intentelo de nuevo más tarde")),
+
+                () -> System.out.println("email used"));
+    }
+
+
     /******************************* SECCIÓN DE DOCTORES *****************************************/
 
     private void loadDoctors() {
@@ -145,75 +242,41 @@ public class AdminController {
         refresh.run();
 
         /* Listener para cambios futuros */
+        doctors.addListener((ListChangeListener<Doctor>) change -> {
 
-        doctors.addListener(
-                (ListChangeListener<Doctor>)
-                        change -> {
+            while (change.next()) {
 
-                            while (change.next()) {
+                Platform.runLater(() ->
+                        totalDoctorsLabel.setText(doctors.size() + ""));
 
-                                Platform.runLater(() -> {
+                if (change.wasAdded()) {
+                    for (Doctor i : change.getAddedSubList()) {
+                        if (i == null) {
+                            System.out.println("Doctor recibido (null)");
+                            continue;
+                        }
+                        System.out.println("Doctor recibido: " + i.getName());
+                        DoctorDisplay d = new DoctorDisplay(i);
+                        addDoctorEvents(d);
 
-                                    totalDoctorsLabel.setText(
-                                            doctors.size() + ""
-                                    );
-                                });
+                        Platform.runLater(() ->
+                                allDoctorsContainer.getChildren().add(d));
+                    }
 
-                                if (change.wasAdded()) {
+                } else if (change.wasRemoved()) {
+                    for (Doctor i : change.getRemoved()) {
+                        for (Node j : allDoctorsContainer.getChildren()) {
+                            if (!(j instanceof DoctorDisplay)) continue;
 
-                                    for (Doctor i :
-                                            change.getAddedSubList()) {
-
-                                        if (i == null) {
-                                            System.out.println(
-                                                    "Doctor recibido (null)"
-                                            );
-                                            continue;
-                                        }
-
-                                        System.out.println(
-                                                "Doctor recibido: "
-                                                        + i.getName()
-                                        );
-
-                                        DoctorDisplay d =
-                                                new DoctorDisplay(i);
-
-                                        addDoctorEvents(d);
-
-                                        Platform.runLater(() ->
-                                                allDoctorsContainer
-                                                        .getChildren()
-                                                        .add(d));
-                                    }
-
-                                } else if (change.wasRemoved()) {
-
-                                    for (Doctor i :
-                                            change.getRemoved()) {
-
-                                        for (Node j :
-                                                allDoctorsContainer
-                                                        .getChildren()) {
-
-                                            if (!(j instanceof DoctorDisplay))
-                                                continue;
-
-                                            if (((DoctorDisplay) j)
-                                                    .displaysDoctor(i)) {
-
-                                                Platform.runLater(() ->
-                                                        allDoctorsContainer
-                                                                .getChildren()
-                                                                .remove(j));
-
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
+                            if (((DoctorDisplay) j).displaysDoctor(i)) {
+                                Platform.runLater(() -> allDoctorsContainer.getChildren().remove(j));
+                                break;
                             }
-                        });
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void addDoctorEvents(DoctorDisplay d) {
@@ -397,6 +460,15 @@ public class AdminController {
                 i.setVisible(true);
                 i.setManaged(true);
             });
+        }
+    }
+
+    public void addAdminToDoctors() {
+        ObservableList<Doctor> copy = FXCollections.observableArrayList(doctors);
+
+        for (Doctor i: copy) {
+            i.setAdminId(logged.getId());
+            doctorDAO.update(i);
         }
     }
 }

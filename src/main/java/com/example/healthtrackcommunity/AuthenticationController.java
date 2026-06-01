@@ -1,13 +1,7 @@
 package com.example.healthtrackcommunity;
 
-import com.example.healthtrackcommunity.models.Administrator;
-import com.example.healthtrackcommunity.models.Doctor;
-import com.example.healthtrackcommunity.models.FamilyMember;
-import com.example.healthtrackcommunity.models.Patient;
-import config.AdministratorDAO;
-import config.DoctorDAO;
-import config.FamilyMemberDAO;
-import config.PatientDAO;
+import com.example.healthtrackcommunity.models.*;
+import config.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,10 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javax.print.Doc;
 import java.io.IOException;
 
 public class AuthenticationController {
@@ -69,11 +61,13 @@ public class AuthenticationController {
     PatientDAO patientDAO;
     FamilyMemberDAO familyDAO;
     AdministratorDAO adminDAO;
+    DoctorAccountRequestDAO requestDAO;
 
     ObservableList<Doctor> doctors;
     ObservableList<Patient> patients;
     ObservableList<FamilyMember> familyMembers;
     ObservableList<Administrator> admins;
+    ObservableList<DoctorAccountRequest> requests;
 
     public void initialize() {
         aboutUsLabel.setText(aboutUs);
@@ -82,17 +76,19 @@ public class AuthenticationController {
         doctorDAO = new DoctorDAO();
         familyDAO = new FamilyMemberDAO();
         adminDAO = new AdministratorDAO();
+        requestDAO = new DoctorAccountRequestDAO(doctorDAO.getAll());
 
         doctors = doctorDAO.getAll();
         patients = patientDAO.getAll();
         familyMembers = familyDAO.getAll();
         admins = adminDAO.getAll();
+        requests = requestDAO.getAll();
 
         //DEBUG
-        /*loginEmailField.setText("admin1@gmail.com");
+        loginEmailField.setText("admin1@gmail.com");
         //loginEmailField.setText("24030458@itcelaya.edu.mx");
         // loginEmailField.setText("familiar1@gmail.com");
-        loginPasswordField.setText("password1");*/
+        loginPasswordField.setText("password1");
     }
 
     /*********************MOSTRAR FORMULARIOS DE REGISTRO/INICIO DE SESION*******************************/
@@ -140,12 +136,21 @@ public class AuthenticationController {
             return;
         }
 
-        Doctor d = new Doctor(email, password, name, specialization);
+        /*Doctor d = new Doctor(email, password, name, specialization);
         cleanDoctorForm();
 
         doctorDAO.create(d,
                 () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Médico creado.", "Médico registrado! Inicie sesión para entrar.")),
                 () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear médico.", "El médico no fue creado. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
+        );*/
+
+        cleanDoctorForm();
+        DoctorAccountRequest r = new DoctorAccountRequest(email, password, name, specialization);
+
+        requestDAO.create(r,
+                () -> Platform.runLater(() -> AlertUtil.showInfoAlert("Solicitud creada.", "Se ha enviado una solicitud para crear tu cuenta de médico.")),
+                () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Error al crear solicitud.", "El la solicitud no fue creada. Compruebe que la contraseña tenga entre 6 y 24 caracteres y que su email sea correcto.")),
                 () -> Platform.runLater(() -> AlertUtil.showErrorAlert("Email en uso.", "El email indicado ya se encuentra en uso. Por favor utilice otro."))
         );
     }
@@ -288,7 +293,7 @@ public class AuthenticationController {
 
         //obtiene el controlador de la vista desde el loader e inicializa los datos del usuario loggeado
         AdminController controller = loader.getController();
-        controller.setLoggedUser(adminDAO, logged, patientDAO, doctorDAO);
+        controller.setLoggedUser(adminDAO, logged, patientDAO, requestDAO);
 
         //obtiene el stage donde está el botón que creó el evento
         Scene currentScene = ((Node) event.getSource()).getScene();

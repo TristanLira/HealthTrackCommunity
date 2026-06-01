@@ -1,11 +1,9 @@
 package config;
 
+import com.example.healthtrackcommunity.models.Administrator;
 import com.example.healthtrackcommunity.models.Doctor;
 import com.example.healthtrackcommunity.models.Patient;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,14 +17,28 @@ public class DoctorDAO implements DAO <Doctor> {
 
     private ObservableList<Doctor> doctors;
 
+    private Administrator admin;
+
     public DoctorDAO() {
         ref = FirebaseConnection.getDB().getReference("doctors");
         doctors = FXCollections.observableArrayList();
         subscribe();
     }
 
+    public DoctorDAO(Administrator admin) {
+        this.admin = admin;
+        ref = FirebaseConnection.getDB().getReference("doctors");
+        doctors = FXCollections.observableArrayList();
+        subscribe();
+    }
+
     private void subscribe() {
-        ref.addChildEventListener(new ChildEventListener() {
+        Query query;
+
+        if (admin != null) query = ref.orderByChild("adminId").equalTo(admin.getId());
+        else query = ref;
+
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 Doctor d = snapshot.getValue(Doctor.class);
