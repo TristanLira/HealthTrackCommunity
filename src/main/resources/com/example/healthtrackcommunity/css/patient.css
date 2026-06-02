@@ -338,6 +338,31 @@
     -fx-background-color: #e6f8ef;
 }
 
+.metric-card-oxygen {
+    -fx-border-color: #7FD8D8;
+    -fx-background-color: #E3F7F7;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #7FD8D8;
+    -fx-background-color: #E3F7F7;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #9EDFB8;
+    -fx-background-color: #EDF9F1;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #A8B8F0;
+    -fx-background-color: #EEF1FD;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #F4A261;
+    -fx-background-color: #FFF1E6;
+}
+
 /* ===========================
    TEXTOS GENERALES
 =========================== */

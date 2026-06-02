@@ -51,6 +51,7 @@ public class PatientController {
     public VBox historyGlucoseContainer;
     public VBox historyHeartRateContainer;
     public VBox historyWeightContainer;
+    public VBox historyOxygenContainer;
 
     //sección de gráficos
     public VBox chartsSection;
@@ -775,6 +776,7 @@ public class PatientController {
         loadDisplay(heartRate, historyHeartRateContainer, HeartRateMetric.class);
         loadDisplay(glucose, historyGlucoseContainer, GlucoseMetric.class);
         loadDisplay(weight, historyWeightContainer, WeightMetric.class);
+        loadDisplay(oxygen, historyOxygenContainer, OxygenMetric.class);
     }
 
     private void loadDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
@@ -823,7 +825,11 @@ public class PatientController {
         }
         else if (m instanceof WeightMetric) {
             display = new WeightDisplay((WeightMetric) m);
-        } else {
+        }
+        else if (m instanceof OxygenMetric) {
+            display = new OxygenDisplay((OxygenMetric) m);
+        }
+        else {
             display = new MetricDisplay(m);
         }
 

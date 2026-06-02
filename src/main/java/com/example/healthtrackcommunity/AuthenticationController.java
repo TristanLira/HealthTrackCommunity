@@ -85,7 +85,8 @@ public class AuthenticationController {
         requests = requestDAO.getAll();
 
         //DEBUG
-        loginEmailField.setText("admin1@gmail.com");
+        loginEmailField.setText("tristan.lira.1636@gmail.com");
+        //loginEmailField.setText("admin1@gmail.com");
         //loginEmailField.setText("24030458@itcelaya.edu.mx");
         // loginEmailField.setText("familiar1@gmail.com");
         loginPasswordField.setText("password1");

@@ -294,6 +294,16 @@
                         </ScrollPane>
                     </Tab>
 
+                    <Tab text="Oxígeno en sangre">
+                        <ScrollPane fitToWidth="true">
+                            <VBox fx:id="historyOxygenContainer" spacing="15">
+                                <padding>
+                                    <Insets left="20" right="20" top="20" bottom="20"/>
+                                </padding>
+                            </VBox>
+                        </ScrollPane>
+                    </Tab>
+
                 </TabPane>
             </VBox>
 
@@ -348,6 +358,8 @@
                             </VBox>
                         </VBox>
                     </Tab>
+
+
 
                     <Tab text="Clima">
                         <VBox alignment="CENTER" spacing="15">

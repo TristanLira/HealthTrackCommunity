@@ -32,6 +32,7 @@ public class RecentMetrics {
         metricQuery(ref.child("heartRate"), HeartRateMetric.class);
         metricQuery(ref.child("glucose"), GlucoseMetric.class);
         metricQuery(ref.child("weight"), WeightMetric.class);
+        metricQuery(ref.child("oxygen"), OxygenMetric.class);
     }
 
     private void metricQuery(DatabaseReference ref, Class <? extends Metric> metricClass) {
