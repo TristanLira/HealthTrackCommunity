@@ -14,6 +14,7 @@ public class MetricDAO implements DAO<Metric> {
     public static final int PRESSURE = 1;
     public static final int GLUCOSE = 2;
     public static final int WEIGHT = 3;
+    public static final int OXYGEN = 4;
     private final int type;
 
     private DatabaseReference ref;
@@ -45,6 +46,11 @@ public class MetricDAO implements DAO<Metric> {
             case MetricDAO.WEIGHT:
                 ref = FirebaseConnection.getDB().getReference("metrics/weight");
                 childClass = WeightMetric.class;
+                break;
+
+            case MetricDAO.OXYGEN:
+                ref = FirebaseConnection.getDB().getReference("metrics/oxygen");
+                childClass = OxygenMetric.class;
                 break;
         }
 

@@ -193,6 +193,27 @@
                                 </graphic>
                             </Button>
                         </VBox>
+
+                        <!--formulario de nivel de glucosa-->
+                        <VBox fx:id="oxygenMetricForm" alignment="CENTER" spacing="10" fillWidth="false" styleClass="metricas-recientes">
+                            <Label text="Saturación de oxígeno" styleClass="subtitulo"/>
+
+                            <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <Label text="oxígeno en sangre" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="oxygenField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                            </GridPane>
+
+                            <Button text=" Guardar" fx:id="saveOxygenBtn" onAction="#saveOxygen" styleClass="boton-primario">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-save"  styleClass="icono-menu"/>
+                                </graphic>
+                            </Button>
+                        </VBox>
                     </StackPane>
 
                 </VBox>
