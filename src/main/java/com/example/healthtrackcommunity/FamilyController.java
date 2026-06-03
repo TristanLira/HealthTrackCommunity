@@ -342,9 +342,22 @@ public class FamilyController {
         loadDisplay(glucoseDAO.getAll(), glucoseMetricsContainer, GlucoseMetric.class);
         loadDisplay(weightDAO.getAll(), weightMetricsContainer, WeightMetric.class);
         loadDisplay(oxygenDAO.getAll(), oxygenMetricsContainer, OxygenMetric.class);
+
+        reloadTab(metricsTabPane);
     }
 
     private void loadDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        container.getChildren().clear();
+
+        //cargar métricas ya existentes
+        for (Metric i: list) {
+            if (i.getClass() != metricClass) continue;
+
+            MetricDisplay display = getDisplay(i);
+            display.hideTitle();
+            container.getChildren().addFirst(display);
+        }
+
         list.addListener((ListChangeListener<? super Metric>) change -> {
 
             while (change.next()) {

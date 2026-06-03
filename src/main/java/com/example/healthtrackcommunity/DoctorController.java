@@ -469,6 +469,8 @@ public class DoctorController {
             loadMetricDisplay(currentHeartRateDAO.getAll(), heartRateMetricContainer, HeartRateMetric.class);
             loadMetricDisplay(currentWeightDAO.getAll(), weightMetricContainer, WeightMetric.class);
             loadMetricDisplay(currentOxygenDAO.getAll(), oxygenMetricContainer, OxygenMetric.class);
+
+            reloadTab(metricsTab);
         });
     }
 
@@ -482,6 +484,8 @@ public class DoctorController {
     }
 
     private void loadMetricDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        container.getChildren().clear();
+
         //cargar métricas ya existentes
         for (Metric i: list) {
             if (i.getClass() != metricClass) continue;
