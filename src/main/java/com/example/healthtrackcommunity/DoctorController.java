@@ -59,6 +59,7 @@ public class DoctorController {
     public VBox glucoseMetricContainer;
     public VBox heartRateMetricContainer;
     public VBox weightMetricContainer;
+    public VBox oxygenMetricContainer;
 
     //SECCIÓN DE GRAFICOS
     public VBox patientChartsSection;
@@ -68,6 +69,7 @@ public class DoctorController {
     public VBox glucoseChartContainer;
     public VBox heartRateChartContainer;
     public VBox weightChartContainer;
+    public VBox oxygenChartContainer;
 
     //SECCIÓN DE COMENTARIOS
     public VBox commentsSection;
@@ -99,6 +101,7 @@ public class DoctorController {
     private MetricDAO currentGlucoseDAO;
     private MetricDAO currentHeartRateDAO;
     private MetricDAO currentWeightDAO;
+    private MetricDAO currentOxygenDAO;
     private ChartGenerator generator;
 
     //alertas para el doctor
@@ -110,6 +113,9 @@ public class DoctorController {
     private ObservableList<Comment> comments;
 
     public void initialize() {
+        hideAllSections();
+        dashboardSection.setVisible(true);
+        dashboardSection.setManaged(true);
     }
 
     public void setLoggedUser(DoctorDAO dao, Doctor logged, PatientDAO allPatientsDAO) {
@@ -434,6 +440,7 @@ public class DoctorController {
             currentGlucoseDAO = new MetricDAO(current, MetricDAO.GLUCOSE);
             currentHeartRateDAO = new MetricDAO(current, MetricDAO.HEART_RATE);
             currentWeightDAO = new MetricDAO(current, MetricDAO.WEIGHT);
+            currentOxygenDAO = new MetricDAO(current, MetricDAO.OXYGEN);
 
             //inicializar la lista de mediciones recientes y los gráficos
             recent = (new RecentMetrics(current)).getRecent();
@@ -444,7 +451,8 @@ public class DoctorController {
                     glucoseChartContainer,
                     heartRateChartContainer,
                     weightChartContainer,
-                recent);
+                    oxygenChartContainer,
+                    recent);
             generator.setTab(chartsTab);
             generateChartsOnRecentChanged();
 
@@ -453,12 +461,16 @@ public class DoctorController {
             glucoseMetricContainer.getChildren().clear();
             heartRateMetricContainer.getChildren().clear();
             weightMetricContainer.getChildren().clear();
+            weightMetricContainer.getChildren().clear();
 
             //inicializar los eventos para agregar los displays
             loadMetricDisplay(currentPressureDAO.getAll(), bloodPressureMetricContainer, PressureMetric.class);
             loadMetricDisplay(currentGlucoseDAO.getAll(), glucoseMetricContainer, GlucoseMetric.class);
             loadMetricDisplay(currentHeartRateDAO.getAll(), heartRateMetricContainer, HeartRateMetric.class);
             loadMetricDisplay(currentWeightDAO.getAll(), weightMetricContainer, WeightMetric.class);
+            loadMetricDisplay(currentOxygenDAO.getAll(), oxygenMetricContainer, OxygenMetric.class);
+
+            reloadTab(metricsTab);
         });
     }
 
@@ -472,6 +484,8 @@ public class DoctorController {
     }
 
     private void loadMetricDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        container.getChildren().clear();
+
         //cargar métricas ya existentes
         for (Metric i: list) {
             if (i.getClass() != metricClass) continue;
@@ -531,7 +545,11 @@ public class DoctorController {
         }
         else if (m instanceof WeightMetric) {
             display = new WeightDisplay((WeightMetric) m);
-        } else {
+        }
+        else if (m instanceof OxygenMetric) {
+            display = new OxygenDisplay((OxygenMetric) m);
+        }
+        else {
             display = new MetricDisplay(m);
         }
 
@@ -617,10 +635,6 @@ public class DoctorController {
                     () -> requestDAO.delete(r.getRequest()));
         });
     }
-
-
-    /******************************** SECCIÓN DE GRAFICOS *****************************************/
-
 
 
     /******************************** CREAR Y MOSTRAR COMENTARIOS *****************************************/

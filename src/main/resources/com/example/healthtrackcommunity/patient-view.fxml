@@ -193,6 +193,27 @@
                                 </graphic>
                             </Button>
                         </VBox>
+
+                        <!--formulario de nivel de glucosa-->
+                        <VBox fx:id="oxygenMetricForm" alignment="CENTER" spacing="10" fillWidth="false" styleClass="metricas-recientes">
+                            <Label text="Saturación de oxígeno" styleClass="subtitulo"/>
+
+                            <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="40"/>
+                                    <ColumnConstraints percentWidth="60"/>
+                                </columnConstraints>
+
+                                <Label text="oxígeno en sangre" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="oxygenField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                            </GridPane>
+
+                            <Button text=" Guardar" fx:id="saveOxygenBtn" onAction="#saveOxygen" styleClass="boton-primario">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-save"  styleClass="icono-menu"/>
+                                </graphic>
+                            </Button>
+                        </VBox>
                     </StackPane>
 
                 </VBox>
@@ -273,6 +294,16 @@
                         </ScrollPane>
                     </Tab>
 
+                    <Tab text="Oxígeno">
+                        <ScrollPane fitToWidth="true">
+                            <VBox fx:id="historyOxygenContainer" spacing="15">
+                                <padding>
+                                    <Insets left="20" right="20" top="20" bottom="20"/>
+                                </padding>
+                            </VBox>
+                        </ScrollPane>
+                    </Tab>
+
                 </TabPane>
             </VBox>
 
@@ -327,6 +358,18 @@
                             </VBox>
                         </VBox>
                     </Tab>
+
+                    <Tab text="Oxígeno">
+                        <VBox alignment="CENTER" spacing="15">
+                            <VBox fx:id="patientOxygenChartContainer" alignment="CENTER" spacing="15"/>
+                            <VBox spacing="10" styleClass="recommendation-card, oxygen-recommendation">
+                                <Label text="Recomendaciones en base a la saturación de oxígeno" styleClass="recommendation-title"/>
+                                <Label fx:id="oxygenRecommendationLabel" wrapText="true" styleClass="recommendation-message"
+                                       text="Realiza un análisis para obtener recomendaciones."/>
+                            </VBox>
+                        </VBox>
+                    </Tab>
+
 
                     <Tab text="Clima">
                         <VBox alignment="CENTER" spacing="15">

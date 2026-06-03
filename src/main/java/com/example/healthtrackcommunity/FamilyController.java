@@ -58,6 +58,7 @@ public class FamilyController {
     public VBox glucoseMetricsContainer;
     public VBox heartRateMetricsContainer;
     public VBox weightMetricsContainer;
+    public VBox oxygenMetricsContainer;
 
     //gráficos
     public VBox chartsSection;
@@ -67,6 +68,7 @@ public class FamilyController {
     public VBox glucoseChartContainer;
     public VBox heartRateChartContainer;
     public VBox weightChartContainer;
+    public VBox oxygenChartContainer;
 
     private FamilyMemberDAO familyDAO;
     private FamilyMember logged;
@@ -333,14 +335,29 @@ public class FamilyController {
         MetricDAO glucoseDAO = new MetricDAO(p, MetricDAO.GLUCOSE);
         MetricDAO heartRateDAO = new MetricDAO(p, MetricDAO.HEART_RATE);
         MetricDAO weightDAO = new MetricDAO(p, MetricDAO.WEIGHT);
+        MetricDAO oxygenDAO = new MetricDAO(p, MetricDAO.OXYGEN);
 
         loadDisplay(pressureDAO.getAll(), pressureMetricsContainer, PressureMetric.class);
         loadDisplay(heartRateDAO.getAll(), heartRateMetricsContainer, HeartRateMetric.class);
         loadDisplay(glucoseDAO.getAll(), glucoseMetricsContainer, GlucoseMetric.class);
         loadDisplay(weightDAO.getAll(), weightMetricsContainer, WeightMetric.class);
+        loadDisplay(oxygenDAO.getAll(), oxygenMetricsContainer, OxygenMetric.class);
+
+        reloadTab(metricsTabPane);
     }
 
     private void loadDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
+        container.getChildren().clear();
+
+        //cargar métricas ya existentes
+        for (Metric i: list) {
+            if (i.getClass() != metricClass) continue;
+
+            MetricDisplay display = getDisplay(i);
+            display.hideTitle();
+            container.getChildren().addFirst(display);
+        }
+
         list.addListener((ListChangeListener<? super Metric>) change -> {
 
             while (change.next()) {
@@ -388,7 +405,11 @@ public class FamilyController {
         }
         else if (m instanceof WeightMetric) {
             display = new WeightDisplay((WeightMetric) m);
-        } else {
+        }
+        else if (m instanceof OxygenMetric) {
+            display = new OxygenDisplay((OxygenMetric) m);
+        }
+        else {
             display = new MetricDisplay(m);
         }
 
@@ -407,6 +428,7 @@ public class FamilyController {
                 glucoseChartContainer,
                 heartRateChartContainer,
                 weightChartContainer,
+                oxygenChartContainer,
                 recent);
 
         generator.setTab(chartsTabPane);

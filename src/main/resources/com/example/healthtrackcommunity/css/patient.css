@@ -338,6 +338,31 @@
     -fx-background-color: #e6f8ef;
 }
 
+.metric-card-oxygen {
+    -fx-border-color: #7FD8D8;
+    -fx-background-color: #E3F7F7;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #7FD8D8;
+    -fx-background-color: #E3F7F7;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #9EDFB8;
+    -fx-background-color: #EDF9F1;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #A8B8F0;
+    -fx-background-color: #EEF1FD;
+}
+
+.metric-card-oxygen {
+    -fx-border-color: #F4A261;
+    -fx-background-color: #FFF1E6;
+}
+
 /* ===========================
    TEXTOS GENERALES
 =========================== */
@@ -565,6 +590,28 @@
 
 .weight-chart .chart-plot-background {
     -fx-background-color: #e6f8ef;
+}
+
+/* ===========================
+   OXYGEN
+=========================== */
+
+.oxygen-chart {
+    -fx-border-color: #F4A261;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.oxygen-chart .default-color0.chart-series-line {
+    -fx-stroke: #F4A261;
+}
+
+.oxygen-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #F4A261, white;
+}
+
+.oxygen-chart .chart-plot-background {
+    -fx-background-color: #FFF1E6;
 }
 
 /* ===========================
@@ -981,4 +1028,31 @@
 
 .weight-recommendation .recommendation-message {
     -fx-text-fill: #536A5E;
+}
+
+/* ===========================
+   OXYGEN
+=========================== */
+
+.oxygen-recommendation {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #FFF8F2,
+            #FFF1E6
+    );
+
+    -fx-border-color: #F4A261;
+}
+
+.oxygen-recommendation .recommendation-title {
+    -fx-text-fill: #B66A2C;
+}
+
+.oxygen-recommendation .recommendation-subtitle {
+    -fx-text-fill: #D08A52;
+}
+
+.oxygen-recommendation .recommendation-message {
+    -fx-text-fill: #6E5847;
 }

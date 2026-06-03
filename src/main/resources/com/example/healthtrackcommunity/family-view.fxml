@@ -121,6 +121,7 @@
                             </padding>
                         </VBox>
                     </Tab>
+
                     <Tab text="Glucosa">
                         <VBox fx:id="glucoseMetricsContainer" spacing="10">
                             <padding>
@@ -128,6 +129,7 @@
                             </padding>
                         </VBox>
                     </Tab>
+
                     <Tab text="Frecuencia Cardíaca">
                         <VBox fx:id="heartRateMetricsContainer" spacing="10">
                             <padding>
@@ -135,8 +137,17 @@
                             </padding>
                         </VBox>
                     </Tab>
+
                     <Tab text="Peso/IMC">
                         <VBox fx:id="weightMetricsContainer" spacing="10">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Peso/IMC">
+                        <VBox fx:id="oxygenMetricsContainer" spacing="10">
                             <padding>
                                 <Insets top="10" bottom="10" left="10" right="10"/>
                             </padding>
@@ -178,6 +189,14 @@
                     </Tab>
                     <Tab text="Gráfico Peso/IMC">
                         <VBox fx:id="weightChartContainer" alignment="CENTER">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Gráfico Oxígeno">
+                        <VBox fx:id="oxygenChartContainer" alignment="CENTER">
                             <padding>
                                 <Insets top="10" bottom="10" left="10" right="10"/>
                             </padding>

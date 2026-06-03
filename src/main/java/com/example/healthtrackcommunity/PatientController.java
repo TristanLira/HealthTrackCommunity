@@ -51,6 +51,7 @@ public class PatientController {
     public VBox historyGlucoseContainer;
     public VBox historyHeartRateContainer;
     public VBox historyWeightContainer;
+    public VBox historyOxygenContainer;
 
     //sección de gráficos
     public VBox chartsSection;
@@ -59,6 +60,7 @@ public class PatientController {
     public VBox patientPressureChartContainer;
     public VBox patientHeartRateChartContainer;
     public VBox patientWeightChartContainer;
+    public VBox patientOxygenChartContainer;
     public VBox weatherChartContainer;
 
     //seguimiento médico
@@ -88,6 +90,10 @@ public class PatientController {
     public TextField heightField;
     public Button saveWeightBtn;
 
+    public TextField oxygenField;
+    public VBox oxygenMetricForm;
+    public Button saveOxygenBtn;
+
     /*formulario de solicitud de seguimiento*/
     public VBox monitoringRequestForm;
     public ComboBox<Doctor> doctorsComboBox;
@@ -110,6 +116,7 @@ public class PatientController {
     public Label weightRecommendationLabel;
     public Label glucoseRecommendationLabel;
     public Label weatherRecommendationLabel;
+    public Label oxygenRecommendationLabel;
 
     //información de pacientes y doctores
     private PatientDAO patientDAO;
@@ -124,6 +131,7 @@ public class PatientController {
     private MetricDAO pressureDAO;
     private MetricDAO glucoseDAO;
     private MetricDAO weightDAO;
+    private MetricDAO oxygenDAO;
     private MonitoringRequestDAO requestDAO;
 
     //listas
@@ -134,6 +142,7 @@ public class PatientController {
     ObservableList<Metric> pressure;
     ObservableList<Metric> glucose;
     ObservableList<Metric> weight;
+    ObservableList<Metric> oxygen;
     ObservableList<Metric> recent;
 
     //alertas
@@ -157,6 +166,7 @@ public class PatientController {
         pressureDAO = new MetricDAO(logged, MetricDAO.PRESSURE);
         glucoseDAO = new MetricDAO(logged, MetricDAO.GLUCOSE);
         weightDAO = new MetricDAO(logged, MetricDAO.WEIGHT);
+        oxygenDAO = new MetricDAO(logged, MetricDAO.OXYGEN);
         requestDAO = new MonitoringRequestDAO(logged);
         alertDAO = new MetricAlertDAO(logged);
         commentDAO = new CommentDAO(logged);
@@ -165,6 +175,7 @@ public class PatientController {
         pressure = pressureDAO.getAll();
         glucose = glucoseDAO.getAll();
         weight = weightDAO.getAll();
+        oxygen = oxygenDAO.getAll();
         requests = requestDAO.getAll();
         alerts = alertDAO.getAll();
         comments = commentDAO.getAll();
@@ -532,8 +543,9 @@ public class PatientController {
         final String pressureStr = "Presión arterial";
         final String glucoseStr = "Glucosa";
         final String weightStr = "Indice de masa corporal";
+        final String oxygenStr = "Saturación de oxígeno";
 
-        ObservableList<String> comboBoxList = FXCollections.observableArrayList(pressureStr, heartRateStr, glucoseStr, weightStr);
+        ObservableList<String> comboBoxList = FXCollections.observableArrayList(pressureStr, heartRateStr, glucoseStr, weightStr, oxygenStr);
 
         metricTypeComboBox.setItems(comboBoxList);
 
@@ -554,6 +566,10 @@ public class PatientController {
 
                 case weightStr:
                     showMetricForm(weightMetricForm);
+                    break;
+
+                case oxygenStr:
+                    showMetricForm(oxygenMetricForm);
                     break;
             }
 
@@ -672,6 +688,30 @@ public class PatientController {
         return new WeightMetric(logged.getId(), height, weight);
     }
 
+    public void saveOxygen(ActionEvent actionEvent) {
+        OxygenMetric o = getOxygenMetric();
+        if (o == null) {
+            AlertUtil.showErrorAlert("Datos inválidos", "Los datos ingresados no son validos. Por favor ingrese solo números.");
+            return;
+        }
+        oxygenDAO.create(o);
+    }
+
+    private OxygenMetric getOxygenMetric() {
+        int oxygen;
+
+        try {
+            oxygen = Integer.parseInt(oxygenField.getText().strip());
+        } catch (Exception e) {
+            return null;
+        }
+
+        oxygenField.clear();
+
+        if (oxygen < 0 || oxygen > 100) return null;
+        return new OxygenMetric(logged.getId(), oxygen);
+    }
+
     /********************************** generar alertas ******************************************/
 
     //cada que recibe una alerta en la lista actualiza la label
@@ -738,6 +778,7 @@ public class PatientController {
         loadDisplay(heartRate, historyHeartRateContainer, HeartRateMetric.class);
         loadDisplay(glucose, historyGlucoseContainer, GlucoseMetric.class);
         loadDisplay(weight, historyWeightContainer, WeightMetric.class);
+        loadDisplay(oxygen, historyOxygenContainer, OxygenMetric.class);
     }
 
     private void loadDisplay(ObservableList<Metric> list, VBox container, Class<? extends Metric> metricClass) {
@@ -786,7 +827,11 @@ public class PatientController {
         }
         else if (m instanceof WeightMetric) {
             display = new WeightDisplay((WeightMetric) m);
-        } else {
+        }
+        else if (m instanceof OxygenMetric) {
+            display = new OxygenDisplay((OxygenMetric) m);
+        }
+        else {
             display = new MetricDisplay(m);
         }
 
@@ -910,6 +955,7 @@ public class PatientController {
                 patientGlucoseChartContainer,
                 patientHeartRateChartContainer,
                 patientWeightChartContainer,
+                patientOxygenChartContainer,
                 recent);
 
         generator.setTab(chartsTab);

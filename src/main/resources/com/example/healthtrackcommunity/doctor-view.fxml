@@ -200,19 +200,28 @@
                             <VBox fx:id="bloodPressureMetricContainer" alignment="CENTER"/>
                         </VBox>
                     </Tab>
+
                     <Tab text="Glucosa">
                         <VBox spacing="15">
                             <VBox fx:id="glucoseMetricContainer" alignment="CENTER"/>
                         </VBox>
                     </Tab>
+
                     <Tab text="Frecuencia Cardíaca">
                         <VBox spacing="15">
                             <VBox fx:id="heartRateMetricContainer" alignment="CENTER"/>
                         </VBox>
                     </Tab>
+
                     <Tab text="Peso / IMC">
                         <VBox spacing="15">
                             <VBox fx:id="weightMetricContainer" alignment="CENTER"/>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Oxígeno">
+                        <VBox spacing="15">
+                            <VBox fx:id="oxygenMetricContainer" alignment="CENTER"/>
                         </VBox>
                     </Tab>
                 </TabPane>
@@ -237,6 +246,7 @@
                             </ScrollPane>
                         </VBox>
                     </Tab>
+
                     <Tab text="Glucosa">
                         <VBox spacing="15">
                             <ScrollPane fitToWidth="true">
@@ -244,6 +254,7 @@
                             </ScrollPane>
                         </VBox>
                     </Tab>
+
                     <Tab text="Frecuencia Cardíaca">
                         <VBox spacing="15">
                             <ScrollPane fitToWidth="true">
@@ -251,10 +262,19 @@
                             </ScrollPane>
                         </VBox>
                     </Tab>
+
                     <Tab text="Peso / IMC">
                         <VBox spacing="15">
                             <ScrollPane fitToWidth="true">
                                 <VBox fx:id="weightChartContainer" alignment="CENTER"/>
+                            </ScrollPane>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Oxígeno">
+                        <VBox spacing="15">
+                            <ScrollPane fitToWidth="true">
+                                <VBox fx:id="oxygenChartContainer" alignment="CENTER"/>
                             </ScrollPane>
                         </VBox>
                     </Tab>
