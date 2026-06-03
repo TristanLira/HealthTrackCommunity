@@ -294,7 +294,7 @@
                         </ScrollPane>
                     </Tab>
 
-                    <Tab text="Oxígeno en sangre">
+                    <Tab text="Oxígeno">
                         <ScrollPane fitToWidth="true">
                             <VBox fx:id="historyOxygenContainer" spacing="15">
                                 <padding>
@@ -359,6 +359,16 @@
                         </VBox>
                     </Tab>
 
+                    <Tab text="Oxígeno">
+                        <VBox alignment="CENTER" spacing="15">
+                            <VBox fx:id="patientOxygenChartContainer" alignment="CENTER" spacing="15"/>
+                            <VBox spacing="10" styleClass="recommendation-card, oxygen-recommendation">
+                                <Label text="Recomendaciones en base a la saturación de oxígeno" styleClass="recommendation-title"/>
+                                <Label fx:id="oxygenRecommendationLabel" wrapText="true" styleClass="recommendation-message"
+                                       text="Realiza un análisis para obtener recomendaciones."/>
+                            </VBox>
+                        </VBox>
+                    </Tab>
 
 
                     <Tab text="Clima">

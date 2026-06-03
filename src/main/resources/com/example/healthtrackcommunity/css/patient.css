@@ -593,6 +593,28 @@
 }
 
 /* ===========================
+   OXYGEN
+=========================== */
+
+.oxygen-chart {
+    -fx-border-color: #F4A261;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.oxygen-chart .default-color0.chart-series-line {
+    -fx-stroke: #F4A261;
+}
+
+.oxygen-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #F4A261, white;
+}
+
+.oxygen-chart .chart-plot-background {
+    -fx-background-color: #FFF1E6;
+}
+
+/* ===========================
    WEATHER
 =========================== */
 
@@ -1006,4 +1028,31 @@
 
 .weight-recommendation .recommendation-message {
     -fx-text-fill: #536A5E;
+}
+
+/* ===========================
+   OXYGEN
+=========================== */
+
+.oxygen-recommendation {
+
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #FFF8F2,
+            #FFF1E6
+    );
+
+    -fx-border-color: #F4A261;
+}
+
+.oxygen-recommendation .recommendation-title {
+    -fx-text-fill: #B66A2C;
+}
+
+.oxygen-recommendation .recommendation-subtitle {
+    -fx-text-fill: #D08A52;
+}
+
+.oxygen-recommendation .recommendation-message {
+    -fx-text-fill: #6E5847;
 }

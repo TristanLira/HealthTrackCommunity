@@ -60,6 +60,7 @@ public class PatientController {
     public VBox patientPressureChartContainer;
     public VBox patientHeartRateChartContainer;
     public VBox patientWeightChartContainer;
+    public VBox patientOxygenChartContainer;
     public VBox weatherChartContainer;
 
     //seguimiento médico
@@ -115,6 +116,7 @@ public class PatientController {
     public Label weightRecommendationLabel;
     public Label glucoseRecommendationLabel;
     public Label weatherRecommendationLabel;
+    public Label oxygenRecommendationLabel;
 
     //información de pacientes y doctores
     private PatientDAO patientDAO;
@@ -953,6 +955,7 @@ public class PatientController {
                 patientGlucoseChartContainer,
                 patientHeartRateChartContainer,
                 patientWeightChartContainer,
+                patientOxygenChartContainer,
                 recent);
 
         generator.setTab(chartsTab);

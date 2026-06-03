@@ -1,5 +1,6 @@
-package com.example.healthtrackcommunity.models;
+package com.example.healthtrackcommunity;
 
+import com.example.healthtrackcommunity.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

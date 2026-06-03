@@ -404,6 +404,11 @@
     -fx-background-color: #e6f8ef;
 }
 
+.metric-card-oxygen {
+    -fx-border-color: #F4A261;
+    -fx-background-color: #FFF1E6;
+}
+
 /* ===========================
    TEXTOS GENERALES
 =========================== */
@@ -631,4 +636,26 @@
 
 .weight-chart .chart-plot-background {
     -fx-background-color: #e6f8ef;
+}
+
+/* ===========================
+   OXYGEN
+=========================== */
+
+.oxygen-chart {
+    -fx-border-color: #F4A261;
+    -fx-border-width: 0 0 0 6;
+    -fx-border-radius: 18;
+}
+
+.oxygen-chart .default-color0.chart-series-line {
+    -fx-stroke: #F4A261;
+}
+
+.oxygen-chart .default-color0.chart-line-symbol {
+    -fx-background-color: #F4A261, white;
+}
+
+.oxygen-chart .chart-plot-background {
+    -fx-background-color: #FFF1E6;
 }

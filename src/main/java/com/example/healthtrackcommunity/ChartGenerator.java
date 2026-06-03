@@ -22,6 +22,7 @@ public class ChartGenerator {
     private VBox glucoseContainer;
     private VBox heartRateContainer;
     private VBox weightContainer;
+    private VBox oxygenContainer;
 
     private ObservableList<Metric> recent;
 
@@ -29,11 +30,13 @@ public class ChartGenerator {
                           VBox glucoseContainer,
                           VBox heartRateContainer,
                           VBox weightContainer,
+                          VBox oxygenContainer,
                           ObservableList<Metric> recent) {
         this.pressureContainer = pressureContainer;
         this.glucoseContainer = glucoseContainer;
         this.heartRateContainer = heartRateContainer;
         this.weightContainer = weightContainer;
+        this.oxygenContainer = oxygenContainer;
         this.recent = recent;
     }
 
@@ -46,23 +49,27 @@ public class ChartGenerator {
         ObservableList<GlucoseMetric> glucoseMetrics = FXCollections.observableArrayList();
         ObservableList<HeartRateMetric> heartRateMetrics = FXCollections.observableArrayList();
         ObservableList<WeightMetric> bmiMetrics = FXCollections.observableArrayList();
+        ObservableList<OxygenMetric> oxygenMetrics = FXCollections.observableArrayList();
 
         for (Metric i: recent) {
             if (i instanceof PressureMetric) pressureMetrics.add((PressureMetric) i);
             else if (i instanceof GlucoseMetric) glucoseMetrics.add((GlucoseMetric) i);
             else if (i instanceof HeartRateMetric) heartRateMetrics.add((HeartRateMetric) i);
             else if (i instanceof WeightMetric) bmiMetrics.add((WeightMetric) i);
+            else if (i instanceof OxygenMetric) oxygenMetrics.add((OxygenMetric) i);
         }
 
         LineChart<String, Number> pressure = getPressureChart(pressureMetrics);
         LineChart<String, Number> glucose = getGlucoseChart(glucoseMetrics);
         LineChart<String, Number> heartRate = getHeartRateChart(heartRateMetrics);
         LineChart<String, Number> bmi = getBmiChart(bmiMetrics);
+        LineChart<String, Number> oxygen = getOxygenChart(oxygenMetrics);
 
         pressure.getStyleClass().add("pressure-chart");
         glucose.getStyleClass().add("glucose-chart");
         heartRate.getStyleClass().add("heart-rate-chart");
         bmi.getStyleClass().add("weight-chart");
+        oxygen.getStyleClass().add("oxygen-chart");
 
         Platform.runLater(() -> {
             pressureContainer.getChildren().clear();
@@ -76,6 +83,9 @@ public class ChartGenerator {
 
             weightContainer.getChildren().clear();
             weightContainer.getChildren().add(bmi);
+
+            oxygenContainer.getChildren().clear();
+            oxygenContainer.getChildren().add(oxygen);
 
             reloadTab();
         });
@@ -192,5 +202,23 @@ public class ChartGenerator {
 
         return chart;
     }
+    private LineChart<String, Number> getOxygenChart(ObservableList<OxygenMetric> oxygenMetrics) {
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+
+        LineChart<String,Number> chart = new LineChart<String,Number>(xAxis,yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Indice de masa corporal");
+
+        for (OxygenMetric i: oxygenMetrics) {
+            series.getData().add(new XYChart.Data(getDayName(i.getDateObj()), i.getOxygen()));
+        }
+
+        chart.getData().add(series);
+
+        return chart;
+    }
+
 
 }
