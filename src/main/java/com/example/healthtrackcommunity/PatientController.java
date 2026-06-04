@@ -66,6 +66,7 @@ public class PatientController {
     //seguimiento médico
     public VBox doctorMonitoringSection;
     public VBox doctorCommentsContainer;
+    public VBox prescriptionsContainer;
 
     /*formularios de registro de métricas*/
     public VBox registerMetricsSection;
@@ -133,6 +134,7 @@ public class PatientController {
     private MetricDAO weightDAO;
     private MetricDAO oxygenDAO;
     private MonitoringRequestDAO requestDAO;
+    private PrescriptionDAO prescriptionDAO;
 
     //listas
     ObservableList<Patient> patients;
@@ -144,6 +146,7 @@ public class PatientController {
     ObservableList<Metric> weight;
     ObservableList<Metric> oxygen;
     ObservableList<Metric> recent;
+    ObservableList<Prescription> prescriptions;
 
     //alertas
     private MetricAlertDAO alertDAO;
@@ -170,6 +173,7 @@ public class PatientController {
         requestDAO = new MonitoringRequestDAO(logged);
         alertDAO = new MetricAlertDAO(logged);
         commentDAO = new CommentDAO(logged);
+        prescriptionDAO = new PrescriptionDAO(logged);
 
         heartRate = heartRateDAO.getAll();
         pressure = pressureDAO.getAll();
@@ -179,6 +183,7 @@ public class PatientController {
         requests = requestDAO.getAll();
         alerts = alertDAO.getAll();
         comments = commentDAO.getAll();
+        prescriptions = prescriptionDAO.getAll();
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -207,6 +212,8 @@ public class PatientController {
         showComments();
 
         createChartGenerator();
+
+        loadPrescriptionDisplays();
 
         //addMetricsDebug(6);
 
@@ -944,6 +951,52 @@ public class PatientController {
             if (!(i instanceof CommentDisplay)) continue;
             if ( ((CommentDisplay) i).displaysComment(c) ) {
                 Platform.runLater(() -> doctorCommentsContainer.getChildren().remove(i));
+            }
+        }
+    }
+
+    private void loadPrescriptionDisplays() {
+        for (Prescription i: prescriptions) {
+            prescriptionsContainer.getChildren().add(getPrescriptionDisplay(i));
+        }
+
+        prescriptions.addListener((ListChangeListener<Prescription>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+
+                    for (Prescription i: change.getAddedSubList()) {
+                        Platform.runLater(() ->
+                                prescriptionsContainer.getChildren().add(getPrescriptionDisplay(i)));
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Prescription i: change.getRemoved()) {
+                        deletePrescriptionDisplay(i);
+                    }
+
+                }
+
+            }
+        });
+    }
+
+    private PrescriptionDisplay getPrescriptionDisplay(Prescription p) {
+        PrescriptionDisplay display = new PrescriptionDisplay(p);
+        display.hideRemoveButton();
+        return display;
+    }
+
+    private void deletePrescriptionDisplay(Prescription p) {
+        for (Node i: prescriptionsContainer.getChildren()) {
+            if (!(i instanceof PrescriptionDisplay)) continue;
+
+            PrescriptionDisplay display = (PrescriptionDisplay) i;
+
+            if (display.displaysPrescription(p)) {
+                Platform.runLater(() -> prescriptionsContainer.getChildren().remove(i));
+                break;
             }
         }
     }
