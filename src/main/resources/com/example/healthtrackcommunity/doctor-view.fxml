@@ -65,10 +65,10 @@
                 <text>Gráficos de Pacientes</text>
             </Button>
 
-            <!--Button onAction="#showReports" styleClass="menu-button" maxWidth="Infinity">
-                <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
-                <text>Generar Reporte Clínico</text>
-            </Button-->
+            <Button onAction="#showPrescriptions" styleClass="menu-button" maxWidth="Infinity">
+                <graphic><FontIcon iconLiteral="fas-prescription-bottle" styleClass="icono-menu"/></graphic>
+                <text>Recetas médicas</text>
+            </Button>
         </VBox>
 
         <Separator styleClass="separador-menu"/>
@@ -284,6 +284,55 @@
                     <graphic><FontIcon iconLiteral="fas-file-pdf" styleClass="icono-menu"/></graphic>
                     <text> Generar Reporte Clínico (PDF)</text>
                 </Button-->
+            </VBox>
+
+            <!--SECCIÓN DE RECETAS-->
+            <VBox fx:id="prescriptionSection" spacing="20" visible="false">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Gráficos del Paciente" styleClass="titulo-seccion"/>
+                </HBox>
+
+                <HBox spacing="5" alignment="BOTTOM_LEFT">
+                    <Label text="Visualizando al paciente: " styleClass="patient-name"/>
+                    <Label fx:id="currentPatientPrescriptionLabel" styleClass="patient-email" maxWidth="-Infinity"/>
+                </HBox>
+
+                <HBox alignment="CENTER">
+                    <VBox alignment="CENTER" spacing="10" fillWidth="false" styleClass="prescription-form">
+                        <Label text="Nueva receta médica" styleClass="subtitulo"/>
+
+                        <GridPane hgap="10" vgap="10">
+
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="30"/>
+                                <ColumnConstraints percentWidth="70"/>
+                            </columnConstraints>
+
+                            <Label text="Medicamento" styleClass="patient-name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="prescriptionNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                            <Label text="Frecuencia" styleClass="patient-name" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <TextField fx:id="prescriptionFrequencyField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                            <Label text="Indicaciones" styleClass="patient-name" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <TextArea fx:id="prescriptionInstructionsArea" prefRowCount="4" wrapText="true"
+                                      GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        </GridPane>
+
+                        <Button text=" Guardar" fx:id="savePrescriptionBtn" onAction="#savePrescription" styleClass="boton-primario">
+                            <graphic>
+                                <FontIcon iconLiteral="fas-save" styleClass="icono-menu"/>
+                            </graphic>
+                        </Button>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Recetas del paciente" styleClass="subtitulo"/>
+                </HBox>
+
+                <VBox fx:id="prescriptionsContainer" spacing="15"/>
             </VBox>
 
         </StackPane>

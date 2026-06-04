@@ -78,6 +78,15 @@ public class DoctorController {
     public Button filterCommentsBtn;
     public Button removeCommentsFilterBtn;
 
+    //SECCIÓN DE RECETAS MÉDICAS
+    public VBox prescriptionSection;
+    public Label currentPatientPrescriptionLabel;
+    public TextField prescriptionNameField;
+    public TextField prescriptionFrequencyField;
+    public TextArea prescriptionInstructionsArea;
+    public Button savePrescriptionBtn;
+    public VBox prescriptionsContainer;
+
 
     //DAOs y doctor loggeado
     private DoctorDAO doctorDAO;
@@ -102,6 +111,7 @@ public class DoctorController {
     private MetricDAO currentHeartRateDAO;
     private MetricDAO currentWeightDAO;
     private MetricDAO currentOxygenDAO;
+    private PrescriptionDAO currentPrescriptionDAO;
     private ChartGenerator generator;
 
     //alertas para el doctor
@@ -136,6 +146,7 @@ public class DoctorController {
         currentPatientMetricLabel.setText("Sin paciente seleccionado.");
         currentPatientChartLabel.setText("Sin paciente seleccionado.");
         currentPatientCommentLabel.setText("Sin paciente seleccionado.");
+        currentPatientPrescriptionLabel.setText("Sin paciente seleccionado.");
 
         alertDAO = new MetricAlertDAO(logged);
         alerts = alertDAO.getAll();
@@ -192,6 +203,12 @@ public class DoctorController {
             if (generator != null) generator.generateMetricsCharts();
         });
         t.start();
+    }
+
+    public void showPrescriptions(ActionEvent event) {
+        hideAllSections();
+        prescriptionSection.setVisible(true);
+        prescriptionSection.setManaged(true);
     }
 
     public void logout(ActionEvent event) throws IOException {
@@ -434,6 +451,7 @@ public class DoctorController {
             currentPatientMetricLabel.setText(currentPatientStr);
             currentPatientChartLabel.setText(currentPatientStr);
             currentPatientCommentLabel.setText(currentPatientStr);
+            currentPatientPrescriptionLabel.setText(currentPatientStr);
 
             //iniciar los daos
             currentPressureDAO = new MetricDAO(current, MetricDAO.PRESSURE);
@@ -441,6 +459,7 @@ public class DoctorController {
             currentHeartRateDAO = new MetricDAO(current, MetricDAO.HEART_RATE);
             currentWeightDAO = new MetricDAO(current, MetricDAO.WEIGHT);
             currentOxygenDAO = new MetricDAO(current, MetricDAO.OXYGEN);
+            currentPrescriptionDAO = new PrescriptionDAO(current);
 
             //inicializar la lista de mediciones recientes y los gráficos
             recent = (new RecentMetrics(current)).getRecent();
@@ -462,6 +481,7 @@ public class DoctorController {
             heartRateMetricContainer.getChildren().clear();
             weightMetricContainer.getChildren().clear();
             weightMetricContainer.getChildren().clear();
+            prescriptionsContainer.getChildren().clear();
 
             //inicializar los eventos para agregar los displays
             loadMetricDisplay(currentPressureDAO.getAll(), bloodPressureMetricContainer, PressureMetric.class);
@@ -783,5 +803,42 @@ public class DoctorController {
         });
 
         t.start();
+    }
+
+    /******************************** RECETAS MÉDICAS *****************************************/
+
+    public void savePrescription(ActionEvent actionEvent) {
+        if (current == null) {
+            AlertUtil.showErrorAlert("Sin paciente visualizado", "No tienes ningún paciente visualizado. Selecciona un paciente para agregar una receta.");
+            return;
+        }
+
+        String name = prescriptionNameField.getText().trim();
+        String frequency = prescriptionFrequencyField.getText().trim();
+        String instructions = prescriptionInstructionsArea.getText().trim();
+
+        if (name.isEmpty() || frequency.isEmpty() || instructions.isEmpty()) {
+            AlertUtil.showErrorAlert("Campos incompletos", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        Prescription prescription = new Prescription(current.getId(), name, frequency, instructions);
+
+        currentPrescriptionDAO.create(
+                prescription,
+
+                () -> {
+                    Platform.runLater(() -> AlertUtil.showInfoAlert("Receta asignada", "La receta fue asignada correctamente"));
+                    clearPrescriptionForm();
+                    },
+
+                () -> Platform.runLater(() ->
+                        AlertUtil.showErrorAlert("No se creó la receta.", "No se pudo crear la receta médica. Inténtelo de nuevo más tarde.")));
+    }
+
+    private void clearPrescriptionForm() {
+        prescriptionNameField.clear();
+        prescriptionFrequencyField.clear();
+        prescriptionInstructionsArea.clear();
     }
 }
