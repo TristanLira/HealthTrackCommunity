@@ -431,16 +431,14 @@
                 </TabPane>
             </VBox>
 
+            <!-- SECCIÓN DE SEGUIMIENTO MÉDICO -->
             <VBox fx:id="doctorMonitoringSection" spacing="20" visible="false">
                 <Label text="Seguimiento médico" styleClass="titulo-seccion"/>
 
                 <!--formulario para solicitud de seguimiento, igualmente agréguenlo a donde necesiten sin modificarlo-->
                 <VBox fx:id="monitoringRequestForm" spacing="20" alignment="CENTER" fillWidth="false" styleClass="recordatorio-card">
-
                     <Label text="Solicitud de seguimiento médico" styleClass="subtitulo-seccion"/>
-
                     <Label text="Selecciona el médico que realizará tu seguimiento y envía una solicitud. El médico la revisará y decidirá si aceparla o no."/>
-
                     <Label fx:id="requestInfoLabel"/>
 
                     <GridPane >
@@ -466,8 +464,10 @@
                     <Label fx:id="doctorNameLabel" styleClass="label-recordatorio"/>
                 </HBox>
 
-                <Label text="Comentarios de tu médico" styleClass="subtitulo-seccion"/>
+                <Label text="Tus recetas médicas" styleClass="subtitulo-seccion"/>
+                <VBox fx:id="prescriptionsContainer" spacing="10"/>
 
+                <Label text="Comentarios de tu médico" styleClass="subtitulo-seccion"/>
                 <VBox fx:id="doctorCommentsContainer" spacing="10"/>
             </VBox>
 

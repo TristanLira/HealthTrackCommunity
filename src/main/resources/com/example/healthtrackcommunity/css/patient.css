@@ -1056,3 +1056,110 @@
 .oxygen-recommendation .recommendation-message {
     -fx-text-fill: #6E5847;
 }
+
+/****************************************
+    PRESCRIPTION DISPLAY
+*****************************************/
+
+.prescription-display {
+
+    -fx-background-color: #FFFFFF;
+
+    -fx-border-color: #D5E5DC;
+    -fx-border-width: 1.5;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    -fx-padding: 20;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(115,197,160,0.10),
+            10,
+            0.15,
+            0,
+            2
+    );
+}
+
+.prescription-display:hover {
+
+    -fx-border-color: #73C5A0;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(115,197,160,0.18),
+            14,
+            0.20,
+            0,
+            3
+    );
+}
+
+.prescription-name {
+
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #4F8D71;
+}
+
+.prescription-label {
+
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #73C5A0;
+
+    -fx-padding: 8 0 2 0;
+}
+
+.prescription-value {
+
+    -fx-font-size: 16px;
+
+    -fx-text-fill: #486255;
+}
+
+.prescription-instructions {
+
+    -fx-font-size: 16px;
+
+    -fx-text-fill: #486255;
+
+    -fx-wrap-text: true;
+}
+
+.prescription-remove-btn {
+
+    -fx-background-color: #EDF7F1;
+
+    -fx-border-color: #B9DCCA;
+    -fx-border-width: 1;
+
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+
+    -fx-padding: 10 18;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #4F8D71;
+}
+
+.prescription-remove-btn:hover {
+
+    -fx-background-color: #DCEFE5;
+
+    -fx-border-color: #73C5A0;
+}
+
+.prescription-remove-icon {
+
+    -fx-icon-color: #73C5A0;
+
+    -fx-icon-size: 15px;
+}
+

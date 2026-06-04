@@ -3,6 +3,7 @@ package com.example.healthtrackcommunity;
 import com.example.healthtrackcommunity.api.WeatherDAO;
 import com.example.healthtrackcommunity.controls.*;
 import com.example.healthtrackcommunity.models.*;
+import com.google.cloud.opentelemetry.metric.MetricDescriptorStrategy;
 import com.google.firebase.database.*;
 import config.*;
 import javafx.application.Platform;
@@ -66,6 +67,7 @@ public class PatientController {
     //seguimiento médico
     public VBox doctorMonitoringSection;
     public VBox doctorCommentsContainer;
+    public VBox prescriptionsContainer;
 
     /*formularios de registro de métricas*/
     public VBox registerMetricsSection;
@@ -133,6 +135,7 @@ public class PatientController {
     private MetricDAO weightDAO;
     private MetricDAO oxygenDAO;
     private MonitoringRequestDAO requestDAO;
+    private PrescriptionDAO prescriptionDAO;
 
     //listas
     ObservableList<Patient> patients;
@@ -144,6 +147,7 @@ public class PatientController {
     ObservableList<Metric> weight;
     ObservableList<Metric> oxygen;
     ObservableList<Metric> recent;
+    ObservableList<Prescription> prescriptions;
 
     //alertas
     private MetricAlertDAO alertDAO;
@@ -170,6 +174,7 @@ public class PatientController {
         requestDAO = new MonitoringRequestDAO(logged);
         alertDAO = new MetricAlertDAO(logged);
         commentDAO = new CommentDAO(logged);
+        prescriptionDAO = new PrescriptionDAO(logged);
 
         heartRate = heartRateDAO.getAll();
         pressure = pressureDAO.getAll();
@@ -179,6 +184,7 @@ public class PatientController {
         requests = requestDAO.getAll();
         alerts = alertDAO.getAll();
         comments = commentDAO.getAll();
+        prescriptions = prescriptionDAO.getAll();
     }
 
     public void setLoggedUser(PatientDAO dao, DoctorDAO doctorDAO, Patient logged) {
@@ -208,14 +214,17 @@ public class PatientController {
 
         createChartGenerator();
 
-        //addMetricsDebug(6);
+        loadPrescriptionDisplays();
 
-        /*Thread t = new Thread(() -> createPatientsDebug(100, 100));
+        /*FirebaseConnection.getDB().getReference("metrics").removeValueAsync();
+        Thread t = new Thread(() -> addAllMetricsDebug());
         t.start();*/
+    }
 
-        //addDoctorsDebug();
-
-        //addCommentsToPatientsDebug();
+    private void addAllMetricsDebug() {
+        for (Patient p: patients) {
+            addMetricsDebug(p, 100);
+        }
     }
 
     private void addMetricsDebug(Patient p, int days) {
@@ -223,6 +232,7 @@ public class PatientController {
         List<GlucoseMetric> glucoseMetrics = new ArrayList<>();
         List<HeartRateMetric> heartRateMetrics = new ArrayList<>();
         List<WeightMetric> weightMetrics = new ArrayList<>();
+        List<OxygenMetric> oxygenMetrics = new ArrayList<>();
 
         LocalDate today = LocalDate.now();
 
@@ -251,27 +261,37 @@ public class PatientController {
                     65 + (int)(Math.random() * 10) // peso 65–75 kg
             );
 
+            // Saturación de oxígeno entre 95% y 100%
+            OxygenMetric oxygenMetric = new OxygenMetric(
+                    p.getId(),
+                    95 + (int)(Math.random() * 6)
+            );
+
             // asignar fecha
             pressureMetric.setDate(day.toString());
             glucoseMetric.setDate(day.toString());
             heartRateMetric.setDate(day.toString());
             weightMetric.setDate(day.toString());
+            oxygenMetric.setDate(day.toString());
 
             pressureMetrics.add(pressureMetric);
             glucoseMetrics.add(glucoseMetric);
             heartRateMetrics.add(heartRateMetric);
             weightMetrics.add(weightMetric);
+            oxygenMetrics.add(oxygenMetric);
         }
 
         MetricDAO pDAO = new MetricDAO(p, MetricDAO.PRESSURE);
         MetricDAO gDAO = new MetricDAO(p, MetricDAO.GLUCOSE);
         MetricDAO hDAO = new MetricDAO(p, MetricDAO.HEART_RATE);
         MetricDAO wDAO = new MetricDAO(p, MetricDAO.WEIGHT);
+        MetricDAO oDAO = new MetricDAO(p, MetricDAO.OXYGEN);
 
         for (Metric j: pressureMetrics) pDAO.create(j);
         for (Metric j: glucoseMetrics) gDAO.create(j);
         for (Metric j: heartRateMetrics) hDAO.create(j);
         for (Metric j: weightMetrics) wDAO.create(j);
+        for (Metric j: oxygenMetrics) oDAO.create(j);
     }
 
     private void addMetricsDebug(int days) {
@@ -944,6 +964,52 @@ public class PatientController {
             if (!(i instanceof CommentDisplay)) continue;
             if ( ((CommentDisplay) i).displaysComment(c) ) {
                 Platform.runLater(() -> doctorCommentsContainer.getChildren().remove(i));
+            }
+        }
+    }
+
+    private void loadPrescriptionDisplays() {
+        for (Prescription i: prescriptions) {
+            prescriptionsContainer.getChildren().add(getPrescriptionDisplay(i));
+        }
+
+        prescriptions.addListener((ListChangeListener<Prescription>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+
+                    for (Prescription i: change.getAddedSubList()) {
+                        Platform.runLater(() ->
+                                prescriptionsContainer.getChildren().add(getPrescriptionDisplay(i)));
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Prescription i: change.getRemoved()) {
+                        deletePrescriptionDisplay(i);
+                    }
+
+                }
+
+            }
+        });
+    }
+
+    private PrescriptionDisplay getPrescriptionDisplay(Prescription p) {
+        PrescriptionDisplay display = new PrescriptionDisplay(p);
+        display.hideRemoveButton();
+        return display;
+    }
+
+    private void deletePrescriptionDisplay(Prescription p) {
+        for (Node i: prescriptionsContainer.getChildren()) {
+            if (!(i instanceof PrescriptionDisplay)) continue;
+
+            PrescriptionDisplay display = (PrescriptionDisplay) i;
+
+            if (display.displaysPrescription(p)) {
+                Platform.runLater(() -> prescriptionsContainer.getChildren().remove(i));
+                break;
             }
         }
     }
