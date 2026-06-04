@@ -489,6 +489,7 @@ public class DoctorController {
             loadMetricDisplay(currentHeartRateDAO.getAll(), heartRateMetricContainer, HeartRateMetric.class);
             loadMetricDisplay(currentWeightDAO.getAll(), weightMetricContainer, WeightMetric.class);
             loadMetricDisplay(currentOxygenDAO.getAll(), oxygenMetricContainer, OxygenMetric.class);
+            loadPrescriptionDisplays(currentPrescriptionDAO.getAll());
 
             reloadTab(metricsTab);
         });
@@ -574,6 +575,64 @@ public class DoctorController {
         }
 
         return display;
+    }
+
+    private void loadPrescriptionDisplays(ObservableList<Prescription> prescriptions) {
+        for (Prescription i: prescriptions) {
+            prescriptionsContainer.getChildren().add(getPrescriptionDisplay(i));
+        }
+
+        prescriptions.addListener((ListChangeListener<Prescription>) change -> {
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+
+                    for (Prescription i: change.getAddedSubList()) {
+                        Platform.runLater(() ->
+                                prescriptionsContainer.getChildren().add(getPrescriptionDisplay(i)));
+                    }
+
+                } else if (change.wasRemoved()) {
+
+                    for (Prescription i: change.getRemoved()) {
+                        deletePrescriptionDisplay(i);
+                    }
+
+                }
+
+            }
+        });
+    }
+
+    private PrescriptionDisplay getPrescriptionDisplay(Prescription p) {
+        PrescriptionDisplay display = new PrescriptionDisplay(p);
+        addPrescriptionEvents(display);
+        return display;
+    }
+
+    private void addPrescriptionEvents(PrescriptionDisplay display) {
+        display.getRemoveBtn().setOnAction(actionEvent -> {
+            AlertUtil.showConfirmationAlert(
+                    "Eliminar receta",
+                    "¿Está seguro de eliminar esta receta médica?",
+                    () -> {
+                        Prescription p = currentPrescriptionDAO.get(display.getPrescriptionId());
+                        currentPrescriptionDAO.delete(p);
+                    });
+        });
+    }
+
+    private void deletePrescriptionDisplay(Prescription p) {
+        for (Node i: prescriptionsContainer.getChildren()) {
+            if (!(i instanceof PrescriptionDisplay)) continue;
+
+            PrescriptionDisplay display = (PrescriptionDisplay) i;
+
+            if (display.displaysPrescription(p)) {
+                Platform.runLater(() -> prescriptionsContainer.getChildren().remove(i));
+                break;
+            }
+        }
     }
 
     /******************************** SECCIÓN DE SOLICITUDES *****************************************/

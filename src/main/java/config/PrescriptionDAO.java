@@ -25,7 +25,7 @@ public class PrescriptionDAO implements DAO<Prescription> {
     }
 
     private void subscribe() {
-        ref.addChildEventListener(new ChildEventListener() {
+        ref.orderByChild("patientId").equalTo(patient.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String s) {
                 Prescription p = snapshot.getValue(Prescription.class);
